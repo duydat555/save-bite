@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/Text';
 import { storage } from '@/data/storage';
 import { colors, layout, radius, spacing } from '@/design-system/tokens';
+import { resetDemoData } from '@/utils/resetDemo';
 import { orderService } from '@/services/orderService';
 import { useDevFlags } from '@/store/devFlags';
 import { useAccountStore } from '@/store/accountStore';
@@ -62,6 +63,10 @@ export default function DevHub() {
       </View>
 
       <View style={styles.links}>
+        <Action
+          label="Đặt lại TOÀN BỘ dữ liệu demo (làm lại từ đầu)"
+          onPress={() => resetDemoData()}
+        />
         <Action
           label="Đăng xuất & xem lại onboarding"
           onPress={async () => {

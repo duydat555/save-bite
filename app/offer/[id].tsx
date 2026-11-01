@@ -19,7 +19,7 @@ import { toRowProps } from '@/features/discovery/offerPresenter';
 import { ClosingSoonDetail } from '@/features/offer/ClosingSoonDetail';
 import { offerService } from '@/services/offerService';
 import { useDevFlags } from '@/store/devFlags';
-import { useSaved } from '@/store/savedStore';
+import { useSavedStore } from '@/store/savedStore';
 import { useSessionStore } from '@/store/sessionStore';
 import { openOffer } from '@/utils/navigation';
 import type { OfferWithMerchant } from '@/types';
@@ -35,8 +35,8 @@ export default function OfferDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [offer, setOffer] = useState<OfferWithMerchant | null | undefined>(undefined);
   const [similar, setSimilar] = useState<OfferWithMerchant | undefined>();
-  const savedIds = useSaved((s) => s.ids);
-  const toggleSaved = useSaved((s) => s.toggle);
+  const savedIds = useSavedStore((s) => s.ids);
+  const toggleSaved = useSavedStore((s) => s.toggle);
   const user = useSessionStore((s) => s.user);
   // SB-046 / 047 / 048 variants are driven by the dev hub ("Trạng thái món"): sold out · window closed · closing soon.
   const state = useDevFlags((s) => s.offerState);

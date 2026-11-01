@@ -8,12 +8,12 @@ import { Text } from '@/components/ui/Text';
 import { colors, layout, radius } from '@/design-system/tokens';
 import { CategoryHeader, CategoryRow } from '@/features/discovery/CategoryParts';
 import { offerService } from '@/services/offerService';
-import { useSaved } from '@/store/savedStore';
+import { useSavedStore } from '@/store/savedStore';
 import type { OfferWithMerchant } from '@/types';
 
 // SB-033 · Yêu thích & Đã lưu. Heart on Khám phá (SB-014) → here; search button → SB-019. Rows show only the merchant name.
 export default function Saved() {
-  const ids = useSaved((s) => s.ids);
+  const ids = useSavedStore((s) => s.ids);
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
   useEffect(() => {
     offerService.listOffers().then(setOffers);

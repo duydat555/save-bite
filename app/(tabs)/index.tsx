@@ -27,8 +27,8 @@ import { SURPRISE_OFFER_ID, openOffer } from '@/utils/navigation';
 import type { OfferWithMerchant, ReservationWithOffer } from '@/types';
 import { formatTimeRange } from '@/utils/format';
 
-const openCategory = (key: 'bakery' | 'meal' | 'produce') =>
-  router.navigate({ pathname: '/(tabs)/category', params: { key } });
+const openCategory = (cat: 'bakery' | 'meal' | 'produce') =>
+  router.navigate({ pathname: '/(tabs)/category', params: { cat } });
 
 // SB-013 (guest) / SB-014 (signed in, active order) / SB-015 · Discovery · Rescue Market (logged-in feed). Header 56 below the status bar, scroll area below it.
 // Motion: staggered FadeInDown on first mount (first 8 blocks), skeleton while the mock repo loads, pull-to-refresh.

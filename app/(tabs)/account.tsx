@@ -52,7 +52,7 @@ export default function AccountTab() {
               icon: 'map-pin',
               title: 'Khu vực thường dùng',
               subtitle: 'ĐH Đà Nẵng · chọn thủ công',
-              onPress: () => router.push('/account/areas/index'),
+              onPress: () => router.push('/account/areas'),
             },
             {
               icon: 'bell',

@@ -19,7 +19,7 @@ import { offerService } from '@/services/offerService';
 import type { OfferCategory, OfferWithMerchant } from '@/types';
 import { openOffer } from '@/utils/navigation';
 
-// SB-028 Bữa ăn · SB-029 Bánh mì & pastry · SB-030 Rau củ — one screen driven by `?key=meal|bakery|produce`.
+// SB-028 Bữa ăn · SB-029 Bánh mì & pastry · SB-030 Rau củ — one screen driven by `?cat=meal|bakery|produce`.
 // Entered from the Khám phá category tiles; a hidden tab so the tab bar stays visible (as in Figma).
 const CONFIG = {
   meal: {
@@ -46,8 +46,8 @@ const CONFIG = {
 };
 
 export default function CategoryScreen() {
-  const { key } = useLocalSearchParams<{ key?: keyof typeof CONFIG }>();
-  const cfg = CONFIG[key ?? 'meal'] ?? CONFIG.meal;
+  const { cat } = useLocalSearchParams<{ cat?: keyof typeof CONFIG }>();
+  const cfg = CONFIG[cat ?? 'meal'] ?? CONFIG.meal;
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
   const entering = useStaggerEntering();
 
