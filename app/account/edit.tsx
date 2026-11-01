@@ -45,15 +45,17 @@ export default function EditProfile() {
           autoCapitalize="none"
         />
         <InputField label="Khu học xá mặc định" value={area} onChangeText={setArea} />
-        <Button
-          label="Lưu thay đổi"
-          onPress={() => {
-            updateUser({ displayName: name.trim() || 'Minh Anh', email: email.trim() });
-            setCampus(area.trim() || 'ĐH Đà Nẵng');
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            router.back();
-          }}
-        />
+        <View style={styles.cta}>
+          <Button
+            label="Lưu thay đổi"
+            onPress={() => {
+              updateUser({ displayName: name.trim() || 'Minh Anh', email: email.trim() });
+              setCampus(area.trim() || 'ĐH Đà Nẵng');
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              router.back();
+            }}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -61,6 +63,8 @@ export default function EditProfile() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 4, paddingHorizontal: layout.screenGutter, paddingTop: 6 },
-  avatar: { alignItems: 'center', marginBottom: 16 },
+  // figma 94:1641 (absolute y): avatar 72 at y124, inputs 74 high at y236 / 316 / 396 (6 apart), button 52 at y488 (18 below)
+  content: { gap: 6, paddingHorizontal: layout.screenGutter, paddingTop: 9 },
+  avatar: { alignItems: 'center', marginBottom: 34 }, // 124+72 → 236 = 40 (6 from the gap)
+  cta: { marginTop: 12 },
 });

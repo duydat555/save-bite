@@ -17,7 +17,9 @@ type Props = Omit<TextInputProps, 'style'> & {
 export function InputField({ label, error, ...input }: Props) {
   return (
     <View style={styles.wrap}>
-      <Text variant="fieldLabel">{label}</Text>
+      <Text variant="fieldLabel" style={{ lineHeight: 18 }}>
+        {label}
+      </Text>
       <TextInput
         {...input}
         accessibilityLabel={label}
