@@ -23,6 +23,12 @@ const LINKS: { label: string; href: Href }[] = [
     label: 'Chi tiết đánh giá (SB-043) →',
     href: '/offer/merchant/merchant-tiem-banh-a/review-report',
   },
+  // Pantry / Account screens whose entry point is not drawn in Figma (see docs/04-NAVIGATION-FLOW.md).
+  { label: 'Giới thiệu Tủ thực phẩm (SB-074) →', href: '/account/pantry/intro' },
+  { label: 'Cần dùng sớm (SB-083) →', href: '/account/pantry/soon' },
+  { label: 'Đã quá hạn dùng (SB-084) →', href: '/account/pantry/overdue' },
+  { label: 'Gợi ý từ tủ (SB-088) →', href: '/account/pantry/suggestions' },
+  { label: 'Thông báo (SB-095/096) →', href: '/account/notifications' },
 ];
 
 export default function DevHub() {
@@ -65,7 +71,7 @@ export default function DevHub() {
         />
         <Action
           label="Làm trống Tủ thực phẩm"
-          onPress={() => usePantryStore.setState({ items: [] })}
+          onPress={() => usePantryStore.getState().clearAll()}
         />
         <Action
           label="Giả lập lỗi mạng ở lần giữ chỗ tới (SB-057)"
@@ -101,6 +107,22 @@ export default function DevHub() {
             }}
           />
         ))}
+        <Action
+          label="Mở SB-064 (Đưa mã cho cửa hàng) cho đơn mới nhất"
+          onPress={async () => {
+            const [latest] = await orderService.listReservations();
+            if (latest)
+              router.push({ pathname: '/reserve/order/[id]/handover', params: { id: latest.id } });
+          }}
+        />
+        <Action
+          label="Xóa thông báo (xem SB-096 trống)"
+          onPress={() => useDevFlags.getState().setNotificationsCleared(true)}
+        />
+        <Action
+          label="Hiện lại thông báo"
+          onPress={() => useDevFlags.getState().setNotificationsCleared(false)}
+        />
         <Action
           label="Xoá các đơn đã giữ chỗ"
           onPress={async () => {

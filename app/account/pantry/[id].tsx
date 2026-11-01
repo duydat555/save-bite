@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,8 +13,8 @@ import { colors, layout, radius } from '@/design-system/tokens';
 import { usePantryStore } from '@/store/pantryStore';
 import { formatDate, freshnessOf } from '@/utils/pantry';
 
-// SB-081 · Chi tiết thực phẩm · Ngày hạn & bảo quản. Edit (SB-082), reminders (SB-085) and the usage/discard sheets
-// (SB-086/087) are not built yet; "Đánh dấu đã dùng / đã bỏ" remove the item directly.
+// SB-081 · Chi tiết thực phẩm · Ngày hạn & bảo quản. "Sửa" → SB-082, "Nhắc hạn" → SB-085, "Đánh dấu đã dùng" → SB-086,
+// "Đánh dấu đã bỏ" → SB-087.
 const tone = {
   good: { bg: colors.successBg, fg: colors.success },
   soon: { bg: colors.warningBg, fg: colors.warning },
@@ -26,7 +25,6 @@ export default function PantryDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const item = usePantryStore((s) => s.items.find((i) => i.id === id));
-  const remove = usePantryStore((s) => s.remove);
 
   if (!item) {
     return (
@@ -38,11 +36,8 @@ export default function PantryDetail() {
 
   const fresh = freshnessOf(item.expiry);
   const t = tone[fresh];
-  const done = () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    remove(item.id);
-    router.back();
-  };
+  const go = (pathname: '/account/pantry/usage/[id]' | '/account/pantry/discard/[id]') =>
+    router.push({ pathname, params: { id: item.id } });
 
   return (
     <View style={styles.container}>
@@ -50,9 +45,17 @@ export default function PantryDetail() {
       <AppBar
         title="Chi tiết thực phẩm"
         right={
-          <Text variant="semi16" color="brand900" style={{ fontSize: 15 }}>
-            Sửa
-          </Text>
+          <PressableScale
+            accessibilityRole="button"
+            onPress={() =>
+              router.push({ pathname: '/account/pantry/edit/[id]', params: { id: item.id } })
+            }
+            style={styles.edit}
+          >
+            <Text variant="semi16" color="brand900" style={{ fontSize: 15 }}>
+              Sửa
+            </Text>
+          </PressableScale>
         }
       />
       <ScrollView
@@ -97,7 +100,18 @@ export default function PantryDetail() {
         </View>
 
         <Row icon="map-pin" label="Nơi bảo quản" value={storageLabel[item.storage]} />
-        <Row icon="bell" label="Nhắc hạn" value="Chưa bật lời nhắc" />
+        <Row
+          icon="bell"
+          label="Nhắc hạn"
+          value={
+            item.reminder?.enabled
+              ? `Trước ${item.reminder.daysBefore} ngày · ${item.reminder.time}`
+              : 'Chưa bật lời nhắc'
+          }
+          onPress={() =>
+            router.push({ pathname: '/account/pantry/reminder/[id]', params: { id: item.id } })
+          }
+        />
 
         <View style={styles.note}>
           <SvgIcon name="info" size={18} />
@@ -108,8 +122,12 @@ export default function PantryDetail() {
       </ScrollView>
 
       <View style={[styles.footer, { bottom: insets.bottom + 20 }]}>
-        <Button label="Đánh dấu đã dùng" onPress={done} />
-        <PressableScale accessibilityRole="button" onPress={done} style={styles.discard}>
+        <Button label="Đánh dấu đã dùng" onPress={() => go('/account/pantry/usage/[id]')} />
+        <PressableScale
+          accessibilityRole="button"
+          onPress={() => go('/account/pantry/discard/[id]')}
+          style={styles.discard}
+        >
           <Text variant="buttonLabel" color="danger">
             Đánh dấu đã bỏ
           </Text>
@@ -119,9 +137,19 @@ export default function PantryDetail() {
   );
 }
 
-function Row({ icon, label, value }: { icon: SvgName; label: string; value: string }) {
+function Row({
+  icon,
+  label,
+  value,
+  onPress,
+}: {
+  icon: SvgName;
+  label: string;
+  value: string;
+  onPress?: () => void;
+}) {
   return (
-    <View style={styles.row}>
+    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.row}>
       <SvgIcon name={icon} size={20} />
       <Text variant="linkMedium14" color="textSecondary" style={{ flex: 1 }}>
         {label}
@@ -129,7 +157,7 @@ function Row({ icon, label, value }: { icon: SvgName; label: string; value: stri
       <Text variant="semi14" style={{ fontSize: 15 }}>
         {value}
       </Text>
-    </View>
+    </PressableScale>
   );
 }
 
@@ -161,6 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: colors.white,
   },
+  edit: { height: 44, justifyContent: 'center', paddingHorizontal: 4 },
   row: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 4 },
   note: {
     flexDirection: 'row',

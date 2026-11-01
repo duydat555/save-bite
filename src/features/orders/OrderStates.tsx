@@ -167,7 +167,11 @@ export function CompletedView({ res }: P) {
               router.push('/account/pantry/add');
             }}
           />
-          <PressableScale accessibilityRole="link" style={styles.link}>
+          <PressableScale
+            accessibilityRole="link"
+            onPress={() => router.push('/account/impact')}
+            style={styles.link}
+          >
             <Text variant="semi14" color="price">
               Xem tác động của bạn
             </Text>

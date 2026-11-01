@@ -10,6 +10,7 @@ type SessionState = Session & {
   continueAsGuest: () => void;
   completeOnboarding: () => void;
   signOut: () => void;
+  updateUser: (patch: Partial<Pick<User, 'displayName' | 'email'>>) => void;
 };
 
 export const useSessionStore = create<SessionState>()(
@@ -22,6 +23,7 @@ export const useSessionStore = create<SessionState>()(
       continueAsGuest: () => set({ user: null, isGuest: true }),
       completeOnboarding: () => set({ hasSeenOnboarding: true }),
       signOut: () => set({ user: null, isGuest: false }),
+      updateUser: (patch) => set((s) => (s.user ? { user: { ...s.user, ...patch } } : s)),
     }),
     { name: storageKeys.session, storage: createJSONStorage(() => AsyncStorage) },
   ),

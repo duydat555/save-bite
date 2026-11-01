@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppBar } from '@/components/ui/AppBar';
 import { Button } from '@/components/ui/Button';
+import { Choice } from '@/components/ui/Choice';
 import { InputField } from '@/components/ui/InputField';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { SvgIcon } from '@/components/ui/SvgIcon';
@@ -115,31 +116,6 @@ export default function PantryAdd() {
   );
 }
 
-function Choice({
-  label,
-  selected,
-  onPress,
-  height,
-}: {
-  label: string;
-  selected: boolean;
-  onPress: () => void;
-  height: number;
-}) {
-  return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityState={{ selected }}
-      onPress={onPress}
-      style={[styles.choice, { height }, selected ? styles.choiceOn : styles.choiceOff]}
-    >
-      <Text variant="semi14" color={selected ? 'white' : 'textPrimary'}>
-        {label}
-      </Text>
-    </PressableScale>
-  );
-}
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
   content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 6 },
@@ -153,9 +129,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand100,
   },
   row: { flexDirection: 'row', gap: 12 },
-  choice: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
-  choiceOn: { backgroundColor: colors.brand900 },
-  choiceOff: { borderWidth: 1, borderColor: colors.borderDefault, backgroundColor: colors.canvas },
   dateField: {
     height: 48,
     justifyContent: 'center',

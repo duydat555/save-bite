@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -6,13 +7,17 @@ import { Text } from '@/components/ui/Text';
 import { impactStats } from '@/data/mock/orders';
 import { colors, layout, radius } from '@/design-system/tokens';
 import { ImpactHeroCard, ProfileHeaderCard, SettingsGroup } from '@/features/account/AccountParts';
+import { useAccountStore } from '@/store/accountStore';
 import { useSessionStore } from '@/store/sessionStore';
 
-// SB-091 · Profile · Account & Impact Hub. Sub-screens (SB-092/093/097/098/099/100…) are outside Vòng 1 — rows are inert.
+// SB-091 · Profile · Account & Impact Hub → SB-092 (edit), 093, 097, 098, 099, 100. "Đã lưu" and "Dị ứng & an toàn"
+// have no confirmed target yet (group 01 / 02) and stay inert.
 // ASSUMPTIONS: guest shows "Khách" (SB-091 only shows the logged-in profile); the "Chỉnh sửa" pill style is estimated.
 export default function AccountTab() {
   const insets = useSafeAreaInsets();
   const user = useSessionStore((s) => s.user);
+  const campus = useAccountStore((s) => s.campus);
+  const edit = () => router.push('/account/edit');
 
   return (
     <View style={styles.container}>
@@ -20,7 +25,7 @@ export default function AccountTab() {
       <LargeTitleBar
         title="Tài khoản"
         right={
-          <Pressable accessibilityRole="button" style={styles.edit}>
+          <Pressable accessibilityRole="button" onPress={edit} style={styles.edit}>
             <Text variant="link" color="brand900">
               Chỉnh sửa
             </Text>
@@ -30,9 +35,11 @@ export default function AccountTab() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <ProfileHeaderCard
           name={user?.displayName ?? 'Khách'}
-          area="ĐH Đà Nẵng · Bán kính đi bộ 1 km"
+          area={`${campus} · Bán kính đi bộ 1 km`}
+          onPress={edit}
         />
         <ImpactHeroCard
+          onPress={() => router.push('/account/impact')}
           label="Những lần bạn ghé nhận"
           stats={[
             { value: `${impactStats.orders} đơn`, caption: 'Phần đã nhận tại quầy' },
@@ -46,8 +53,14 @@ export default function AccountTab() {
               icon: 'map-pin',
               title: 'Khu vực thường dùng',
               subtitle: 'ĐH Đà Nẵng · chọn thủ công',
+              onPress: () => router.push('/account/areas/index'),
             },
-            { icon: 'bell', title: 'Nhắc lịch & ngày hạn', subtitle: 'Chọn giờ nhận lời nhắc' },
+            {
+              icon: 'bell',
+              title: 'Nhắc lịch & ngày hạn',
+              subtitle: 'Chọn giờ nhận lời nhắc',
+              onPress: () => router.push('/account/notification-settings'),
+            },
             { icon: 'heart', title: 'Đã lưu', subtitle: 'Ưu đãi bạn muốn xem lại' },
           ]}
         />
@@ -58,6 +71,7 @@ export default function AccountTab() {
               icon: 'info',
               title: 'Quyền riêng tư & dữ liệu',
               subtitle: 'Quyền vị trí, xuất và xóa dữ liệu',
+              onPress: () => router.push('/account/privacy'),
             },
             {
               icon: 'warning-circle',
@@ -68,6 +82,7 @@ export default function AccountTab() {
               icon: 'info',
               title: 'Trợ giúp nhận món',
               subtitle: 'Câu hỏi thường gặp & báo sự cố',
+              onPress: () => router.push('/account/help'),
             },
           ]}
         />

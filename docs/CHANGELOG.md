@@ -62,3 +62,12 @@
 - **Đơn:** chi tiết đơn có đủ trạng thái — Chờ nhận (SB-062), Sẵn sàng (066), Sắp hết giờ (067), Hết hạn (068), Hoàn tất (072); Đưa mã cho cửa hàng (064), Điểm nhận (065), Báo sự cố (069), sheet Hủy đơn (070) → Hủy thành công (071); Đơn trống (073, bật bằng "Ẩn lịch sử đơn" ở dev hub). Hotspot "staff scans" ở SB-063 (vùng 120×60) hoàn tất đơn → SB-072. Trạng thái đơn đổi được từ dev hub.
 - Thay đổi so với quyết định #3 trước đó: "Chọn số lượng" giờ mở sheet SB-050 (đã có màn). Muốn quay lại đi thẳng SB-051: đổi nút ở `app/offer/[id].tsx`.
 - Tổng: 56/100 màn done.
+
+## 2026-11-01 — Vòng 3 · nhóm 04: Tủ thực phẩm (còn lại) + Tài khoản
+
+- **Pantry:** SB-074 giới thiệu (ảnh sữa/trứng + hoa văn lá tải từ Figma), SB-082 sửa món, SB-083 Cần dùng sớm, SB-084 Đã quá hạn dùng, SB-085 nhắc hạn (lưu theo từng món), SB-086 cập nhật lượng dùng (1/4 · 1/2 · Hết, tính lượng còn lại), SB-087 đánh dấu đã bỏ, SB-088 gợi ý từ tủ, SB-089 lịch sử (tự ghi khi thêm/dùng/bỏ/sửa), SB-090 dữ liệu trên máy (xuất JSON/CSV qua Share, xóa có xác nhận).
+- **Account:** SB-092 sửa hồ sơ, SB-093 khu vực thường dùng, SB-094 lưu khu vực (vòng bán kính co giãn bằng spring), SB-095/096 thông báo (+ trạng thái trống), SB-097 tùy chọn thông báo, SB-098 quyền riêng tư, SB-099 trợ giúp (tìm kiếm cục bộ), SB-100 tác động.
+- Nối các hàng/nút còn treo (xem `docs/04-NAVIGATION-FLOW.md`). SB-086/087 trong Figma là màn đầy đủ, không phải sheet.
+- Dùng chung mới: `Choice`, `Toggle` (reanimated, tôn trọng Reduce Motion), `Avatar`, `PantryFlowParts` (ItemSummary/StickyDock/NoticeCard). Dữ liệu qua `accountService → accountRepository`; store mới `accountStore` (khu vực, tùy chọn thông báo); `pantryStore` có `history` + `reminder`.
+- Dev hub: lối vào SB-074/083/084/088/095, "Mở SB-064", "Xóa thông báo".
+- Kiểm tra: tsc, eslint, jest (11), expo-doctor 20/20, expo export ios đều OK. **Chưa chạy trên thiết bị** — dừng chờ bạn duyệt trước nhóm 01. Tổng: 75/100 màn done.

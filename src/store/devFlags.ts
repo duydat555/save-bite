@@ -8,6 +8,9 @@ type Flags = {
   /** Hides the completed-order fixtures so SB-073 (empty order history) can be shown. */
   historyCleared: boolean;
   setHistoryCleared: (v: boolean) => void;
+  /** Hides the notifications so SB-096 (empty state) can be shown. */
+  notificationsCleared: boolean;
+  setNotificationsCleared: (v: boolean) => void;
 };
 
 export const useDevFlags = create<Flags>()((set) => ({
@@ -15,4 +18,6 @@ export const useDevFlags = create<Flags>()((set) => ({
   arm: (f) => set({ failNext: f }),
   historyCleared: false,
   setHistoryCleared: (v) => set({ historyCleared: v }),
+  notificationsCleared: false,
+  setNotificationsCleared: (v) => set({ notificationsCleared: v }),
 }));

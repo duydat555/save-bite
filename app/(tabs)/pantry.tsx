@@ -1,8 +1,7 @@
-import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ActionSheetIOS, ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -21,7 +20,7 @@ import type { PantryFreshness, PantryStorage } from '@/types';
 import { freshnessOf } from '@/utils/pantry';
 
 // SB-075 · Smart Pantry · Kitchen Inventory and SB-076 · Tủ trống (empty state with quick-add by category).
-// "Dùng" / "Bỏ" remove the item for now — the usage (SB-086) and discard (SB-087) sheets are not built yet.
+// "Dùng" → SB-086 (update usage), "Bỏ" (overdue rows) → SB-087 (mark discarded); "…" → SB-089 history / SB-090 device data.
 const EXPIRY: Record<string, PantryFreshness | null> = {
   'Tất cả': null,
   'Còn hạn': 'good',
@@ -38,7 +37,6 @@ const STORAGE: Record<string, PantryStorage | null> = {
 export default function PantryTab() {
   const insets = useSafeAreaInsets();
   const items = usePantryStore((s) => s.items);
-  const remove = usePantryStore((s) => s.remove);
   const setDraft = usePantryDraft((s) => s.set);
   const [expiry, setExpiry] = useState('Tất cả');
   const [storage, setStorage] = useState('Tất cả');
@@ -53,6 +51,16 @@ export default function PantryTab() {
       ),
     [items, expiry, storage],
   );
+
+  // ESTIMATE: the "…" menu is not drawn in Figma; a native action sheet lists the two destinations.
+  const openMenu = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      { options: ['Lịch sử tủ thực phẩm', 'Dữ liệu trên máy', 'Đóng'], cancelButtonIndex: 2 },
+      (i) => {
+        if (i === 0) router.push('/account/pantry/history');
+        if (i === 1) router.push('/account/pantry/data');
+      },
+    );
 
   const add = (category?: (typeof categoryOrder)[number]) => {
     if (category) setDraft({ category });
@@ -79,8 +87,12 @@ export default function PantryTab() {
             </Text>
           </PressableScale>
         ) : null}
-        {/* History & device-data menu (SB-089 / SB-090) is outside this batch — inert */}
-        <GlassButton symbol="ellipsis" accessibilityLabel="Tùy chọn tủ thực phẩm" size={44} />
+        <GlassButton
+          symbol="ellipsis"
+          accessibilityLabel="Tùy chọn tủ thực phẩm"
+          size={44}
+          onPress={openMenu}
+        />
       </View>
 
       <ScrollView
@@ -126,10 +138,15 @@ export default function PantryTab() {
                       onPress={() =>
                         router.push({ pathname: '/account/pantry/[id]', params: { id: it.id } })
                       }
-                      onAction={() => {
-                        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                        remove(it.id);
-                      }}
+                      onAction={() =>
+                        router.push({
+                          pathname:
+                            freshnessOf(it.expiry) === 'overdue'
+                              ? '/account/pantry/discard/[id]'
+                              : '/account/pantry/usage/[id]',
+                          params: { id: it.id },
+                        })
+                      }
                     />
                   </Animated.View>
                 ))}

@@ -74,4 +74,47 @@ export type PantryItem = {
   storage: PantryStorage;
   dateKind: PantryDateKind;
   expiry: string; // ISO yyyy-mm-dd
+  reminder?: PantryReminder; // SB-085
 };
+
+export type PantryReminder = { enabled: boolean; daysBefore: 1 | 2; time: '07:30' | '17:30' };
+
+// SB-089 history row: "Đã thêm · 6 quả, Ngăn mát" = status + detail.
+export type PantryEvent = {
+  id: string;
+  name: string;
+  icon: string; // svg name
+  status: string; // "Đã dùng" | "Đã bỏ" | "Đã thêm" | "Đã cập nhật ngày hạn" | "Đổi nơi cất"
+  detail: string; // "1 ổ"
+  when: string; // "18/10 · 19:00"
+};
+
+// ---- Account (SB-092…100) ----
+export type SavedArea = {
+  id: string;
+  name: string;
+  district: string;
+  radiusM: 500 | 1000 | 2000;
+  isDefault?: boolean;
+};
+
+export type NotificationItem = {
+  id: string;
+  group: 'order' | 'pantry';
+  icon: string; // svg name or 'receipt'
+  tone: 'brand' | 'warm';
+  title: string;
+  subtitle: string;
+  when: string;
+  unread?: boolean;
+};
+
+export type ImpactEntry = {
+  id: string;
+  name: string;
+  amount: number; // VND
+  date: string; // dd/mm/yyyy
+  image: number; // require()d thumbnail
+};
+
+export type HelpTopic = { id: string; icon: string; title: string; subtitle: string };

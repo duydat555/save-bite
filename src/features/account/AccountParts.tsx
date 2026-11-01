@@ -7,24 +7,38 @@ import { Text } from '@/components/ui/Text';
 import type { SvgName } from '@/design-system/icons/svg-data';
 import { colors, radius } from '@/design-system/tokens';
 
-/* ProfileHeaderCard (353×84): 52pt round avatar + name + area line. */
-export function ProfileHeaderCard({ name, area }: { name: string; area: string }) {
+/* Round avatar. figma: the photo is a 222%×333% crop of the circle, offset (-75.56%, -51.67%). */
+export function Avatar({ size }: { size: number }) {
   return (
-    <PressableScale accessibilityRole="button" style={styles.profile}>
-      <View style={styles.avatar}>
-        {/* figma: the photo is a 222%×333% crop of the 52pt circle, offset (-75.56%, -51.67%) */}
-        <Image
-          source={require('@assets/images/avatar-minh-anh.png')}
-          contentFit="cover"
-          style={{
-            position: 'absolute',
-            width: 52 * 2.2222,
-            height: 52 * 3.3333,
-            left: -52 * 0.7556,
-            top: -52 * 0.5167,
-          }}
-        />
-      </View>
+    <View style={{ width: size, height: size, overflow: 'hidden', borderRadius: radius.pill }}>
+      <Image
+        source={require('@assets/images/avatar-minh-anh.png')}
+        contentFit="cover"
+        style={{
+          position: 'absolute',
+          width: size * 2.2222,
+          height: size * 3.3333,
+          left: -size * 0.7556,
+          top: -size * 0.5167,
+        }}
+      />
+    </View>
+  );
+}
+
+/* ProfileHeaderCard (353×84): 52pt round avatar + name + area line. */
+export function ProfileHeaderCard({
+  name,
+  area,
+  onPress,
+}: {
+  name: string;
+  area: string;
+  onPress?: () => void;
+}) {
+  return (
+    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.profile}>
+      <Avatar size={52} />
       <View style={{ flex: 1, gap: 3 }}>
         <Text variant="priceRow">{name}</Text>
         <Text variant="meta" color="textSecondary">
@@ -39,12 +53,14 @@ export function ProfileHeaderCard({ name, area }: { name: string; area: string }
 export function ImpactHeroCard({
   label,
   stats,
+  onPress,
 }: {
   label: string;
   stats: { value: string; caption: string }[];
+  onPress?: () => void;
 }) {
   return (
-    <PressableScale accessibilityRole="button" style={styles.impact}>
+    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.impact}>
       <Text variant="impactLabel" style={{ color: colors.brand100 }}>
         {label}
       </Text>
@@ -67,7 +83,12 @@ export function ImpactHeroCard({
   );
 }
 
-export type SettingsRowData = { icon: SvgName; title: string; subtitle: string };
+export type SettingsRowData = {
+  icon: SvgName;
+  title: string;
+  subtitle: string;
+  onPress?: () => void;
+};
 
 /** Section label (11pt Bold, secondary) + grouped rows on a subtle r16 card (72pt rows, 1px dividers). */
 export function SettingsGroup({ label, rows }: { label: string; rows: SettingsRowData[] }) {
@@ -81,6 +102,7 @@ export function SettingsGroup({ label, rows }: { label: string; rows: SettingsRo
           <PressableScale
             key={r.title}
             accessibilityRole="button"
+            onPress={r.onPress}
             style={[styles.settingsRow, i < rows.length - 1 && styles.divider]}
           >
             <SvgIcon name={r.icon} size={24} />
@@ -111,7 +133,6 @@ const styles = StyleSheet.create({
     borderColor: colors.borderDefault,
     backgroundColor: colors.white,
   },
-  avatar: { width: 52, height: 52, overflow: 'hidden', borderRadius: radius.pill },
   impact: {
     height: 114,
     gap: 10,

@@ -83,3 +83,21 @@ Vòng 1 đang dùng các giả định sau; **chưa có trong Figma** hoặc ch�
 4. "Xác nhận giữ chỗ" → trạng thái **đang xử lý** (SB-055, đã đọc: lớp phủ "ProcessingVeil" trên chính màn biên lai, spinner, nút loading, ≥1,2 s) → SB-056. Bỏ qua SB-054. SB-055 có hai DemoHotspot (057 offline, 058 hết hàng) — chưa làm.
 5. Khách dùng chung SB-015 như hiện tại.
 6. Vùng ẩn "staff scans → SB-072" ở SB-063: chưa làm.
+
+## Cập nhật 2026-11-01 — nhóm 04 (Pantry & Account)
+
+Đã chốt theo yêu cầu: giữ sheet SB-050; giữ cố định "15 phút" và "17:24, 19/10"; "Xem tác động của bạn" (SB-072) → SB-100.
+
+**SB-064 (Đưa mã cho cửa hàng): chưa rõ nguồn vào.** Đã tìm trong metadata SB-063/065/066/064 — không có liên kết dẫn tới SB-064. Màn đã dựng, chỉ mở được từ dev hub ("Mở SB-064 cho đơn mới nhất"). Cần bạn chỉ nút nào trong Figma dẫn tới nó.
+
+Đã nối:
+- Account (SB-091): hồ sơ + "Chỉnh sửa" → SB-092; thẻ tác động → SB-100; "Khu vực thường dùng" → SB-093 → "+ Thêm khu vực" → SB-094; "Nhắc lịch & ngày hạn" → SB-097; "Quyền riêng tư & dữ liệu" → SB-098; "Trợ giúp nhận món" → SB-099 → "Báo sự cố nhận món" → SB-069.
+- Pantry: "Dùng" → SB-086; "Bỏ" (món quá hạn) → SB-087; chi tiết SB-081: "Sửa" → SB-082, "Nhắc hạn" → SB-085, "Đánh dấu đã dùng" → SB-086, "Đánh dấu đã bỏ" → SB-087; "Gợi ý dùng món" (SB-083) → SB-088; "Đánh dấu đã bỏ" (SB-084) → SB-087; SB-072 "Xem tác động của bạn" → SB-100.
+
+**Chưa rõ nguồn vào (chỉ mở từ dev hub) — cần bạn xác nhận:**
+1. SB-074 Giới thiệu Pantry — hiện nút "Bắt đầu với tủ của tôi" → tab Tủ thực phẩm. Hiện ra lần đầu mở tab? hay từ chỗ khác?
+2. SB-083 Cần dùng sớm và SB-084 Đã quá hạn dùng — từ đâu vào (banner? hàng "Sắp hạn"/"Quá hạn" trong SB-075)?
+3. SB-095/096 Thông báo — chuông ở đâu (Khám phá?). SB-096 là trạng thái trống (dev hub "Xóa thông báo").
+4. Menu "…" của tab Tủ thực phẩm không vẽ trong Figma → tạm dùng ActionSheet (Lịch sử tủ thực phẩm / Dữ liệu trên máy).
+5. SB-086 và SB-087 trong Figma là **màn đầy đủ** (có AppBar), không phải sheet như tên gọi trong danh mục cũ.
+6. Dòng "Đã lưu" và "Dị ứng & an toàn" ở SB-091, các câu hỏi trong SB-099 và các hàng thông báo: chưa có màn đích → chưa nối.
