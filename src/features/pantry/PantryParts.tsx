@@ -93,12 +93,15 @@ export function FilterPopup({
   options,
   onChange,
   width,
+  menuLeft = 20,
 }: {
   label: string;
   value: string;
   options: string[];
   onChange: (v: string) => void;
   width: number;
+  /** Figma x of the floating menu: expiry (20,268), storage (135,268). */
+  menuLeft?: number;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -112,7 +115,7 @@ export function FilterPopup({
           <Animated.View
             entering={FadeIn.duration(duration.fast)}
             exiting={FadeOut.duration(duration.fast)}
-            style={styles.menu}
+            style={[styles.menu, { left: menuLeft }]}
           >
             {options.map((o) => (
               <Pressable

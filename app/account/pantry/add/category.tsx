@@ -59,7 +59,7 @@ export default function PantryCategorySheet() {
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 }, // handle row 12 + gap 14 from sheet top 14
+  body: { flex: 1, paddingHorizontal: 20, paddingTop: 40 }, // figma: grabber row 12 + gaps 14 → header at sheet top + 40
   head: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, rowGap: 12, marginTop: 14 },
   tile: {

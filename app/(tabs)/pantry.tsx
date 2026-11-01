@@ -142,6 +142,7 @@ export default function PantryTab() {
                 options={Object.keys(STORAGE)}
                 onChange={setStorage}
                 width={172}
+                menuLeft={135}
               />
             </Animated.View>
             <Text variant="bold15" style={styles.section}>
