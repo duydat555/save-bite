@@ -79,7 +79,7 @@ export default function PantryIntro() {
         </View>
       </ScrollView>
       <View style={[styles.dock, { paddingBottom: insets.bottom + 20 - 14 }]}>
-        <Button label="Bắt đầu với tủ của tôi" onPress={() => router.replace('/(tabs)/pantry')} />
+        <Button label="Bắt đầu với tủ của tôi" onPress={() => router.dismissTo('/(tabs)/pantry')} />
         <Text variant="captionMeta" color="textSecondary">
           Lưu trên thiết bị · Không tự thêm từ đơn hàng
         </Text>

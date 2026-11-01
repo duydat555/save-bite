@@ -52,6 +52,11 @@ export default function TabsLayout() {
       <Tabs.Screen name="account" />
       {/* Map keeps the tab bar visible (Figma SB-016) but is not a tab of its own */}
       <Tabs.Screen name="map" options={{ href: null }} />
+      {/* Same for the Khám phá sub-screens (SB-028…033) */}
+      <Tabs.Screen name="category" options={{ href: null }} />
+      <Tabs.Screen name="urgent" options={{ href: null }} />
+      <Tabs.Screen name="nearby" options={{ href: null }} />
+      <Tabs.Screen name="saved" options={{ href: null }} />
     </Tabs>
   );
 }

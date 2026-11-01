@@ -10,6 +10,9 @@ type Flags = {
   setHistoryCleared: (v: boolean) => void;
   /** Hides the notifications so SB-096 (empty state) can be shown. */
   notificationsCleared: boolean;
+  /** SB-046/047/048: forces the offer-detail variant (sold out · window closed · closing soon). */
+  offerState: 'normal' | 'soldout' | 'closed' | 'closing';
+  setOfferState: (s: 'normal' | 'soldout' | 'closed' | 'closing') => void;
   setNotificationsCleared: (v: boolean) => void;
 };
 
@@ -19,5 +22,7 @@ export const useDevFlags = create<Flags>()((set) => ({
   historyCleared: false,
   setHistoryCleared: (v) => set({ historyCleared: v }),
   notificationsCleared: false,
+  offerState: 'normal',
+  setOfferState: (offerState) => set({ offerState }),
   setNotificationsCleared: (v) => set({ notificationsCleared: v }),
 }));

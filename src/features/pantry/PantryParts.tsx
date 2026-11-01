@@ -37,10 +37,13 @@ export function PantryItemRow({
   item,
   onPress,
   onAction,
+  onPressTag,
 }: {
   item: PantryItem;
   onPress?: () => void;
   onAction: () => void;
+  /** Status tag → SB-083 (Sắp hạn) / SB-084 (Quá hạn). ASSUMPTION: Figma draws no entry to those screens. */
+  onPressTag?: () => void;
 }) {
   const fresh = freshnessOf(item.expiry);
   const t = tone[fresh];
@@ -64,11 +67,15 @@ export function PantryItemRow({
             {fresh === 'overdue' ? 'Bỏ' : 'Dùng'}
           </Text>
         </Pressable>
-        <View style={[styles.tag, { backgroundColor: t.bg }]}>
+        <Pressable
+          accessibilityRole={fresh === 'good' ? undefined : 'button'}
+          onPress={fresh === 'good' ? onPress : onPressTag}
+          style={[styles.tag, { backgroundColor: t.bg }]}
+        >
           <Text variant="statusTag" color={t.fg}>
             {freshnessLabel[fresh]}
           </Text>
-        </View>
+        </Pressable>
       </View>
       <Text variant="dateCaption" color="textSecondary">
         {expiryCaption(item)}

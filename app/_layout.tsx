@@ -122,6 +122,27 @@ export default function RootLayout() {
               contentStyle: { backgroundColor: 'transparent' },
             }}
           />
+          {(
+            [
+              'discover/filters',
+              'discover/filter-budget',
+              'discover/filter-slots',
+              'discover/filter-dietary',
+              'discover/sort',
+              'offer/login-required',
+              'reserve/confirm',
+            ] as const
+          ).map((name) => (
+            <Stack.Screen
+              key={name}
+              name={name}
+              options={{
+                presentation: 'transparentModal',
+                animation: 'none',
+                contentStyle: { backgroundColor: 'transparent' },
+              }}
+            />
+          ))}
           <Stack.Screen
             name="reserve/order/[id]/cancelled"
             options={{ animation: 'fade', gestureEnabled: false }}

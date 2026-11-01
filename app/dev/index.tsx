@@ -7,6 +7,7 @@ import { storage } from '@/data/storage';
 import { colors, layout, radius, spacing } from '@/design-system/tokens';
 import { orderService } from '@/services/orderService';
 import { useDevFlags } from '@/store/devFlags';
+import { useAccountStore } from '@/store/accountStore';
 import { usePantryStore } from '@/store/pantryStore';
 import { useSessionStore } from '@/store/sessionStore';
 
@@ -29,6 +30,9 @@ const LINKS: { label: string; href: Href }[] = [
   { label: 'Đã quá hạn dùng (SB-084) →', href: '/account/pantry/overdue' },
   { label: 'Gợi ý từ tủ (SB-088) →', href: '/account/pantry/suggestions' },
   { label: 'Thông báo (SB-095/096) →', href: '/account/notifications' },
+  { label: 'Nhận sớm (SB-031) →', href: '/(tabs)/urgent' },
+  { label: 'Quyền vị trí (SB-011) →', href: '/(entry)/permission-location' },
+  { label: 'Quyền thông báo (SB-012) →', href: '/(entry)/permission-notifications' },
 ];
 
 export default function DevHub() {
@@ -67,7 +71,10 @@ export default function DevHub() {
         />
         <Action
           label="Đặt lại Tủ thực phẩm (7 món)"
-          onPress={() => usePantryStore.getState().reset()}
+          onPress={() => {
+            usePantryStore.getState().reset();
+            useAccountStore.getState().setPantryIntroSeen(false);
+          }}
         />
         <Action
           label="Làm trống Tủ thực phẩm"
@@ -115,6 +122,20 @@ export default function DevHub() {
               router.push({ pathname: '/reserve/order/[id]/handover', params: { id: latest.id } });
           }}
         />
+        {(
+          [
+            ['Bình thường (SB-034)', 'normal'],
+            ['Hết phần (SB-046)', 'soldout'],
+            ['Ngoài giờ nhận (SB-047)', 'closed'],
+            ['Gần đóng cửa (SB-048)', 'closing'],
+          ] as const
+        ).map(([label, st]) => (
+          <Action
+            key={st}
+            label={`Trạng thái chi tiết món → ${label}`}
+            onPress={() => useDevFlags.getState().setOfferState(st)}
+          />
+        ))}
         <Action
           label="Xóa thông báo (xem SB-096 trống)"
           onPress={() => useDevFlags.getState().setNotificationsCleared(true)}

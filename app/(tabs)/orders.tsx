@@ -14,8 +14,10 @@ import { Text } from '@/components/ui/Text';
 import { completedOrders } from '@/data/mock/orders';
 import { colors, layout } from '@/design-system/tokens';
 import { useDevFlags } from '@/store/devFlags';
+import { useUi } from '@/store/uiStore';
 import { useStaggerEntering } from '@/hooks/useEntering';
 import { ActiveOrderHeroCard, CompletedOrderRow } from '@/features/orders/OrderParts';
+import { PendingOrderView } from '@/features/orders/PendingOrderView';
 import { OrdersSkeleton } from '@/features/orders/OrdersSkeleton';
 import { toRowProps } from '@/features/discovery/offerPresenter';
 import { offerService } from '@/services/offerService';
@@ -32,6 +34,8 @@ const TABS = ['Tất cả', 'Đang chờ', 'Đã nhận'];
 // Motion: skeleton while loading, staggered entrance, sliding segmented thumb, pull-to-refresh.
 export default function OrdersTab() {
   const insets = useSafeAreaInsets();
+  // SB-061 (Đang chờ nhận · timeline) is shown once when entered from the active-order strip on Khám phá.
+  const view = useUi((s) => (s.ordersPending ? 'pending' : undefined));
   const [tab, setTab] = useState(0);
   const [active, setActive] = useState<ReservationWithOffer[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -45,6 +49,7 @@ export default function OrdersTab() {
   useFocusEffect(
     useCallback(() => {
       load();
+      return () => useUi.getState().setOrdersPending(false);
     }, [load]),
   );
 
@@ -63,7 +68,7 @@ export default function OrdersTab() {
   return (
     <View style={styles.container}>
       <View style={{ height: insets.top }} />
-      <LargeTitleBar title="Đơn của tôi" />
+      <LargeTitleBar title={view === 'pending' ? 'Đang chờ nhận' : 'Đơn của tôi'} />
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -75,12 +80,16 @@ export default function OrdersTab() {
           />
         }
       >
-        <Animated.View entering={entering(0)}>
-          <SegmentedControl tabs={TABS} index={tab} onChange={setTab} />
-        </Animated.View>
+        {view === 'pending' ? null : (
+          <Animated.View entering={entering(0)}>
+            <SegmentedControl tabs={TABS} index={tab} onChange={setTab} />
+          </Animated.View>
+        )}
 
         {active === null ? (
           <OrdersSkeleton />
+        ) : view === 'pending' && active.length > 0 ? (
+          <PendingOrderView res={active[0]} />
         ) : nothing ? (
           <EmptyOrders />
         ) : (

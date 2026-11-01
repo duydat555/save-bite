@@ -76,7 +76,11 @@ export default function Login() {
           />
         </View>
 
-        <Pressable accessibilityRole="link" style={styles.forgot}>
+        <Pressable
+          accessibilityRole="link"
+          onPress={() => router.push('/(entry)/forgot-password')}
+          style={styles.forgot}
+        >
           <Text variant="linkMedium13" color="brand900">
             Quên mật khẩu?
           </Text>

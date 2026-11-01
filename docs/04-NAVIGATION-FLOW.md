@@ -101,3 +101,29 @@ Vòng 1 đang dùng các giả định sau; **chưa có trong Figma** hoặc ch�
 4. Menu "…" của tab Tủ thực phẩm không vẽ trong Figma → tạm dùng ActionSheet (Lịch sử tủ thực phẩm / Dữ liệu trên máy).
 5. SB-086 và SB-087 trong Figma là **màn đầy đủ** (có AppBar), không phải sheet như tên gọi trong danh mục cũ.
 6. Dòng "Đã lưu" và "Dị ứng & an toàn" ở SB-091, các câu hỏi trong SB-099 và các hàng thông báo: chưa có màn đích → chưa nối.
+
+## Cập nhật 2026-11-02 — nhóm 01 + trạng thái (tự suy luận, theo yêu cầu "tự nối cho chính xác")
+
+Các liên kết **không vẽ trong Figma**, đã tự suy luận (đổi ở đúng 1 chỗ nếu bạn muốn khác):
+
+| Màn | Vào từ | Ghi chú |
+|---|---|---|
+| SB-009 | "Quên mật khẩu?" ở SB-008 | CTA → SB-010; "Quay lại đăng nhập" / "Thử địa chỉ email khác" |
+| SB-011 → SB-012 | "Dùng vị trí hiện tại" ở SB-018 | cả hai nút của SB-011 → SB-012 → tab chính. **Không** chèn vào luồng đăng nhập (giữ quyết định #2). Không gọi quyền hệ thống thật (mock) |
+| SB-013 / SB-014 | Tab Khám phá | khách → SB-013 (wordmark + "Đăng nhập"); đã đăng nhập → SB-014; thẻ "Chờ nhận" chỉ hiện khi có đơn đang chờ |
+| SB-014 thẻ đơn | → SB-061 | Orders tab "Đang chờ nhận · timeline", chỉ hiện 1 lần khi vào từ thẻ này |
+| SB-018 | dòng khu vực dưới header Khám phá | "Xác nhận khu vực" → SB-032 |
+| SB-023…026 | nút lọc (slider) ở Khám phá | "Áp dụng bộ lọc" → danh sách kết quả (layout SB-021) |
+| SB-027 | dòng "Nhận sau giờ học · …" ở SB-021 | Figma không vẽ nút sắp xếp |
+| SB-028/029/030 | ô danh mục Bữa ăn / Bánh mì / Rau củ | |
+| SB-031 | tiêu đề "Chọn cho chiều nay" | |
+| SB-033 | nút trái tim ở SB-014 | tim ở chi tiết món thêm/bỏ món khỏi "Đã lưu" |
+| SB-049 | mở một món khi đang có bộ lọc nhu cầu ăn uống (SB-026) | vì không cửa hàng nào khai báo dị ứng |
+| SB-046/047/048 | dev hub "Trạng thái chi tiết món" | chưa có luật thời gian thật (đồng hồ demo cố định) |
+| SB-059 | "Chọn số lượng" khi là khách | đăng nhập xong → sheet số lượng SB-050 |
+| SB-054 | "Xác nhận giữ chỗ" ở SB-053 | xác nhận trong sheet → trạng thái đang xử lý SB-055 (đảo quyết định #4: SB-054 nay có) |
+| SB-074 | lần đầu mở tab Tủ thực phẩm | dev hub "Đặt lại Tủ" bật lại |
+| SB-083 / SB-084 | thẻ trạng thái "Sắp hạn" / "Quá hạn" trên hàng Pantry | |
+| SB-095 | chuông ở Khám phá (SB-014) | |
+
+Còn treo (chưa có màn đích): "Đã lưu"/"Dị ứng & an toàn" ở SB-091 → "Đã lưu" nay → SB-033; "Dị ứng & an toàn" vẫn inert; câu hỏi trong SB-099; nút CTA của túi bất ngờ (SB-044) chưa chặn khách.

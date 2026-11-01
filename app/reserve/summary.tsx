@@ -1,5 +1,5 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,12 +13,13 @@ import { colors, layout, radius } from '@/design-system/tokens';
 import { useOffer } from '@/features/offer/useOffer';
 import { ReceiptCard, ReservationProgress } from '@/features/reserve/ReserveParts';
 import { useDevFlags } from '@/store/devFlags';
+import { useUi } from '@/store/uiStore';
 import { orderService } from '@/services/orderService';
 import { formatPrice, formatTimeRange } from '@/utils/format';
 
 // SB-053 · Order Summary · Unified Receipt (step 2/2) + SB-055 · Processing as an overlay on the same screen
 // (Figma: "ProcessingVeil" rgba(255,252,246,0.8) over the receipt, native spinner, loading CTA).
-// The confirm sheet (SB-054) is skipped. Processing lasts ≥1.2 s so the state is visible; the guard ref makes the
+// "Xác nhận giữ chỗ" opens the confirm sheet (SB-054); confirming there starts processing. Processing lasts ≥1.2 s so the state is visible; the guard ref makes the
 // confirm idempotent (a second tap cannot create a second reservation).
 const PROCESSING_MS = 1200;
 const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -31,24 +32,8 @@ export default function ReserveSummary() {
   const [processing, setProcessing] = useState(false);
   const submitted = useRef(false);
 
-  if (!offer) {
-    return (
-      <View style={styles.center}>
-        {offer === undefined ? (
-          <ActivityIndicator color={colors.brand900} />
-        ) : (
-          <Text variant="bodyMedium">Không tìm thấy món này.</Text>
-        )}
-      </View>
-    );
-  }
-
-  const range = formatTimeRange(offer.pickupStart, offer.pickupEnd);
-  const price = formatPrice(offer.priceVnd);
-  const total = formatPrice(offer.priceVnd * n);
-
-  const confirm = async () => {
-    if (submitted.current) return;
+  const confirm = useCallback(async () => {
+    if (!offer || submitted.current) return;
     submitted.current = true;
     setProcessing(true);
     // Demo hotspot (SB-055): the dev hub can arm a failure for the next confirm.
@@ -67,7 +52,32 @@ export default function ReserveSummary() {
       wait(PROCESSING_MS),
     ]);
     router.replace({ pathname: '/reserve/success', params: { id: reservation.id } });
-  };
+  }, [offer, n]);
+
+  // SB-054 sheet confirmed → run the (idempotent) confirm once per tick.
+  const tick = useUi((s) => s.confirmTick);
+  const lastTick = useRef(tick);
+  useEffect(() => {
+    if (tick === lastTick.current) return;
+    lastTick.current = tick;
+    confirm();
+  }, [tick, confirm]);
+
+  if (!offer) {
+    return (
+      <View style={styles.center}>
+        {offer === undefined ? (
+          <ActivityIndicator color={colors.brand900} />
+        ) : (
+          <Text variant="bodyMedium">Không tìm thấy món này.</Text>
+        )}
+      </View>
+    );
+  }
+
+  const range = formatTimeRange(offer.pickupStart, offer.pickupEnd);
+  const price = formatPrice(offer.priceVnd);
+  const total = formatPrice(offer.priceVnd * n);
 
   return (
     <View style={styles.container}>
@@ -128,7 +138,12 @@ export default function ReserveSummary() {
         <Button
           label={processing ? 'Đang giữ chỗ…' : 'Xác nhận giữ chỗ'}
           loading={processing}
-          onPress={confirm}
+          onPress={() =>
+            router.push({
+              pathname: '/reserve/confirm',
+              params: { offerId: offer.id, qty: String(n) },
+            })
+          }
         />
       </View>
     </View>

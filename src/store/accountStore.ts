@@ -18,6 +18,9 @@ type AccountState = {
   areas: SavedArea[];
   campus: string; // SB-092 "Khu học xá mặc định"
   prefs: NotificationPrefs;
+  /** SB-074 is shown once, the first time the Tủ thực phẩm tab opens. */
+  pantryIntroSeen: boolean;
+  setPantryIntroSeen: (v: boolean) => void;
   addArea: (a: Omit<SavedArea, 'id'>) => void;
   setCampus: (c: string) => void;
   setPref: (k: keyof NotificationPrefs, v: boolean) => void;
@@ -35,6 +38,8 @@ export const useAccountStore = create<AccountState>()(
         morning: true,
         suggestions: false,
       },
+      pantryIntroSeen: false,
+      setPantryIntroSeen: (pantryIntroSeen) => set({ pantryIntroSeen }),
       addArea: (a) => set((s) => ({ areas: [...s.areas, { ...a, id: `a-${Date.now()}` }] })),
       setCampus: (campus) => set({ campus }),
       setPref: (k, v) => set((s) => ({ prefs: { ...s.prefs, [k]: v } })),

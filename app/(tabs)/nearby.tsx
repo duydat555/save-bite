@@ -1,0 +1,61 @@
+import { Image } from 'expo-image';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+
+import { Text } from '@/components/ui/Text';
+import { colors, layout } from '@/design-system/tokens';
+import { CategoryHeader, CategoryRow } from '@/features/discovery/CategoryParts';
+import { offerService } from '@/services/offerService';
+import type { OfferWithMerchant } from '@/types';
+
+// SB-032 · Quanh trường · Walking Distance: dishes sorted by distance under a 124pt static map strip.
+// ASSUMPTION (entry): "Xác nhận khu vực" on SB-018 opens it.
+export default function Nearby() {
+  const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
+  useEffect(() => {
+    offerService
+      .listOffers()
+      .then((all) =>
+        setOffers(
+          all
+            .filter((o) => o.category !== 'surprise')
+            .sort((a, b) => (a.merchant.distanceM ?? 9e9) - (b.merchant.distanceM ?? 9e9)),
+        ),
+      );
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <CategoryHeader title="Quanh trường" />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Image
+          source={require('@assets/images/account/map-canvas.png')}
+          contentFit="cover"
+          contentPosition="top"
+          style={styles.map}
+        />
+        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 4 }}>
+          Ở gần khu học xá
+        </Text>
+        <Text variant="rowSub" color="textSecondary" style={{ marginTop: -8 }}>
+          Chọn nơi thuận tiện để ghé nhận.
+        </Text>
+        {offers.map((o) => (
+          <CategoryRow key={o.id} offer={o} />
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.canvas },
+  content: {
+    gap: 12,
+    paddingHorizontal: layout.screenGutter,
+    paddingTop: 12,
+    paddingBottom: layout.scrollBottomPadding,
+  },
+  // figma (screenshot): strip 353×124, r20, starts at y=127
+  map: { height: 124, borderRadius: 20 },
+});

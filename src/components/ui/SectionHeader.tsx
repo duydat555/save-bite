@@ -2,12 +2,19 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Text } from './Text';
 
-type Props = { title: string; actionLabel?: string; onPressAction?: () => void };
+type Props = {
+  title: string;
+  actionLabel?: string;
+  onPressAction?: () => void;
+  onPressTitle?: () => void;
+};
 
-export function SectionHeader({ title, actionLabel, onPressAction }: Props) {
+export function SectionHeader({ title, actionLabel, onPressAction, onPressTitle }: Props) {
   return (
     <View style={styles.row}>
-      <Text variant="sectionTitle">{title}</Text>
+      <Pressable accessibilityRole={onPressTitle ? 'link' : undefined} onPress={onPressTitle}>
+        <Text variant="sectionTitle">{title}</Text>
+      </Pressable>
       {actionLabel ? (
         <Pressable accessibilityRole="link" onPress={onPressAction}>
           <Text variant="link" color="brand900">

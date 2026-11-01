@@ -71,3 +71,12 @@
 - Dùng chung mới: `Choice`, `Toggle` (reanimated, tôn trọng Reduce Motion), `Avatar`, `PantryFlowParts` (ItemSummary/StickyDock/NoticeCard). Dữ liệu qua `accountService → accountRepository`; store mới `accountStore` (khu vực, tùy chọn thông báo); `pantryStore` có `history` + `reminder`.
 - Dev hub: lối vào SB-074/083/084/088/095, "Mở SB-064", "Xóa thông báo".
 - Kiểm tra: tsc, eslint, jest (11), expo-doctor 20/20, expo export ios đều OK. **Chưa chạy trên thiết bị** — dừng chờ bạn duyệt trước nhóm 01. Tổng: 75/100 màn done.
+
+## 2026-11-02 — Vòng 4 · nhóm 01 + trạng thái còn lại
+
+- **Auth/quyền:** SB-009 quên mật khẩu, SB-010 đã gửi liên kết, SB-011 quyền vị trí, SB-012 quyền thông báo.
+- **Khám phá:** SB-013 (khách) / SB-014 (đã đăng nhập, thẻ đơn đang chờ) trên cùng tab; SB-018 chọn khu vực; sheet lọc SB-023…026 (store `filterStore`) + SB-027 sắp xếp, kết quả lọc dùng layout SB-021; danh mục SB-028/029/030 (một màn, tham số `key`), SB-031 Nhận sớm, SB-032 Quanh trường, SB-033 Đã lưu (store `savedStore`). Các màn này là tab ẩn nên Tab Bar vẫn hiện (như SB-016).
+- **Trạng thái:** SB-046/047/048 (chi tiết món hết phần / ngoài giờ / gần đóng cửa — bật từ dev hub), SB-049 xung đột dị ứng (tự hiện khi có bộ lọc nhu cầu ăn uống), SB-059 sheet đăng nhập để giữ chỗ (khách), SB-061 Đang chờ nhận · timeline, SB-054 sheet xác nhận giữ chỗ.
+- Tự nối các liên kết còn treo theo suy luận — bảng đầy đủ ở `docs/04-NAVIGATION-FLOW.md`.
+- Ảnh tải từ Figma: hero danh mục (128×128 — bản Figma xuất 1×, sẽ hơi mờ trên màn Retina), bản đồ, ảnh sữa/trứng.
+- Kiểm tra: tsc, eslint, jest (11), expo-doctor 20/20, expo export ios đều OK. **Chưa chạy trên thiết bị.** Tổng: 100/100 màn done.

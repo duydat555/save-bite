@@ -1,6 +1,6 @@
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ActionSheetIOS, ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +14,7 @@ import { categoryMeta, categoryOrder, storageLabel } from '@/constants/pantry';
 import { colors, layout, radius } from '@/design-system/tokens';
 import { FilterPopup, PantryItemRow, PantryOverviewHero } from '@/features/pantry/PantryParts';
 import { useStaggerEntering } from '@/hooks/useEntering';
+import { useAccountStore } from '@/store/accountStore';
 import { usePantryDraft } from '@/store/pantryDraft';
 import { usePantryStore } from '@/store/pantryStore';
 import type { PantryFreshness, PantryStorage } from '@/types';
@@ -41,6 +42,16 @@ export default function PantryTab() {
   const [expiry, setExpiry] = useState('Tất cả');
   const [storage, setStorage] = useState('Tất cả');
   const entering = useStaggerEntering();
+
+  // SB-074: first visit to this tab shows the Pantry introduction once (ASSUMPTION — Figma draws no entry point).
+  useFocusEffect(
+    useCallback(() => {
+      const s = useAccountStore.getState();
+      if (s.pantryIntroSeen) return;
+      s.setPantryIntroSeen(true);
+      router.push('/account/pantry/intro');
+    }, []),
+  );
 
   const shown = useMemo(
     () =>
@@ -137,6 +148,13 @@ export default function PantryTab() {
                       item={it}
                       onPress={() =>
                         router.push({ pathname: '/account/pantry/[id]', params: { id: it.id } })
+                      }
+                      onPressTag={() =>
+                        router.push(
+                          freshnessOf(it.expiry) === 'overdue'
+                            ? { pathname: '/account/pantry/overdue', params: { id: it.id } }
+                            : '/account/pantry/soon',
+                        )
                       }
                       onAction={() =>
                         router.push({

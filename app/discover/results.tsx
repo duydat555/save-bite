@@ -16,6 +16,7 @@ import { toRowProps } from '@/features/discovery/offerPresenter';
 import { SearchInputBar } from '@/features/discovery/SearchParts';
 import { useStaggerEntering } from '@/hooks/useEntering';
 import { offerService } from '@/services/offerService';
+import { CUSTOM_CAP, useFilters, type Sort } from '@/store/filterStore';
 import type { OfferWithMerchant } from '@/types';
 import { formatMerchantLine, formatPrice, formatTimeRange } from '@/utils/format';
 import { openOffer } from '@/utils/navigation';
@@ -28,7 +29,9 @@ export default function Results() {
     q,
     max,
     window: win,
-  } = useLocalSearchParams<{ q?: string; max?: string; window?: string }>();
+    f,
+  } = useLocalSearchParams<{ q?: string; max?: string; window?: string; f?: string }>();
+  const filters = useFilters();
   const [results, setResults] = useState<OfferWithMerchant[] | null>(null);
   const [others, setOthers] = useState<OfferWithMerchant[]>([]);
   const entering = useStaggerEntering();
@@ -36,22 +39,34 @@ export default function Results() {
   useEffect(() => {
     let live = true;
     (async () => {
-      const all = (await offerService.listOffers()).filter((o) => o.category !== 'surprise');
+      const everything = await offerService.listOffers();
+      const all = everything.filter((o) => o.category !== 'surprise');
       let found: OfferWithMerchant[];
-      if (q) found = (await offerService.searchOffers(q)).filter((o) => o.category !== 'surprise');
+      if (f) {
+        // SB-023 "Áp dụng bộ lọc": budget, pickup slot and offer kind from the filter store.
+        const cap = filters.budget === 'custom' ? CUSTOM_CAP : filters.budget;
+        found = everything.filter(
+          (o) =>
+            (cap == null || o.priceVnd <= cap) &&
+            (!filters.slot || o.pickupStart === filters.slot.start) &&
+            (filters.kinds.length === 0 ||
+              filters.kinds.includes(o.category === 'surprise' ? 'surprise' : 'specific')),
+        );
+      } else if (q)
+        found = (await offerService.searchOffers(q)).filter((o) => o.category !== 'surprise');
       else if (max) found = all.filter((o) => o.priceVnd <= Number(max));
       else if (win) found = all.filter((o) => o.pickupStart === win);
       else found = all;
       if (!live) return;
-      setResults(found);
+      setResults(sortOffers(found, filters.sort));
       setOthers(all.filter((o) => !found.some((f) => f.id === o.id)));
     })();
     return () => {
       live = false;
     };
-  }, [q, max, win]);
+  }, [q, max, win, f, filters.budget, filters.slot, filters.kinds, filters.sort]);
 
-  const label = q ? `“${q}”` : max ? 'ngân sách' : 'khung giờ';
+  const label = f ? 'phù hợp bộ lọc' : q ? `“${q}”` : max ? 'ngân sách' : 'khung giờ';
 
   if (results === null) {
     return (
@@ -104,12 +119,16 @@ export default function Results() {
 
   /* ---------- SB-021 · results ---------- */
   const first = results[0];
-  const heading = q ? `${results.length} món khớp “${q}”` : `${results.length} món phù hợp`;
+  const heading = f
+    ? `${results.length} món phù hợp bộ lọc`
+    : q
+      ? `${results.length} món khớp “${q}”`
+      : `${results.length} món phù hợp`;
   return (
     <View style={[styles.container, { paddingTop: insets.top + 6 }]}>
       <View style={styles.pad}>
         <SearchInputBar
-          value={q ?? (max ? 'Tối đa 30.000đ' : 'Nhận 17:00–18:00')}
+          value={f ? 'Bộ lọc tìm kiếm' : (q ?? (max ? 'Tối đa 30.000đ' : 'Nhận 17:00–18:00'))}
           onPressField={() => router.back()}
         />
       </View>
@@ -118,9 +137,17 @@ export default function Results() {
         showsVerticalScrollIndicator={false}
       >
         <Text variant="title20">{heading}</Text>
-        <Text variant="captionMeta" color="textSecondary" style={{ marginTop: 16 }}>
-          {`Nhận sau giờ học · ${formatTimeRange(first.pickupStart, first.pickupEnd)}`}
-        </Text>
+        {/* ASSUMPTION: SB-027 (sort sheet) has no trigger drawn on SB-021 → this caption line opens it. */}
+        <PressableScale
+          accessibilityRole="button"
+          accessibilityLabel="Sắp xếp danh sách"
+          onPress={() => router.push('/discover/sort')}
+          style={{ marginTop: 16 }}
+        >
+          <Text variant="captionMeta" color="textSecondary">
+            {`Nhận sau giờ học · ${formatTimeRange(first.pickupStart, first.pickupEnd)}`}
+          </Text>
+        </PressableScale>
         <View style={{ gap: 8, marginTop: 16 }}>
           {results.map((o, i) => (
             <Animated.View key={o.id} entering={entering(i)}>
@@ -149,6 +176,16 @@ export default function Results() {
       </ScrollView>
     </View>
   );
+}
+
+function sortOffers(list: OfferWithMerchant[], sort: Sort) {
+  const by: Record<Sort, (a: OfferWithMerchant, b: OfferWithMerchant) => number> = {
+    distance: (a, b) => (a.merchant.distanceM ?? 1e9) - (b.merchant.distanceM ?? 1e9),
+    earliest: (a, b) => a.pickupStart.localeCompare(b.pickupStart),
+    price: (a, b) => a.priceVnd - b.priceVnd,
+    stock: (a, b) => a.remaining - b.remaining,
+  };
+  return [...list].sort(by[sort]);
 }
 
 /* "Other categories · photo-led" card: 168 wide, photo 112 (r16), title 2 lines, price + pickup lines. */
