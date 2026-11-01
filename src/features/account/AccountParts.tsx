@@ -31,13 +31,22 @@ export function ProfileHeaderCard({
   name,
   area,
   onPress,
+  onLongPress,
 }: {
   name: string;
   area: string;
   onPress?: () => void;
+  /** Hidden dev-hub entry (1.5 s hold). */
+  onLongPress?: () => void;
 }) {
   return (
-    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.profile}>
+    <PressableScale
+      accessibilityRole="button"
+      onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={1500}
+      style={styles.profile}
+    >
       <Avatar size={52} />
       <View style={{ flex: 1, gap: 3 }}>
         <Text variant="priceRow">{name}</Text>

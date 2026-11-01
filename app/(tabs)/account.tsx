@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useRef } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -7,6 +8,7 @@ import { Text } from '@/components/ui/Text';
 import { impactStats } from '@/data/mock/orders';
 import { colors, layout, radius } from '@/design-system/tokens';
 import { ImpactHeroCard, ProfileHeaderCard, SettingsGroup } from '@/features/account/AccountParts';
+import { DEV_ENTRY_ENABLED } from '@/constants/app';
 import { useAccountStore } from '@/store/accountStore';
 import { useSessionStore } from '@/store/sessionStore';
 
@@ -18,11 +20,24 @@ export default function AccountTab() {
   const campus = useAccountStore((s) => s.campus);
   const edit = () => router.push('/account/edit');
 
+  // Hidden dev-hub entries (dev / DEMO_MODE only): 5 quick taps on the title, or hold the profile card 1.5 s.
+  const taps = useRef({ n: 0, at: 0 });
+  const openDev = () => router.push('/dev');
+  const onTitleTap = () => {
+    const now = Date.now();
+    taps.current = { n: now - taps.current.at < 1500 ? taps.current.n + 1 : 1, at: now };
+    if (taps.current.n >= 5) {
+      taps.current.n = 0;
+      openDev();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ height: insets.top }} />
       <LargeTitleBar
         title="Tài khoản"
+        onPressTitle={DEV_ENTRY_ENABLED ? onTitleTap : undefined}
         right={
           <Pressable accessibilityRole="button" onPress={edit} style={styles.edit}>
             <Text variant="link" color="brand900">
@@ -36,6 +51,7 @@ export default function AccountTab() {
           name={user?.displayName ?? 'Khách'}
           area={`${campus} · Bán kính đi bộ 1 km`}
           onPress={edit}
+          onLongPress={DEV_ENTRY_ENABLED ? openDev : undefined}
         />
         <ImpactHeroCard
           onPress={() => router.push('/account/impact')}

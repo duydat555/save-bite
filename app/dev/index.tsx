@@ -1,10 +1,11 @@
-import { Link, router, type Href } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Link, Redirect, router, type Href } from 'expo-router';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Text } from '@/components/ui/Text';
 import { storage } from '@/data/storage';
 import { colors, layout, radius, spacing } from '@/design-system/tokens';
+import { DEV_ENTRY_ENABLED } from '@/constants/app';
 import { resetDemoData } from '@/utils/resetDemo';
 import { orderService } from '@/services/orderService';
 import { useDevFlags } from '@/store/devFlags';
@@ -38,6 +39,7 @@ const LINKS: { label: string; href: Href }[] = [
 
 export default function DevHub() {
   const insets = useSafeAreaInsets();
+  if (!DEV_ENTRY_ENABLED) return <Redirect href="/" />;
   return (
     <ScrollView
       contentContainerStyle={[
@@ -52,6 +54,25 @@ export default function DevHub() {
         Lối tắt để thử từng màn và đặt lại dữ liệu demo
       </Text>
 
+      <Pressable
+        accessibilityRole="button"
+        onPress={() =>
+          Alert.alert(
+            'Đặt lại toàn bộ dữ liệu demo?',
+            'Xóa đăng nhập, tủ thực phẩm, đơn đã giữ chỗ, mục đã lưu, tìm kiếm và cài đặt, rồi quay về màn splash.',
+            [
+              { text: 'Hủy', style: 'cancel' },
+              { text: 'Đặt lại', style: 'destructive', onPress: () => resetDemoData() },
+            ],
+          )
+        }
+        style={styles.reset}
+      >
+        <Text variant="bold15" color="white" style={{ textAlign: 'center' }}>
+          Đặt lại TOÀN BỘ dữ liệu demo
+        </Text>
+      </Pressable>
+
       <View style={styles.links}>
         {LINKS.map((l) => (
           <Link key={l.label} href={l.href} style={styles.link}>
@@ -63,10 +84,6 @@ export default function DevHub() {
       </View>
 
       <View style={styles.links}>
-        <Action
-          label="Đặt lại TOÀN BỘ dữ liệu demo (làm lại từ đầu)"
-          onPress={() => resetDemoData()}
-        />
         <Action
           label="Đăng xuất & xem lại onboarding"
           onPress={async () => {
@@ -171,6 +188,7 @@ function Action({ label, onPress }: { label: string; onPress: () => void }) {
 }
 
 const styles = StyleSheet.create({
+  reset: { height: 56, justifyContent: 'center', borderRadius: 14, backgroundColor: colors.danger },
   container: { paddingHorizontal: layout.screenGutter, gap: spacing[8] },
   links: { marginTop: spacing[16], gap: spacing[12] },
   link: {

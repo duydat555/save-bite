@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useSyncExternalStore } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
+  cancelAnimation,
   FadeIn,
   ZoomIn,
   FadeInDown,
@@ -17,6 +18,7 @@ import Animated, {
 import { SeedActivity } from '@/components/ui/SeedActivity';
 import { SvgIcon } from '@/components/ui/SvgIcon';
 import { Text } from '@/components/ui/Text';
+import { DEV_ENTRY_ENABLED } from '@/constants/app';
 import { duration, easing } from '@/design-system/motion';
 import { colors } from '@/design-system/tokens';
 import { useSessionStore } from '@/store/sessionStore';
@@ -47,16 +49,45 @@ export default function Splash() {
   const reduced = useReducedMotion();
   const out = useSharedValue(1);
 
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const hold = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  // start the exit fade early so navigation lands at SPLASH_MS
+  const schedule = useCallback(
+    (ms: number) => {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        out.value = withTiming(0, { duration: duration.base, easing: easing.exit }, (done) => {
+          if (done) runOnJS(goNext)();
+        });
+      }, ms);
+    },
+    [out],
+  );
+
   useEffect(() => {
     if (!hydrated) return;
-    // start the exit fade early so navigation lands at SPLASH_MS
-    const id = setTimeout(() => {
-      out.value = withTiming(0, { duration: duration.base, easing: easing.exit }, (done) => {
-        if (done) runOnJS(goNext)();
-      });
-    }, SPLASH_MS - duration.base);
-    return () => clearTimeout(id);
-  }, [hydrated, out]);
+    schedule(SPLASH_MS - duration.base);
+    return () => {
+      clearTimeout(timer.current);
+      clearTimeout(hold.current);
+    };
+  }, [hydrated, schedule]);
+
+  // Dev hub: touching the title pauses the auto-advance; holding it for 1.2 s opens the hub, releasing early resumes.
+  const pressIn = () => {
+    if (!DEV_ENTRY_ENABLED) return;
+    clearTimeout(timer.current);
+    cancelAnimation(out);
+    // eslint-disable-next-line react-hooks/immutability -- Reanimated shared values are mutable by design
+    out.value = 1;
+    hold.current = setTimeout(() => router.push('/dev'), 1200);
+  };
+  const pressOut = () => {
+    if (!DEV_ENTRY_ENABLED) return;
+    clearTimeout(hold.current);
+    schedule(SPLASH_MS - duration.base);
+  };
 
   const container = useAnimatedStyle(() => ({ opacity: out.value }));
 
@@ -91,9 +122,9 @@ export default function Splash() {
       >
         <SvgIcon name="bag-mark-cream" size={112} />
       </Animated.View>
-      {/* Dev hub shortcut: long-press the title (not part of the design) */}
+      {/* Dev hub shortcut: hold the title 1.2 s (not part of the design; dev / DEMO_MODE only) */}
       <Animated.View entering={enter(120, 10)} style={[styles.center, { top: 422 }]}>
-        <Pressable onLongPress={() => router.push('/dev')} delayLongPress={1200}>
+        <Pressable onPressIn={pressIn} onPressOut={pressOut}>
           <Text variant="splashTitle" color="canvas" style={styles.centerText}>
             SaveBite
           </Text>
