@@ -1,19 +1,18 @@
 import { router, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ActionSheetIOS, ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/ui/Button';
 import { GlassButton } from '@/components/ui/GlassButton';
-import { GlassMenu } from '@/components/ui/GlassMenu';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { SvgIcon } from '@/components/ui/SvgIcon';
 import { Text } from '@/components/ui/Text';
 import { categoryMeta, storageLabel } from '@/constants/pantry';
 import { colors, layout, radius } from '@/design-system/tokens';
-import { PantryItemRow, PantryOverviewHero, PopupButton } from '@/features/pantry/PantryParts';
+import { FilterPopup, PantryItemRow, PantryOverviewHero } from '@/features/pantry/PantryParts';
 import { useStaggerEntering } from '@/hooks/useEntering';
 import { useAccountStore } from '@/store/accountStore';
 import { usePantryDraft } from '@/store/pantryDraft';
@@ -47,7 +46,6 @@ export default function PantryTab() {
   const setDraft = usePantryDraft((s) => s.set);
   const [expiry, setExpiry] = useState('Tất cả');
   const [storage, setStorage] = useState('Tất cả');
-  const [menu, setMenu] = useState<null | 'expiry' | 'storage' | 'actions'>(null);
   const entering = useStaggerEntering();
 
   // SB-074: first visit to this tab shows the Pantry introduction once (ASSUMPTION — Figma draws no entry point).
@@ -77,6 +75,16 @@ export default function PantryTab() {
     router.push('/account/pantry/add');
   };
 
+  // The "…" menu is not drawn in Figma → native action sheet listing the two destinations.
+  const openMenu = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      { options: [...ACTIONS, 'Đóng'], cancelButtonIndex: ACTIONS.length },
+      (i) => {
+        if (i === 0) router.push('/account/pantry/history');
+        if (i === 1) router.push('/account/pantry/data');
+      },
+    );
+
   const empty = items.length === 0;
 
   return (
@@ -101,7 +109,7 @@ export default function PantryTab() {
           symbol="ellipsis"
           accessibilityLabel="Lịch sử và dữ liệu trên máy"
           size={44}
-          onPress={() => setMenu('actions')}
+          onPress={openMenu}
           style={empty ? styles.ellipsisEmpty : undefined}
         />
       </View>
@@ -121,17 +129,19 @@ export default function PantryTab() {
               <PantryOverviewHero count={items.length} />
             </Animated.View>
             <Animated.View entering={entering(1)} style={styles.filters}>
-              <PopupButton
+              <FilterPopup
                 label="Hạn dùng"
                 value={expiry}
+                options={Object.keys(EXPIRY)}
+                onChange={setExpiry}
                 width={173}
-                onPress={() => setMenu('expiry')}
               />
-              <PopupButton
+              <FilterPopup
                 label="Nơi cất"
                 value={storage}
+                options={Object.keys(STORAGE)}
+                onChange={setStorage}
                 width={172}
-                onPress={() => setMenu('storage')}
               />
             </Animated.View>
             <Text variant="bold15" style={styles.section}>
@@ -172,44 +182,6 @@ export default function PantryTab() {
           </>
         )}
       </ScrollView>
-
-      <GlassMenu
-        visible={menu === 'expiry'}
-        onClose={() => setMenu(null)}
-        x={20}
-        y={268}
-        items={Object.keys(EXPIRY)}
-        selected={expiry}
-        system
-        onSelect={(v) => {
-          setExpiry(v);
-          setMenu(null);
-        }}
-      />
-      <GlassMenu
-        visible={menu === 'storage'}
-        onClose={() => setMenu(null)}
-        x={135}
-        y={268}
-        items={Object.keys(STORAGE)}
-        selected={storage}
-        system
-        onSelect={(v) => {
-          setStorage(v);
-          setMenu(null);
-        }}
-      />
-      <GlassMenu
-        visible={menu === 'actions'}
-        onClose={() => setMenu(null)}
-        x={135}
-        y={115}
-        items={ACTIONS}
-        onSelect={(v) => {
-          setMenu(null);
-          router.push(v === ACTIONS[0] ? '/account/pantry/history' : '/account/pantry/data');
-        }}
-      />
     </View>
   );
 }

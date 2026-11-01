@@ -1,11 +1,14 @@
 import { SymbolView } from 'expo-symbols';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { PressableScale } from '@/components/ui/PressableScale';
 import { SvgIcon } from '@/components/ui/SvgIcon';
 import { Text } from '@/components/ui/Text';
 import { freshnessLabel, storageLabel } from '@/constants/pantry';
 import type { SvgName } from '@/design-system/icons/svg-data';
+import { duration } from '@/design-system/motion';
 import { colors, radius } from '@/design-system/tokens';
 import type { PantryFreshness, PantryItem } from '@/types';
 import { expiryCaption, freshnessOf } from '@/utils/pantry';
@@ -83,33 +86,56 @@ export function PantryItemRow({
   );
 }
 
-/** Apple27 pop-up button (173×44 / 172×44): "Hạn dùng: Tất cả ⌃⌄" in SF Pro Semibold 13. The menu is a GlassMenu. */
-export function PopupButton({
+/* "Hạn dùng: Tất cả ⌃⌄" popup button (173×44) with a small floating option menu. */
+export function FilterPopup({
   label,
   value,
+  options,
+  onChange,
   width,
-  onPress,
 }: {
   label: string;
   value: string;
+  options: string[];
+  onChange: (v: string) => void;
   width: number;
-  onPress: () => void;
 }) {
+  const [open, setOpen] = useState(false);
   return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityLabel={`${label}: ${value}`}
-      onPress={onPress}
-      style={[styles.popup, { width }]}
-    >
-      <Text variant="popupSystem">{`${label}: ${value}`}</Text>
-      <SymbolView
-        name="chevron.up.chevron.down"
-        size={12}
-        weight="semibold"
-        tintColor={colors.textPrimary}
-      />
-    </PressableScale>
+    <View style={{ width }}>
+      <PressableScale accessibilityRole="button" onPress={() => setOpen(true)} style={styles.popup}>
+        <Text variant="linkMedium14">{`${label}: ${value}`}</Text>
+        <SymbolView name="chevron.up.chevron.down" size={13} tintColor={colors.textPrimary} />
+      </PressableScale>
+      <Modal transparent visible={open} animationType="none" onRequestClose={() => setOpen(false)}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={() => setOpen(false)}>
+          <Animated.View
+            entering={FadeIn.duration(duration.fast)}
+            exiting={FadeOut.duration(duration.fast)}
+            style={styles.menu}
+          >
+            {options.map((o) => (
+              <Pressable
+                key={o}
+                accessibilityRole="menuitem"
+                onPress={() => {
+                  onChange(o);
+                  setOpen(false);
+                }}
+                style={styles.menuItem}
+              >
+                <Text variant="linkMedium14" color={o === value ? 'brand900' : 'textPrimary'}>
+                  {o}
+                </Text>
+                {o === value ? (
+                  <SymbolView name="checkmark" size={14} tintColor={colors.brand900} />
+                ) : null}
+              </Pressable>
+            ))}
+          </Animated.View>
+        </Pressable>
+      </Modal>
+    </View>
   );
 }
 
@@ -169,5 +195,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderDefault,
     backgroundColor: colors.white,
+  },
+  menu: {
+    position: 'absolute',
+    left: 20,
+    top: 268,
+    width: 238,
+    paddingVertical: 6,
+    borderRadius: 14,
+    backgroundColor: colors.white,
+    shadowColor: colors.textPrimary,
+    shadowOpacity: 0.18,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 8 },
+  },
+  menuItem: {
+    height: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
   },
 });
