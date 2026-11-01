@@ -25,6 +25,11 @@ export default function OrderDirections() {
   const [res, setRes] = useState<ReservationWithOffer | null>(null);
   const map = useRef<MapView>(null);
   const coord = res?.offer.merchant.coord;
+  // the map mounts before the merchant is loaded → move the camera when its coordinate arrives
+  useEffect(() => {
+    if (coord)
+      map.current?.animateToRegion({ ...coord, latitudeDelta: 0.004, longitudeDelta: 0.004 }, 450);
+  }, [coord]);
   useEffect(() => {
     orderService.getReservation(id).then((r) => setRes(r ?? null));
   }, [id]);

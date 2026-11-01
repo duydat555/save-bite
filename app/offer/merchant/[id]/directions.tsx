@@ -23,6 +23,11 @@ export default function MerchantDirections() {
   const [merchant, setMerchant] = useState<Merchant | null>(null);
   const map = useRef<MapView>(null);
   const coord = merchant?.coord;
+  // the map mounts before the merchant is loaded → move the camera when its coordinate arrives
+  useEffect(() => {
+    if (coord)
+      map.current?.animateToRegion({ ...coord, latitudeDelta: 0.004, longitudeDelta: 0.004 }, 450);
+  }, [coord]);
 
   useEffect(() => {
     offerService
