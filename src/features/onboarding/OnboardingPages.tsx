@@ -4,7 +4,9 @@ import { StyleSheet, View } from 'react-native';
 
 import { OfferCard } from '@/components/features/OfferCard';
 import { SvgIcon } from '@/components/ui/SvgIcon';
+import { AppMap } from '@/components/features/MapView';
 import { Text } from '@/components/ui/Text';
+import { CAMPUS } from '@/data/mock/mapPins';
 import { colors, radius } from '@/design-system/tokens';
 
 // Figma: SB-002 / SB-003 / SB-004. Stage = 353×340 at x=20,y=115; copy block = 353×192 at y=476.
@@ -50,9 +52,10 @@ function MapStage() {
         styles.mapBorder,
       ]}
     >
-      <Image
-        source={require('@assets/images/onboarding/campus-map.png')}
-        contentFit="cover"
+      {/* real map, no gestures: the pager keeps its own horizontal swipes (docs/12-MAP-AUDIT.md) */}
+      <AppMap
+        mode="preview"
+        region={{ ...CAMPUS, latitudeDelta: 0.0075, longitudeDelta: 0.0075 }}
         style={styles.mapImage}
       />
       <View style={[styles.pin, styles.pinPrimary]}>

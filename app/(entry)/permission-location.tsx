@@ -1,9 +1,10 @@
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AppMap } from '@/components/features/MapView';
 import { Button } from '@/components/ui/Button';
+import { CAMPUS } from '@/data/mock/mapPins';
 import { SvgIcon } from '@/components/ui/SvgIcon';
 import { Text } from '@/components/ui/Text';
 import { colors, layout } from '@/design-system/tokens';
@@ -20,9 +21,9 @@ export default function PermissionLocation() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.map}>
-          <Image
-            source={require('@assets/images/account/map-canvas.png')}
-            contentFit="cover"
+          <AppMap
+            mode="preview"
+            region={{ ...CAMPUS, latitudeDelta: 0.0075, longitudeDelta: 0.0075 }}
             style={StyleSheet.absoluteFill}
           />
           <View style={styles.pin}>

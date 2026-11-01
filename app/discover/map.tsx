@@ -2,7 +2,8 @@ import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
-import MapView, { Marker, type Region } from 'react-native-maps';
+import type MapView from 'react-native-maps';
+import { Marker, type Region } from 'react-native-maps';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,13 +15,14 @@ import { CAMPUS, INITIAL_DELTA, MAP_PINS, USER_SPOT } from '@/data/mock/mapPins'
 import { duration, mapMotion } from '@/design-system/motion';
 import { colors } from '@/design-system/tokens';
 import {
+  AppMap,
   ClusterBubble,
   MapChip,
   MapControlGroup,
   MapDisclosure,
   PricePin,
   UserDot,
-} from '@/features/discovery/MapParts';
+} from '@/components/features/MapView';
 import { toRowProps } from '@/features/discovery/offerPresenter';
 import { SearchInputBar } from '@/features/discovery/SearchParts';
 import { offerService } from '@/services/offerService';
@@ -64,7 +66,6 @@ export default function MapScreen() {
   const [offers, setOffers] = useState<Record<string, OfferWithMerchant>>({});
   const [selected, setSelected] = useState('offer-banh-mi-men-tu-nhien');
   const [index, setIndex] = useState(0);
-  const [ready, setReady] = useState(false);
   const [standard, setStandard] = useState(false);
   const [locating, setLocating] = useState(false);
   const [region, setRegion] = useState<Region>({ ...CAMPUS, ...INITIAL_DELTA });
@@ -136,23 +137,15 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-      <MapView
+      <AppMap
         ref={map}
+        mode="full"
         style={StyleSheet.absoluteFill}
-        initialRegion={{ ...CAMPUS, ...INITIAL_DELTA }}
         mapType={standard ? 'standard' : 'mutedStandard'}
-        userInterfaceStyle="light"
-        showsPointsOfInterests={false}
-        showsCompass={false}
-        showsScale={false}
-        showsBuildings={false}
-        showsTraffic={false}
-        rotateEnabled={false}
-        pitchEnabled={false}
+        region={{ ...CAMPUS, ...INITIAL_DELTA }}
         // keeps Apple's logo / legal text and the map centre above the peek sheet + tab bar, under the chrome
         mapPadding={{ top: insets.top + 112, right: 0, bottom: PEEK + bottomOffset, left: 0 }}
         onMapReady={() => {
-          setReady(true);
           bumpTracking();
         }}
         onRegionChangeComplete={(r) => {
@@ -165,50 +158,48 @@ export default function MapScreen() {
             setLocating(false);
         }}
       >
-        {ready ? (
-          <>
-            <Marker
-              coordinate={USER_SPOT}
-              anchor={{ x: 0.5, y: 0.5 }}
-              tracksViewChanges
-              zIndex={1}
-              tappable={false}
-            >
-              <UserDot />
-            </Marker>
-            {clusters.map((c, i) =>
-              c.ids.length > 1 ? (
-                <Marker
-                  key={`c-${c.id}`}
-                  coordinate={c}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  tracksViewChanges={tracking}
-                  onPress={() => zoomInto(c)}
-                  zIndex={3}
-                >
-                  <ClusterBubble count={c.ids.length} />
-                </Marker>
-              ) : (
-                <Marker
-                  key={`p-${c.id}`}
-                  coordinate={c}
-                  anchor={{ x: 0.5, y: 1 }}
-                  tracksViewChanges={tracking}
-                  onPress={() => selectPin(c.ids[0])}
-                  zIndex={c.ids[0] === selected ? 4 : 2}
-                >
-                  <PricePin
-                    label={offers[c.ids[0]] ? formatPrice(offers[c.ids[0]].priceVnd) : ' '}
-                    selected={c.ids[0] === selected}
-                    dimmed={(offers[c.ids[0]]?.remaining ?? 1) === 0}
-                    delay={i * mapMotion.pinStagger}
-                  />
-                </Marker>
-              ),
-            )}
-          </>
-        ) : null}
-      </MapView>
+        <>
+          <Marker
+            coordinate={USER_SPOT}
+            anchor={{ x: 0.5, y: 0.5 }}
+            tracksViewChanges
+            zIndex={1}
+            tappable={false}
+          >
+            <UserDot />
+          </Marker>
+          {clusters.map((c, i) =>
+            c.ids.length > 1 ? (
+              <Marker
+                key={`c-${c.id}`}
+                coordinate={c}
+                anchor={{ x: 0.5, y: 0.5 }}
+                tracksViewChanges={tracking}
+                onPress={() => zoomInto(c)}
+                zIndex={3}
+              >
+                <ClusterBubble count={c.ids.length} />
+              </Marker>
+            ) : (
+              <Marker
+                key={`p-${c.id}`}
+                coordinate={c}
+                anchor={{ x: 0.5, y: 1 }}
+                tracksViewChanges={tracking}
+                onPress={() => selectPin(c.ids[0])}
+                zIndex={c.ids[0] === selected ? 4 : 2}
+              >
+                <PricePin
+                  label={offers[c.ids[0]] ? formatPrice(offers[c.ids[0]].priceVnd) : ' '}
+                  selected={c.ids[0] === selected}
+                  dimmed={(offers[c.ids[0]]?.remaining ?? 1) === 0}
+                  delay={i * mapMotion.pinStagger}
+                />
+              </Marker>
+            ),
+          )}
+        </>
+      </AppMap>
 
       {/* FloatingMapTopChrome */}
       <View style={[styles.search, { top: insets.top + 8 }]}>

@@ -33,6 +33,11 @@ const LINKS: { label: string; href: Href }[] = [
   { label: 'Gợi ý từ tủ (SB-088) →', href: '/account/pantry/suggestions' },
   { label: 'Thông báo (SB-095/096) →', href: '/account/notifications' },
   { label: 'Nhận sớm (SB-031) →', href: '/discover/urgent' },
+  // Màn có bản đồ thật (docs/12-MAP-AUDIT.md)
+  { label: 'Bản đồ (SB-016/017) →', href: '/discover/map' },
+  { label: 'Quanh trường (SB-032, bản đồ card) →', href: '/discover/nearby' },
+  { label: 'Vị trí cửa hàng (SB-039) →', href: '/offer/merchant/merchant-tiem-banh-a/directions' },
+  { label: 'Lưu khu vực (SB-094, vòng bán kính) →', href: '/account/areas/add' },
   { label: 'Quyền vị trí (SB-011) →', href: '/(entry)/permission-location' },
   { label: 'Quyền thông báo (SB-012) →', href: '/(entry)/permission-notifications' },
 ];

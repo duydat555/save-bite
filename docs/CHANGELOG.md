@@ -102,3 +102,10 @@
 - **SB-083/084/086/087/088/089:** khoảng cách khối theo metadata (gap 20, hàng 72/80), banner pad 16, lựa chọn lý do dùng nền forest + dấu tích khi chọn, thẻ lịch sử 88 cao.
 - **Vị trí nút CTA (dock):** Figma đặt cạnh dưới nút cách vạch home 36–44pt tuỳ màn; trước đây cố định 20 → nút thấp hơn Figma ~16pt. Đã sửa theo từng màn.
 - **Luồng Pantry (đã xác nhận):** bấm tab Tủ thực phẩm → SB-074 giới thiệu → "Bắt đầu với tủ của tôi" → SB-076 (tủ trống) → thêm món → SB-075. Tủ mặc định **trống**; dev hub "Nạp 7 món mẫu" để xem SB-075 ngay.
+
+## 2026-11-02 — Thay toàn bộ bản đồ tĩnh bằng bản đồ thật
+
+- Kiểm kê (docs/12-MAP-AUDIT.md): 7 frame có vùng bản đồ — SB-003, 011, 016/017, 032, 039, 065, 094. Tất cả dùng `AppMap` (3 chế độ `full`/`card`/`preview`); xóa `campus-map.png`, `map-canvas.png`, `radius-1000.png` và các ghim vẽ tay; bản gốc vẫn ở `assets/figma-reference/`.
+- Tọa độ cửa hàng dùng chung (`merchant.coord`); SB-039/065 có `PricePin` "Điểm nhận" + nút "Chỉ đường" mở Apple Maps; SB-094 vẽ vòng bán kính thật bằng `Circle`.
+- Test chặn quay lại ảnh bản đồ tĩnh: `__tests__/no-static-maps.test.ts`. Thêm `@types/node` cho test. Dev hub có lối tắt tới các màn có bản đồ.
+- Kiểm tra: tsc, eslint, jest (13), expo-doctor 20/20, bundle iOS OK. Chưa chạy trên thiết bị.

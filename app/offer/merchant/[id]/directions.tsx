@@ -1,23 +1,28 @@
-import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppBar } from '@/components/ui/AppBar';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { colors } from '@/design-system/tokens';
-import { MapDisclosure } from '@/features/discovery/MapParts';
+import { AppMap, MapControlGroup, MapDisclosure, PricePin } from '@/components/features/MapView';
+import { CAMPUS } from '@/data/mock/mapPins';
+import { openDirections } from '@/utils/maps';
 import { offerService } from '@/services/offerService';
 import type { Merchant } from '@/types';
 
-// SB-039 · Đường tới cửa hàng · Walking Map. Static map + "Điểm nhận" pin; the route sheet starts at y=514.
-// The map is an illustration ("Ghim mẫu · Chưa xác minh vị trí"), not a real route.
+// SB-039 · Đường tới cửa hàng · Walking Map: real map (AppMap, full) with the "Điểm nhận" pin at the merchant's shared
+// coordinate; the route sheet starts at y=514. Controls: "Chỉ đường" opens Apple Maps. Position is a demo ("Ghim mẫu").
 export default function MerchantDirections() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [merchant, setMerchant] = useState<Merchant | null>(null);
+  const map = useRef<MapView>(null);
+  const coord = merchant?.coord;
 
   useEffect(() => {
     offerService
@@ -27,27 +32,50 @@ export default function MerchantDirections() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('@assets/images/onboarding/campus-map.png')}
-        contentFit="cover"
-        style={styles.map}
-      />
+      <AppMap
+        ref={map}
+        mode="full"
+        style={StyleSheet.absoluteFill}
+        region={{ ...(coord ?? CAMPUS), latitudeDelta: 0.004, longitudeDelta: 0.004 }}
+        mapPadding={{ top: insets.top + 56, right: 0, bottom: 852 - 514, left: 0 }}
+      >
+        {coord ? (
+          <Marker coordinate={coord} anchor={{ x: 0.5, y: 1 }} tracksViewChanges={false}>
+            <PricePin label="Điểm nhận" selected />
+          </Marker>
+        ) : null}
+      </AppMap>
       {/* AppBar sits on an opaque canvas strip above the map (Figma: map starts below the bar) */}
       <View style={{ backgroundColor: colors.canvas }}>
         <View style={{ height: insets.top }} />
         <AppBar title="Vị trí cửa hàng" />
       </View>
 
-      <View style={styles.pin}>
-        <View style={styles.pinBody}>
-          <Text variant="semi14" color="white">
-            Điểm nhận
-          </Text>
-        </View>
-        <View style={styles.pinTail} />
-      </View>
       <View style={styles.disclosure}>
         <MapDisclosure text="Vị trí và khoảng cách tham khảo" />
+      </View>
+
+      <View style={[styles.controls, { top: insets.top + 72 }]}>
+        <MapControlGroup
+          items={[
+            {
+              symbol: 'arrow.triangle.turn.up.right.diamond',
+              label: 'Chỉ đường',
+              onPress: () =>
+                coord && openDirections(coord.latitude, coord.longitude, merchant?.name),
+            },
+            {
+              symbol: 'scope',
+              label: 'Về cửa hàng',
+              onPress: () =>
+                coord &&
+                map.current?.animateToRegion(
+                  { ...coord, latitudeDelta: 0.004, longitudeDelta: 0.004 },
+                  450,
+                ),
+            },
+          ]}
+        />
       </View>
 
       <View style={[styles.sheet, { paddingBottom: insets.bottom }]}>
@@ -73,23 +101,7 @@ export default function MerchantDirections() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  map: { position: 'absolute', left: 0, top: 0, right: 0, height: 540 },
-  pin: { position: 'absolute', left: 218, top: 397, width: 92, alignItems: 'center' },
-  pinBody: {
-    height: 32,
-    width: 92,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 16,
-    backgroundColor: colors.price,
-  },
-  pinTail: {
-    width: 10,
-    height: 10,
-    marginTop: -5,
-    transform: [{ rotate: '45deg' }],
-    backgroundColor: colors.price,
-  },
+  controls: { position: 'absolute', right: 20 },
   disclosure: { position: 'absolute', left: 16, top: 470 },
   sheet: {
     position: 'absolute',

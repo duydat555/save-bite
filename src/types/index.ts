@@ -14,6 +14,7 @@ export type Merchant = {
   name: string; // "Tiệm Bánh A"
   distanceM?: number; // 450 → "450m"; unknown for some merchants in Figma
   photo?: number; // storefront photo on the merchant page (SB-038)
+  coord?: { latitude: number; longitude: number }; // demo coordinate shared by every map screen
   pickupPoint?: string; // "Điểm nhận A · ĐH Đà Nẵng · 450m" (SB-034 / SB-056); only known for Tiệm Bánh A
 };
 

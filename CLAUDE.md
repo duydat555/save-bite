@@ -34,7 +34,7 @@ npx expo install <pkg>    # LUÔN dùng cho gói Expo/RN
 
 - Expo SDK 58, chỉ thư viện có sẵn trong Expo Go. Cấm `expo prebuild`, dev client, native module tùy chỉnh.
 - Routing: Expo Router, routes ở `app/` (root). Code không phải route nằm trong `src/`. Có thêm `app/discover/` cho các màn khám phá ngoài tab (map, search, filters, category, saved…).
-- Liquid Glass → `expo-blur` (BlurView + viền trắng mờ + shadow nhẹ). Bản đồ (SB-016/017) → **Apple Maps thật qua `react-native-maps`** (chạy trong Expo Go; yêu cầu mới của chủ dự án, thay cho ảnh tĩnh). Các nơi khác (onboarding, đường tới cửa hàng) vẫn dùng ảnh tĩnh Figma.
+- Liquid Glass → `expo-blur` (BlurView + viền trắng mờ + shadow nhẹ). Bản đồ (SB-016/017) → **Apple Maps thật qua `react-native-maps`** (chạy trong Expo Go; yêu cầu mới của chủ dự án, thay cho ảnh tĩnh). Không còn ảnh bản đồ tĩnh nào (xem docs/12-MAP-AUDIT.md).
 - Kính: dùng `GlassSurface` (GlassView iOS 26 / fallback BlurView). Chuyển động: mọi giá trị lấy từ `src/design-system/motion.ts`, tôn trọng Reduce Motion, không animate layout trên JS thread (xem `docs/11-MOTION-SPEC.md`).
 - Font: Be Vietnam Pro (UI), **Fraunces Bold (serif) cho tiêu đề editorial onboarding/xác minh email**, JetBrains Mono (mã nhận). Tab bar tự dựng: `expo-router/js-tabs`.
 - **Vòng 1 chỉ gồm luồng demo chính.** Không làm sheet, màn trạng thái, Pantry khi user chưa duyệt Vòng 1. Trước khi dựng mỗi màn: tải screenshot Figma vào `assets/figma-reference/`. Chỗ không chắc về prototype → liệt kê hỏi user, không tự đoán.

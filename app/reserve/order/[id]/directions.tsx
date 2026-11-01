@@ -1,7 +1,8 @@
-import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { OfferListRow } from '@/components/features/OfferListRow';
@@ -9,16 +10,21 @@ import { AppBar } from '@/components/ui/AppBar';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
 import { colors, layout, radius } from '@/design-system/tokens';
-import { MapDisclosure } from '@/features/discovery/MapParts';
+import { AppMap, MapControlGroup, MapDisclosure, PricePin } from '@/components/features/MapView';
+import { CAMPUS } from '@/data/mock/mapPins';
+import { openDirections } from '@/utils/maps';
 import { orderService } from '@/services/orderService';
 import type { ReservationWithOffer } from '@/types';
 import { formatPrice, formatTimeRange } from '@/utils/format';
 
-// SB-065 · Directions · Active Order ("Điểm nhận"): static map, floating merchant card, pin, order peek sheet.
+// SB-065 · Directions · Active Order ("Điểm nhận"): real map (AppMap, full), floating merchant card, shared-coordinate
+// "Điểm nhận" pin, order peek sheet; "Chỉ đường" opens Apple Maps.
 export default function OrderDirections() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [res, setRes] = useState<ReservationWithOffer | null>(null);
+  const map = useRef<MapView>(null);
+  const coord = res?.offer.merchant.coord;
   useEffect(() => {
     orderService.getReservation(id).then((r) => setRes(r ?? null));
   }, [id]);
@@ -26,11 +32,19 @@ export default function OrderDirections() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('@assets/images/onboarding/campus-map.png')}
-        contentFit="cover"
-        style={styles.map}
-      />
+      <AppMap
+        ref={map}
+        mode="full"
+        style={StyleSheet.absoluteFill}
+        region={{ ...(coord ?? CAMPUS), latitudeDelta: 0.004, longitudeDelta: 0.004 }}
+        mapPadding={{ top: insets.top + 56, right: 0, bottom: 852 - 515, left: 0 }}
+      >
+        {coord ? (
+          <Marker coordinate={coord} anchor={{ x: 0.5, y: 1 }} tracksViewChanges={false}>
+            <PricePin label="Điểm nhận" selected />
+          </Marker>
+        ) : null}
+      </AppMap>
       <View style={{ backgroundColor: 'rgba(255,252,246,0.9)' }}>
         <View style={{ height: insets.top }} />
         <AppBar title="Điểm nhận" />
@@ -41,16 +55,31 @@ export default function OrderDirections() {
         <Text variant="rowSub" color="textSecondary">{`Hôm nay · ${range}`}</Text>
       </View>
 
-      <View style={styles.pin}>
-        <View style={styles.pinBody}>
-          <Text variant="semi14" color="white">
-            Điểm nhận
-          </Text>
-        </View>
-        <View style={styles.pinTail} />
-      </View>
       <View style={styles.disclosure}>
         <MapDisclosure text="Vị trí và khoảng cách tham khảo" />
+      </View>
+
+      <View style={[styles.controls, { top: insets.top + 150 }]}>
+        <MapControlGroup
+          items={[
+            {
+              symbol: 'arrow.triangle.turn.up.right.diamond',
+              label: 'Chỉ đường',
+              onPress: () =>
+                coord && openDirections(coord.latitude, coord.longitude, res?.offer.merchant.name),
+            },
+            {
+              symbol: 'scope',
+              label: 'Về điểm nhận',
+              onPress: () =>
+                coord &&
+                map.current?.animateToRegion(
+                  { ...coord, latitudeDelta: 0.004, longitudeDelta: 0.004 },
+                  450,
+                ),
+            },
+          ]}
+        />
       </View>
 
       <View style={[styles.sheet, { paddingBottom: insets.bottom + 20 }]}>
@@ -81,7 +110,7 @@ export default function OrderDirections() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  map: { position: 'absolute', left: 0, top: 0, right: 0, height: 540 },
+  controls: { position: 'absolute', right: 20 },
   floating: {
     position: 'absolute',
     left: layout.screenGutter,
@@ -93,22 +122,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderDefault,
     backgroundColor: colors.canvas,
-  },
-  pin: { position: 'absolute', left: 218, top: 397, width: 92, alignItems: 'center' },
-  pinBody: {
-    height: 32,
-    width: 92,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 16,
-    backgroundColor: colors.price,
-  },
-  pinTail: {
-    width: 10,
-    height: 10,
-    marginTop: -5,
-    transform: [{ rotate: '45deg' }],
-    backgroundColor: colors.price,
   },
   disclosure: { position: 'absolute', left: 16, top: 470 },
   sheet: {

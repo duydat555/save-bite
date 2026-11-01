@@ -1,5 +1,3 @@
-import * as Haptics from 'expo-haptics';
-import { SymbolView, type SFSymbol } from 'expo-symbols';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
@@ -13,27 +11,26 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { GlassSurface } from '@/components/ui/GlassSurface';
-import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { duration, easing, mapMotion } from '@/design-system/motion';
-import { colors, radius } from '@/design-system/tokens';
+import { colors } from '@/design-system/tokens';
 
 /**
- * Price pin for the real map (Marker child). Figma MapPricePin: brand900 pill 88×43 with a white rim and white price,
- * selected = Rescue Price fill. Added for the native map: a small tail anchoring the pin, two soft shadow layers, tabular
- * digits, a staggered scale-in (`delay`) and a spring to ×1.12 when selected. `dimmed` (sold out) fades to 0.5.
+ * Price / pickup pin (Marker child). Figma MapPricePin: brand900 pill 88×43 with a white rim and white label, selected =
+ * Rescue Price fill (SB-039 / SB-065 "Điểm nhận" uses the selected colour). Added for the native map: a small tail
+ * anchoring the pin, two soft shadow layers, tabular digits, a staggered scale-in (`delay`) and a spring to ×1.12 when
+ * selected. `dimmed` (sold out) fades to 0.5.
  */
 export function PricePin({
   label,
   selected,
   dimmed,
-  delay,
+  delay = 0,
 }: {
   label: string;
   selected: boolean;
   dimmed?: boolean;
-  delay: number;
+  delay?: number;
 }) {
   const reduced = useReducedMotion();
   const appear = useSharedValue(0);
@@ -116,83 +113,6 @@ export function UserDot() {
   );
 }
 
-/** Vertical Liquid Glass control group (Apple Maps): 46pt buttons separated by a hairline. */
-export function MapControlGroup({
-  items,
-}: {
-  items: { symbol: SFSymbol; label: string; active?: boolean; onPress: () => void }[];
-}) {
-  return (
-    <GlassSurface variant="bar" radius={23} style={{ width: 46, height: items.length * 46 }}>
-      <View style={{ flex: 1 }}>
-        {items.map((it, i) => (
-          <PressableScale
-            key={it.label}
-            accessibilityRole="button"
-            accessibilityLabel={it.label}
-            accessibilityState={{ selected: !!it.active }}
-            onPress={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              it.onPress();
-            }}
-            style={[styles.ctrl, i > 0 && styles.ctrlRule]}
-          >
-            <SymbolView
-              name={it.symbol}
-              size={19}
-              weight="medium"
-              tintColor={it.active ? colors.brand900 : colors.textPrimary}
-            />
-          </PressableScale>
-        ))}
-      </View>
-    </GlassSurface>
-  );
-}
-
-/* Floating map chip (113×44 glass pill). `selected` = solid brand900 with white label. */
-export function MapChip({
-  label,
-  selected,
-  width,
-  onPress,
-}: {
-  label: string;
-  selected?: boolean;
-  width: number;
-  onPress?: () => void;
-}) {
-  return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityState={{ selected: !!selected }}
-      onPress={onPress}
-      style={{ width, height: 44 }}
-    >
-      {selected ? (
-        <View style={[styles.chipSolid, { width, height: 44 }]}>
-          <Text variant="semi14" color="white">
-            {label}
-          </Text>
-        </View>
-      ) : (
-        <GlassSurface variant="pill" style={{ width, height: 44 }} interactive>
-          <Text variant="semi14">{label}</Text>
-        </GlassSurface>
-      )}
-    </PressableScale>
-  );
-}
-
-/* Disclosure pill above the sheet (361×28). */
-export function MapDisclosure({ text }: { text: string }) {
-  return (
-    <View style={styles.disclosure} pointerEvents="none">
-      <Text variant="meta">{text}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   tabular: { fontVariant: ['tabular-nums'] },
   pinBox: { width: 100, height: 56, alignItems: 'center', justifyContent: 'flex-start' },
@@ -264,26 +184,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 1 },
-  },
-  ctrl: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
-  ctrlRule: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(9,47,41,0.18)' },
-  chipSolid: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: radius.pill,
-    backgroundColor: colors.brand900,
-    shadowColor: colors.textPrimary,
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-  },
-  disclosure: {
-    width: 361,
-    height: 28,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: radius.input,
-    backgroundColor: 'rgba(255,252,246,0.92)',
   },
 });

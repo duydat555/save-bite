@@ -1,15 +1,17 @@
-import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { StackTabBar } from '@/components/features/GlassTabBar';
+import { AppMap } from '@/components/features/MapView';
 import { Text } from '@/components/ui/Text';
+import { CAMPUS } from '@/data/mock/mapPins';
 import { colors, layout } from '@/design-system/tokens';
 import { CategoryHeader, CategoryRow } from '@/features/discovery/CategoryParts';
 import { offerService } from '@/services/offerService';
 import type { OfferWithMerchant } from '@/types';
 
-// SB-032 · Quanh trường · Walking Distance: dishes sorted by distance under a 124pt static map strip.
+// SB-032 · Quanh trường · Walking Distance: dishes sorted by distance under a 124pt real-map strip (card mode: tap once to
+// enable gestures so the page keeps scrolling).
 // ASSUMPTION (entry): "Xác nhận khu vực" on SB-018 opens it.
 export default function Nearby() {
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
@@ -29,10 +31,9 @@ export default function Nearby() {
     <View style={styles.container}>
       <CategoryHeader title="Quanh trường" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Image
-          source={require('@assets/images/account/map-canvas.png')}
-          contentFit="cover"
-          contentPosition="top"
+        <AppMap
+          mode="card"
+          region={{ ...CAMPUS, latitudeDelta: 0.0075, longitudeDelta: 0.0075 }}
           style={styles.map}
         />
         <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 4 }}>

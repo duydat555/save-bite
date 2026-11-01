@@ -13,7 +13,7 @@
 ## Quyết định đã được duyệt (2026-11-01)
 
 - **Liquid Glass** (nút tròn heart/bell/filter, Tab Bar): xấp xỉ bằng `expo-blur` `BlurView` + nền trắng mờ + viền trắng mờ + shadow nhẹ (`glass` trong tokens, `GlassButton`, `GlassTabBar`). Không giống 100% native.
-- **Bản đồ**: màn SB-016/017 dùng **Apple Maps thật** (`react-native-maps`, có trong Expo Go); ghim/cluster/bottom sheet tự dựng. Các màn khác (onboarding, SB-040/065) vẫn dùng ảnh tĩnh Figma.
+- **Bản đồ**: mọi vùng bản đồ (SB-003, 011, 016/017, 032, 039, 065, 094) dùng **Apple Maps thật** qua `AppMap` (react-native-maps, có trong Expo Go); xem docs/12-MAP-AUDIT.md.
 - **Thêm `app/discover/`** cho các màn khám phá ngoài tab (map, tìm kiếm, kết quả, lọc, danh mục, bộ sưu tập, đã lưu, chọn khu vực). Tab `(tabs)` vẫn giữ 4 tab theo BottomNav.
 - Heading dùng Be Vietnam Pro như Figma (bỏ yêu cầu serif trong brief ban đầu).
 - Tab bar tự dựng (`expo-router/js-tabs` + prop `tabBar`); API mới của expo-router 58: `emitter`, `navigateToTab`, `insets` (không còn `navigation`).

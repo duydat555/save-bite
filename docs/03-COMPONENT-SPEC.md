@@ -52,3 +52,10 @@ Button (52pt, 3 trạng thái gồm Disabled, node 198:215/223/231) · Input Fie
 - **Phosphor Duotone** 32px (thực phẩm): bread, bowl-food, carrot, plant, egg, orange-slice, fish, cheese, grains, jar, snowflake.
 - **SaveBite**: MilkCarton, PickupPass, Pantry.
 - Một số icon trong SB-015 (heart/bell/filter, tab) là **SF Symbols** (`heart`, `bell`, `slider.horizontal.3`, `house.fill`, `document`, `shippingbox`, `person`).
+
+## MapView (`src/components/features/MapView/`)
+
+- `AppMap` — bản đồ thật duy nhất của app (Apple Maps / react-native-maps). Props: `mode` (`full` | `card` | `preview`), `region`, `mapPadding`, `mapType`, `children` (Marker/Circle, chỉ gắn sau `onMapReady`), `overlay`, `onRegionChangeComplete`, ref tới `MapView`. `card`: chạm 1 lần để bật cử chỉ; `preview`: không nhận cử chỉ.
+- `PricePin` / `ClusterBubble` / `UserDot` — ghim giá viên thuốc (Figma: brand900, chọn = màu giá), cụm, chấm người dùng.
+- `MapControlGroup` (nhóm nút kính dọc), `MapChip`, `MapDisclosure`.
+- `openDirections(lat, lng, name)` trong `src/utils/maps.ts`. Tọa độ dùng chung: `src/data/mock/mapPins.ts` (`merchant.coord`).
