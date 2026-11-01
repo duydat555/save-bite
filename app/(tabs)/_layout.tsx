@@ -1,4 +1,3 @@
-import { NativeTabs } from 'expo-router/native-tabs';
 import { Tabs, type BottomTabNavigationOptions } from 'expo-router/js-tabs';
 import { Easing } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -31,36 +30,8 @@ const fadeOnly: Interpolator = ({ current }) => ({
   },
 });
 
-// EXPERIMENTAL (docs/13-LIQUID-GLASS-FEASIBILITY.md): `EXPO_PUBLIC_NATIVE_TABS=true npx expo start` swaps the custom
-// glass tab bar for the system UITabBar (Liquid Glass + native press-and-drag on iOS 26, minimize on scroll). It could not be
-// verified from Windows, so the custom bar (press-hold lens drag) stays the default.
-const NATIVE_TABS = process.env.EXPO_PUBLIC_NATIVE_TABS === 'true';
-
-const NATIVE_ITEMS = [
-  { name: 'index', label: 'Khám phá', sf: { default: 'house', selected: 'house.fill' } },
-  { name: 'orders', label: 'Đơn của tôi', sf: { default: 'doc', selected: 'doc.fill' } },
-  {
-    name: 'pantry',
-    label: 'Tủ thực phẩm',
-    sf: { default: 'shippingbox', selected: 'shippingbox.fill' },
-  },
-  { name: 'account', label: 'Tài khoản', sf: { default: 'person', selected: 'person.fill' } },
-] as const;
-
 export default function TabsLayout() {
   const reduced = useReducedMotion();
-  if (NATIVE_TABS) {
-    return (
-      <NativeTabs minimizeBehavior="onScrollDown" tintColor={colors.brand900}>
-        {NATIVE_ITEMS.map((t) => (
-          <NativeTabs.Trigger key={t.name} name={t.name}>
-            <NativeTabs.Trigger.Icon sf={t.sf} />
-            <NativeTabs.Trigger.Label>{t.label}</NativeTabs.Trigger.Label>
-          </NativeTabs.Trigger>
-        ))}
-      </NativeTabs>
-    );
-  }
   return (
     <Tabs
       tabBar={(props) => <GlassTabBar {...props} />}

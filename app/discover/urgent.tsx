@@ -1,8 +1,6 @@
-import Animated from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { useTabBarScroll } from '@/components/features/tabBarState';
 import { StackTabBar } from '@/components/features/GlassTabBar';
 import { Text } from '@/components/ui/Text';
 import { colors, layout } from '@/design-system/tokens';
@@ -13,7 +11,6 @@ import type { OfferWithMerchant } from '@/types';
 // SB-031 · Nhận sớm · Urgent Rescues: every dish ordered by pickup start. ASSUMPTION (entry): the "Chọn cho chiều nay"
 // title on Khám phá opens it (no link drawn in Figma).
 export default function Urgent() {
-  const onTabBarScroll = useTabBarScroll();
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
   useEffect(() => {
     offerService
@@ -30,12 +27,7 @@ export default function Urgent() {
   return (
     <View style={styles.container}>
       <CategoryHeader title="Nhận sớm" />
-      <Animated.ScrollView
-        onScroll={onTabBarScroll}
-        scrollEventThrottle={16}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30 }}>
           Khung nhận gần nhất
         </Text>
@@ -45,7 +37,7 @@ export default function Urgent() {
         {offers.map((o) => (
           <CategoryRow key={o.id} offer={o} />
         ))}
-      </Animated.ScrollView>
+      </ScrollView>
       <StackTabBar />
     </View>
   );

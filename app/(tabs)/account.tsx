@@ -1,10 +1,8 @@
-import Animated from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useRef } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useTabBarScroll } from '@/components/features/tabBarState';
 import { LargeTitleBar } from '@/components/ui/LargeTitleBar';
 import { Text } from '@/components/ui/Text';
 import { impactStats } from '@/data/mock/orders';
@@ -17,7 +15,6 @@ import { useSessionStore } from '@/store/sessionStore';
 // SB-091 · Profile · Account & Impact Hub → SB-092 (edit), 093, 097, 098, 099, 100, SB-033 (Đã lưu), SB-036 (Dị ứng).
 // ASSUMPTIONS: guest shows "Khách" (SB-091 only shows the logged-in profile); the "Chỉnh sửa" pill style is estimated.
 export default function AccountTab() {
-  const onTabBarScroll = useTabBarScroll();
   const insets = useSafeAreaInsets();
   const user = useSessionStore((s) => s.user);
   const campus = useAccountStore((s) => s.campus);
@@ -49,12 +46,7 @@ export default function AccountTab() {
           </Pressable>
         }
       />
-      <Animated.ScrollView
-        onScroll={onTabBarScroll}
-        scrollEventThrottle={16}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <ProfileHeaderCard
           name={user?.displayName ?? 'Khách'}
           area={`${campus} · Bán kính đi bộ 1 km`}
@@ -119,7 +111,7 @@ export default function AccountTab() {
             },
           ]}
         />
-      </Animated.ScrollView>
+      </ScrollView>
     </View>
   );
 }

@@ -1,11 +1,10 @@
 import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, StyleSheet, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useTabBarScroll } from '@/components/features/tabBarState';
 import { ActiveOrderCard } from '@/components/features/ActiveOrderCard';
 import { BrandHeader } from '@/components/features/BrandHeader';
 import { FeaturedHeroBanner } from '@/components/features/FeaturedHeroBanner';
@@ -34,7 +33,6 @@ const openCategory = (cat: 'bakery' | 'meal' | 'produce') =>
 // SB-013 (guest) / SB-014 (signed in, active order) / SB-015 · Discovery · Rescue Market (logged-in feed). Header 56 below the status bar, scroll area below it.
 // Motion: staggered FadeInDown on first mount (first 8 blocks), skeleton while the mock repo loads, pull-to-refresh.
 export default function DiscoverTab() {
-  const onTabBarScroll = useTabBarScroll();
   const insets = useSafeAreaInsets();
   const user = useSessionStore((s) => s.user);
   const [offers, setOffers] = useState<OfferWithMerchant[] | null>(null);
@@ -83,9 +81,7 @@ export default function DiscoverTab() {
         onPressSaved={() => router.push('/discover/saved')}
         onPressNotifications={() => router.push('/account/notifications')}
       />
-      <Animated.ScrollView
-        onScroll={onTabBarScroll}
-        scrollEventThrottle={16}
+      <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -180,7 +176,7 @@ export default function DiscoverTab() {
               ))}
           </>
         )}
-      </Animated.ScrollView>
+      </ScrollView>
     </View>
   );
 }

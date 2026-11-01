@@ -1,9 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { useTabBarScroll } from '@/components/features/tabBarState';
 import { StackTabBar } from '@/components/features/GlassTabBar';
 import { OfferCard } from '@/components/features/OfferCard';
 import { Text } from '@/components/ui/Text';
@@ -48,7 +47,6 @@ const CONFIG = {
 };
 
 export default function CategoryScreen() {
-  const onTabBarScroll = useTabBarScroll();
   const { cat } = useLocalSearchParams<{ cat?: keyof typeof CONFIG }>();
   const cfg = CONFIG[cat ?? 'meal'] ?? CONFIG.meal;
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
@@ -65,9 +63,7 @@ export default function CategoryScreen() {
   return (
     <View style={styles.container}>
       <CategoryHeader title={cfg.title} />
-      <Animated.ScrollView
-        onScroll={onTabBarScroll}
-        scrollEventThrottle={16}
+      <ScrollView
         contentContainerStyle={categoryStyles.content}
         showsVerticalScrollIndicator={false}
       >
@@ -115,7 +111,7 @@ export default function CategoryScreen() {
             body="Thêm rau vào Tủ thực phẩm sau khi nhận. Hạn dùng do bạn nhập từ nhãn hoặc hướng dẫn cửa hàng."
           />
         ) : null}
-      </Animated.ScrollView>
+      </ScrollView>
       <StackTabBar />
     </View>
   );

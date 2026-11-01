@@ -1,11 +1,10 @@
 import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, StyleSheet, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useTabBarScroll } from '@/components/features/tabBarState';
 import { OfferListRow } from '@/components/features/OfferListRow';
 import { Button } from '@/components/ui/Button';
 import { SvgIcon } from '@/components/ui/SvgIcon';
@@ -34,7 +33,6 @@ const TABS = ['Tất cả', 'Đang chờ', 'Đã nhận'];
 // are the literal Figma fixtures. Empty state (SB-073) is outside Vòng 1.
 // Motion: skeleton while loading, staggered entrance, sliding segmented thumb, pull-to-refresh.
 export default function OrdersTab() {
-  const onTabBarScroll = useTabBarScroll();
   const insets = useSafeAreaInsets();
   // SB-061 (Đang chờ nhận · timeline) is shown once when entered from the active-order strip on Khám phá.
   const view = useUi((s) => (s.ordersPending ? 'pending' : undefined));
@@ -71,9 +69,7 @@ export default function OrdersTab() {
     <View style={styles.container}>
       <View style={{ height: insets.top }} />
       <LargeTitleBar title={view === 'pending' ? 'Đang chờ nhận' : 'Đơn của tôi'} />
-      <Animated.ScrollView
-        onScroll={onTabBarScroll}
-        scrollEventThrottle={16}
+      <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -136,7 +132,7 @@ export default function OrdersTab() {
             ) : null}
           </>
         )}
-      </Animated.ScrollView>
+      </ScrollView>
     </View>
   );
 }
