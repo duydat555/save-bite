@@ -10,8 +10,7 @@ import { ImpactHeroCard, ProfileHeaderCard, SettingsGroup } from '@/features/acc
 import { useAccountStore } from '@/store/accountStore';
 import { useSessionStore } from '@/store/sessionStore';
 
-// SB-091 · Profile · Account & Impact Hub → SB-092 (edit), 093, 097, 098, 099, 100. "Đã lưu" and "Dị ứng & an toàn"
-// have no confirmed target yet (group 01 / 02) and stay inert.
+// SB-091 · Profile · Account & Impact Hub → SB-092 (edit), 093, 097, 098, 099, 100, SB-033 (Đã lưu), SB-036 (Dị ứng).
 // ASSUMPTIONS: guest shows "Khách" (SB-091 only shows the logged-in profile); the "Chỉnh sửa" pill style is estimated.
 export default function AccountTab() {
   const insets = useSafeAreaInsets();
@@ -61,7 +60,12 @@ export default function AccountTab() {
               subtitle: 'Chọn giờ nhận lời nhắc',
               onPress: () => router.push('/account/notification-settings'),
             },
-            { icon: 'heart', title: 'Đã lưu', subtitle: 'Ưu đãi bạn muốn xem lại' },
+            {
+              icon: 'heart',
+              title: 'Đã lưu',
+              subtitle: 'Ưu đãi bạn muốn xem lại',
+              onPress: () => router.navigate('/(tabs)/saved'),
+            },
           ]}
         />
         <SettingsGroup
@@ -77,6 +81,11 @@ export default function AccountTab() {
               icon: 'warning-circle',
               title: 'Dị ứng & an toàn',
               subtitle: 'Đọc thông tin trước khi chọn món',
+              onPress: () =>
+                router.push({
+                  pathname: '/offer/[id]/allergens',
+                  params: { id: 'offer-banh-mi-men-tu-nhien' },
+                }),
             },
             {
               icon: 'info',

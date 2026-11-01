@@ -14,6 +14,7 @@ import { colors, layout, radius } from '@/design-system/tokens';
 import { offerService } from '@/services/offerService';
 import type { OfferWithMerchant } from '@/types';
 import { formatPrice, formatTimeRange } from '@/utils/format';
+import { useSessionStore } from '@/store/sessionStore';
 import { SURPRISE_OFFER_ID } from '@/utils/navigation';
 
 // SB-044 · Túi bánh bất ngờ · Surprise Bag. The wavy wheat line is drawn as a vector (decorative, from the frame).
@@ -93,7 +94,16 @@ export default function SurpriseBag() {
         <Button
           label={`Chọn túi · ${price}`}
           onPress={() =>
-            router.push({ pathname: '/reserve/[offerId]', params: { offerId: SURPRISE_OFFER_ID } })
+            // Guests sign in first (SB-059), then continue to the reservation.
+            useSessionStore.getState().user
+              ? router.push({
+                  pathname: '/reserve/[offerId]',
+                  params: { offerId: SURPRISE_OFFER_ID },
+                })
+              : router.push({
+                  pathname: '/offer/login-required',
+                  params: { id: SURPRISE_OFFER_ID },
+                })
           }
         />
       </View>

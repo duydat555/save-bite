@@ -125,9 +125,11 @@ export default function ReserveSummary() {
             </Animated.View>
           ) : null}
         </View>
-        {/* Allergen details (SB-036) is outside Vòng 1 — inert */}
         <Pressable accessibilityRole="button">
           <AllergenNotice
+            onPress={() =>
+              router.push({ pathname: '/offer/[id]/allergens', params: { id: offer.id } })
+            }
             title="Dị ứng & thành phần: Chưa xác nhận"
             body="Cửa hàng chưa khai báo danh sách dị ứng. Vui lòng hỏi nhân viên tại quầy trước khi nhận."
           />

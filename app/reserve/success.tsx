@@ -123,8 +123,14 @@ export default function ReserveSuccess() {
         }
         style={[styles.footer, { bottom: insets.bottom + 20 }]}
       >
-        {/* Directions (SB-065) is outside Vòng 1 — inert */}
-        <Button label="Chỉ đường" variant="neutral" style={styles.half} />
+        <Button
+          label="Chỉ đường"
+          variant="neutral"
+          style={styles.half}
+          onPress={() =>
+            router.push({ pathname: '/reserve/order/[id]/directions', params: { id } })
+          }
+        />
         <Button label="Xem đơn của tôi" onPress={toOrders} style={styles.half} />
       </Animated.View>
 
