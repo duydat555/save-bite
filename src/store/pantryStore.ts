@@ -25,12 +25,13 @@ const stamp = () => {
   return `19/10 · ${p(d.getHours())}:${p(d.getMinutes())}`;
 };
 
-// First launch starts with the 7 rows shown in Figma SB-075; the dev hub can empty or reset it (SB-076).
+// Flow (confirmed): tab → SB-074 intro → SB-076 empty pantry → add items → SB-075 list. The pantry therefore starts empty;
+// `reset()` loads the 7 sample rows of SB-075 (dev hub "Nạp 7 món mẫu").
 export const usePantryStore = create<PantryState>()(
   persist(
     (set) => ({
-      items: pantrySeed,
-      history: pantryHistorySeed,
+      items: [],
+      history: [],
       add: (item) => {
         const id = `p-${Date.now()}`;
         set((s) => ({

@@ -101,3 +101,4 @@
 - **SB-077/082:** icon Pantry 28, tiêu đề 20/28, lựa chọn nơi cất/số lượng 112×52 radius 14 gap 8, nhãn "Nơi bảo quản" 15 Medium. **SB-078:** sheet nền trắng, lưới 168×112 r14 (gap 16/12), tiêu đề 20 Bold. **SB-080/081:** số đo dòng 44/52, tile 104, ngày hạn 28/32, pill 107×32.
 - **SB-083/084/086/087/088/089:** khoảng cách khối theo metadata (gap 20, hàng 72/80), banner pad 16, lựa chọn lý do dùng nền forest + dấu tích khi chọn, thẻ lịch sử 88 cao.
 - **Vị trí nút CTA (dock):** Figma đặt cạnh dưới nút cách vạch home 36–44pt tuỳ màn; trước đây cố định 20 → nút thấp hơn Figma ~16pt. Đã sửa theo từng màn.
+- **Luồng Pantry (đã xác nhận):** bấm tab Tủ thực phẩm → SB-074 giới thiệu → "Bắt đầu với tủ của tôi" → SB-076 (tủ trống) → thêm món → SB-075. Tủ mặc định **trống**; dev hub "Nạp 7 món mẫu" để xem SB-075 ngay.

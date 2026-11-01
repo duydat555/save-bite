@@ -92,15 +92,18 @@ export default function DevHub() {
           }}
         />
         <Action
-          label="Đặt lại Tủ thực phẩm (7 món)"
+          label="Nạp 7 món mẫu vào Tủ (xem SB-075)"
           onPress={() => {
             usePantryStore.getState().reset();
-            useAccountStore.getState().setPantryIntroSeen(false);
+            useAccountStore.getState().setPantryIntroSeen(true);
           }}
         />
         <Action
-          label="Làm trống Tủ thực phẩm"
-          onPress={() => usePantryStore.getState().clearAll()}
+          label="Làm trống Tủ thực phẩm (SB-076)"
+          onPress={() => {
+            usePantryStore.getState().clearAll();
+            useAccountStore.getState().setPantryIntroSeen(false); // next tab open shows SB-074 → SB-076
+          }}
         />
         <Action
           label="Giả lập lỗi mạng ở lần giữ chỗ tới (SB-057)"
