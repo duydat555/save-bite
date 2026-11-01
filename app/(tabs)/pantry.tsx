@@ -1,10 +1,11 @@
 import { router, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTabBarScroll } from '@/components/features/tabBarState';
 import { Button } from '@/components/ui/Button';
 import { GlassButton } from '@/components/ui/GlassButton';
 import { GlassMenu } from '@/components/ui/GlassMenu';
@@ -42,6 +43,7 @@ const STORAGE: Record<string, PantryStorage | null> = {
 const ACTIONS = ['Lịch sử tủ thực phẩm', 'Dữ liệu trên máy'];
 
 export default function PantryTab() {
+  const onTabBarScroll = useTabBarScroll();
   const insets = useSafeAreaInsets();
   const items = usePantryStore((s) => s.items);
   const setDraft = usePantryDraft((s) => s.set);
@@ -106,7 +108,9 @@ export default function PantryTab() {
         />
       </View>
 
-      <ScrollView
+      <Animated.ScrollView
+        onScroll={onTabBarScroll}
+        scrollEventThrottle={16}
         contentContainerStyle={[
           empty ? styles.contentEmpty : styles.content,
           { paddingBottom: layout.scrollBottomPadding },
@@ -171,7 +175,7 @@ export default function PantryTab() {
             )}
           </>
         )}
-      </ScrollView>
+      </Animated.ScrollView>
 
       <GlassMenu
         visible={menu === 'expiry'}

@@ -109,3 +109,9 @@
 - Tọa độ cửa hàng dùng chung (`merchant.coord`); SB-039/065 có `PricePin` "Điểm nhận" + nút "Chỉ đường" mở Apple Maps; SB-094 vẽ vòng bán kính thật bằng `Circle`.
 - Test chặn quay lại ảnh bản đồ tĩnh: `__tests__/no-static-maps.test.ts`. Thêm `@types/node` cho test. Dev hub có lối tắt tới các màn có bản đồ.
 - Kiểm tra: tsc, eslint, jest (13), expo-doctor 20/20, bundle iOS OK. Chưa chạy trên thiết bị.
+
+## 2026-11-02 — Liquid Glass: Tab Bar (bước 1)
+
+- Khảo sát khả thi: docs/13-LIQUID-GLASS-FEASIBILITY.md (native tabs, expo-glass-effect, @expo/ui; cài `@expo/ui` 58.0.26). Chưa có thiết bị nên mục "chạy trong Expo Go" của native tabs / @expo/ui là **chưa xác nhận**.
+- Tab Bar tự dựng nâng cấp: nhấn giữ + kéo ngang → thấu kính ×1.2 (blur + bản sao nội dung phóng đại + viền chromatic), haptic qua ranh giới tab, thả → spring rồi mới đổi tab; squash & stretch theo vận tốc; cuộn xuống co còn icon, cuộn lên mở (`tabBarState`, `Animated.ScrollView` ở 4 tab + 4 màn có StackTabBar); Reduce Motion / Reduce Transparency.
+- Cờ thử UITabBar native: `EXPO_PUBLIC_NATIVE_TABS=true` (bundle iOS OK; chưa chạy trên máy).

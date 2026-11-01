@@ -44,7 +44,7 @@ type Props = {
   children?: ReactNode;
 };
 
-function useReduceTransparency() {
+export function useReduceTransparency() {
   const [reduce, setReduce] = useState(false);
   useEffect(() => {
     let live = true;

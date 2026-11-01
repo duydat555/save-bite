@@ -1,6 +1,8 @@
+import Animated from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { useTabBarScroll } from '@/components/features/tabBarState';
 import { StackTabBar } from '@/components/features/GlassTabBar';
 import { AppMap } from '@/components/features/MapView';
 import { Text } from '@/components/ui/Text';
@@ -14,6 +16,7 @@ import type { OfferWithMerchant } from '@/types';
 // enable gestures so the page keeps scrolling).
 // ASSUMPTION (entry): "Xác nhận khu vực" on SB-018 opens it.
 export default function Nearby() {
+  const onTabBarScroll = useTabBarScroll();
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
   useEffect(() => {
     offerService
@@ -30,7 +33,12 @@ export default function Nearby() {
   return (
     <View style={styles.container}>
       <CategoryHeader title="Quanh trường" />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <Animated.ScrollView
+        onScroll={onTabBarScroll}
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <AppMap
           mode="card"
           region={{ ...CAMPUS, latitudeDelta: 0.0075, longitudeDelta: 0.0075 }}
@@ -45,7 +53,7 @@ export default function Nearby() {
         {offers.map((o) => (
           <CategoryRow key={o.id} offer={o} />
         ))}
-      </ScrollView>
+      </Animated.ScrollView>
       <StackTabBar />
     </View>
   );

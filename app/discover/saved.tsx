@@ -1,7 +1,9 @@
+import Animated from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { useTabBarScroll } from '@/components/features/tabBarState';
 import { StackTabBar } from '@/components/features/GlassTabBar';
 import { GlassButton } from '@/components/ui/GlassButton';
 import { SvgIcon } from '@/components/ui/SvgIcon';
@@ -14,6 +16,7 @@ import type { OfferWithMerchant } from '@/types';
 
 // SB-033 · Yêu thích & Đã lưu. Heart on Khám phá (SB-014) → here; search button → SB-019. Rows show only the merchant name.
 export default function Saved() {
+  const onTabBarScroll = useTabBarScroll();
   const ids = useSavedStore((s) => s.ids);
   const [offers, setOffers] = useState<OfferWithMerchant[]>([]);
   useEffect(() => {
@@ -33,7 +36,12 @@ export default function Saved() {
           />
         }
       />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <Animated.ScrollView
+        onScroll={onTabBarScroll}
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.banner}>
           <SvgIcon name="heart" size={28} />
           <View style={{ gap: 2 }}>
@@ -52,7 +60,7 @@ export default function Saved() {
             Lưu món không giữ chỗ. Giá, số lượng và giờ nhận có thể thay đổi khi bạn quay lại.
           </Text>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
       <StackTabBar />
     </View>
   );
