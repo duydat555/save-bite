@@ -97,7 +97,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: colors.warningBg,
   },
-  heroBody: { flexDirection: 'row', gap: 16, paddingHorizontal: 16, paddingTop: 16 },
+  heroBody: {
+    flexDirection: 'row',
+    gap: 52, // figma: copy starts at x132 inside the card (photo 64 at x16)
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
   heroPhoto: { width: 64, height: 64, borderRadius: 8 },
   heroCta: { paddingHorizontal: 16, paddingTop: 28, paddingBottom: 16 },
   row: {

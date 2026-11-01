@@ -57,7 +57,7 @@ File này sinh bởi `node scripts/gen-inventory.js` từ `scripts/figma-frames.
 | SB-040 | Quy định nhận món tại quầy · Handover Rules | sheet | `/offer/handover-rules` | [106:2817](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=106-2817) | done |
 | SB-041 | Offer khác của tiệm · More Offers | screen | `/offer/merchant/[id]/offers` | [109:2765](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2765) | done |
 | SB-042 | Đánh giá cửa hàng · Merchant Reviews | screen | `/offer/merchant/[id]/reviews` | [109:2816](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2816) | done |
-| SB-043 | Chi tiết đánh giá & Báo cáo | screen | `/offer/merchant/[id]/reviews/[reviewId]` | [109:2853](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2853) | done |
+| SB-043 | Chi tiết đánh giá & Báo cáo | screen | `/offer/merchant/[id]/review-report` | [109:2853](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2853) | done |
 | SB-044 | Túi bất ngờ · Surprise Bag | screen | `/offer/surprise-bag` | [109:2890](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2890) | done |
 | SB-045 | Giải thích túi bất ngờ · Explainer Sheet | sheet | `/offer/surprise-bag (explainer)` | [109:2926](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=109-2926) | done |
 | SB-046 | Offer Detail · Sold Out | state | `/offer/[id] (sold out)` | [81:844](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=81-844) | done |
@@ -72,10 +72,10 @@ File này sinh bởi `node scripts/gen-inventory.js` từ `scripts/figma-frames.
 |---|---|---|---|---|---|
 | SB-050 | Quantity Sheet · Stock Limit | sheet | `/reserve/[offerId] (quantity)` | [83:970](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=83-970) | done |
 | SB-051 | Reservation · Pickup Slot | screen | `/reserve/[offerId]` | [19:2](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=19-2) | done |
-| SB-052 | Pickup Checklist · Readback | screen | `/reserve/order/[id]/checklist` | [90:1408](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=90-1408) | done |
+| SB-052 | Pickup Checklist · Readback | screen | `/reserve/[offerId]/checklist` | [90:1408](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=90-1408) | done |
 | SB-053 | Order Summary · Unified Receipt | screen | `/reserve/summary` | [19:69](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=19-69) | done |
 | SB-054 | Confirm Reservation Sheet | sheet | `/reserve/confirm` | [83:1072](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=83-1072) | done |
-| SB-055 | Processing · Idempotency Guard | screen | `/reserve/processing` | [83:1162](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=83-1162) | done |
+| SB-055 | Processing · Idempotency Guard | state | `/reserve/summary (processing)` | [83:1162](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=83-1162) | done |
 | SB-056 | Success · Perforated Pickup Pass | screen | `/reserve/success` | [19:140](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=19-140) | done |
 | SB-057 | Reservation Failed · Network | screen | `/reserve/failed` | [84:1122](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=84-1122) | done |
 | SB-058 | Stock Changed · Recovery | screen | `/reserve/stock-changed` | [84:1167](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=84-1167) | done |
@@ -126,4 +126,4 @@ File này sinh bởi `node scripts/gen-inventory.js` từ `scripts/figma-frames.
 | SB-099 | Trợ giúp | screen | `/account/help` | [133:3637](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=133-3637) | done |
 | SB-100 | Personal Impact · Verified Rescue | screen | `/account/impact` | [85:1445](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=85-1445) | done |
 
-Tổng: 69 screen · 15 state · 16 sheet = 100.
+Tổng: 68 screen · 16 state · 16 sheet = 100.

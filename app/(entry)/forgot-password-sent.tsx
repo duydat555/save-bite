@@ -30,13 +30,15 @@ export default function ForgotPasswordSent() {
           <Text variant="bodyMedium">{email ?? demoUser.email}</Text>
         </View>
         <View style={{ gap: 3 }}>
-          <Text variant="semi14">Chưa thấy email?</Text>
-          <Text variant="captionMeta" color="textSecondary">
+          <Text variant="semi14" style={{ lineHeight: 22 }}>
+            Chưa thấy email?
+          </Text>
+          <Text variant="captionMeta" color="textSecondary" style={{ lineHeight: 18 }}>
             Kiểm tra thư rác và địa chỉ bạn đã nhập.
           </Text>
         </View>
       </ScrollView>
-      <View style={[styles.dock, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { paddingBottom: insets.bottom + 28 }]}>
         <Button label="Quay lại đăng nhập" onPress={() => router.dismissTo('/(entry)/login')} />
         <Button
           label="Thử địa chỉ email khác"

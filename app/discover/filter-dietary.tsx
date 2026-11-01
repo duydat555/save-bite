@@ -42,7 +42,7 @@ export default function DietarySheet() {
               trước khi đặt; không chọn nếu chưa xác nhận được.
             </Text>
           </View>
-          <View style={[styles.cta, { bottom: bottomInset + 14 }]}>
+          <View style={[styles.cta, { bottom: bottomInset + 12 }]}>
             <Button
               label="Lưu nhu cầu"
               onPress={() => {
@@ -58,8 +58,8 @@ export default function DietarySheet() {
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
-  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  body: { flex: 1, paddingHorizontal: 20, paddingTop: 33 },
+  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   notice: {
     gap: 6,
     marginTop: 14,

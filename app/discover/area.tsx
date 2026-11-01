@@ -31,13 +31,13 @@ export default function ChooseArea() {
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text variant="largeTitle" style={{ fontSize: 26, lineHeight: 34 }}>
+        <Text variant="largeTitle" style={{ fontSize: 26, lineHeight: 32 }}>
           {'Bạn muốn tìm món\nở khu vực nào?'}
         </Text>
         <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 20 }}>
           Chọn nơi thuận tiện để ghé nhận. Bạn có thể đổi khu vực bất cứ lúc nào.
         </Text>
-        <Text variant="eyebrowPill" color="textSecondary" style={{ marginTop: 4 }}>
+        <Text variant="eyebrowPill" color="textSecondary" style={{ lineHeight: 17 }}>
           Đà Nẵng
         </Text>
         {AREAS.map((a, i) => {
@@ -50,7 +50,7 @@ export default function ChooseArea() {
               onPress={() => setSelected(i)}
               style={[styles.card, on ? styles.on : styles.off]}
             >
-              <SvgIcon name="map-pin" size={22} tint={on ? colors.white : undefined} />
+              <SvgIcon name="map-pin" size={24} tint={on ? colors.white : undefined} />
               <View style={{ flex: 1, gap: 2 }}>
                 <Text
                   variant="bold15"
@@ -81,7 +81,7 @@ export default function ChooseArea() {
           Bạn có thể chọn khu vực mà không bật vị trí.
         </Text>
       </ScrollView>
-      <View style={[styles.dock, { bottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { bottom: insets.bottom + 38 }]}>
         <Button label="Xác nhận khu vực" onPress={() => router.replace('/discover/nearby')} />
       </View>
     </View>
@@ -90,13 +90,15 @@ export default function ChooseArea() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
+  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 4 },
+  // figma 584:8156: title y119 (64), sub +76 (40), "Đà Nẵng" +128, cards 68 high every 80, GPS row 48, 12pt gaps
   card: {
-    height: 80,
+    height: 68,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
-    paddingHorizontal: 16,
+    gap: 12,
+    paddingLeft: 17,
+    paddingRight: 15,
     borderRadius: radius.md,
   },
   on: { backgroundColor: colors.brand900 },

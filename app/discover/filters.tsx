@@ -18,7 +18,7 @@ export default function FiltersSheet() {
     f.set({ kinds: f.kinds.includes(k) ? f.kinds.filter((x) => x !== k) : [...f.kinds, k] });
 
   return (
-    <SheetModal height={494}>
+    <SheetModal height={495}>
       {({ dismiss, bottomInset }) => (
         <View style={styles.body}>
           <View style={styles.head}>
@@ -44,44 +44,52 @@ export default function FiltersSheet() {
             onPress={() => router.push('/discover/filter-slots')}
           />
 
-          <Text variant="rowSubMedium" color="textSecondary" style={{ marginTop: 14 }}>
-            Loại ưu đãi
-          </Text>
-          <View style={styles.kinds}>
-            {(
-              [
-                ['specific', 'Món cụ thể'],
-                ['surprise', 'Túi bất ngờ'],
-              ] as const
-            ).map(([k, label]) => {
-              const on = f.kinds.includes(k);
-              return (
-                <PressableScale
-                  key={k}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: on }}
-                  onPress={() => toggleKind(k)}
-                  style={[styles.kind, on ? styles.kindOn : styles.kindOff]}
-                >
-                  {on ? (
-                    <SymbolView name="checkmark" size={13} weight="bold" tintColor={colors.white} />
-                  ) : null}
-                  <Text variant="semi14" color={on ? 'white' : 'textPrimary'}>
-                    {label}
-                  </Text>
-                </PressableScale>
-              );
-            })}
+          <View style={styles.kindsBlock}>
+            <Text variant="rowSubMedium" color="textSecondary" style={{ lineHeight: 20 }}>
+              Loại ưu đãi
+            </Text>
+            <View style={styles.kinds}>
+              {(
+                [
+                  ['specific', 'Món cụ thể'],
+                  ['surprise', 'Túi bất ngờ'],
+                ] as const
+              ).map(([k, label]) => {
+                const on = f.kinds.includes(k);
+                return (
+                  <PressableScale
+                    key={k}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: on }}
+                    onPress={() => toggleKind(k)}
+                    style={[styles.kind, on ? styles.kindOn : styles.kindOff]}
+                  >
+                    {on ? (
+                      <SymbolView
+                        name="checkmark"
+                        size={13}
+                        weight="bold"
+                        tintColor={colors.white}
+                      />
+                    ) : null}
+                    <Text variant="semi14" color={on ? 'white' : 'textPrimary'}>
+                      {label}
+                    </Text>
+                  </PressableScale>
+                );
+              })}
+            </View>
           </View>
 
           <Row
             label="Nhu cầu ăn uống"
             value={f.dietary.length ? f.dietary.join(', ') : 'Kiểm tra dị ứng ở chi tiết món'}
             small
+            height={56}
             onPress={() => router.push('/discover/filter-dietary')}
           />
 
-          <View style={[styles.cta, { bottom: bottomInset + 14 }]}>
+          <View style={[styles.cta, { bottom: bottomInset + 12 }]}>
             <Button
               label="Áp dụng bộ lọc"
               onPress={() => router.replace({ pathname: '/discover/results', params: { f: '1' } })}
@@ -98,14 +106,16 @@ function Row({
   value,
   onPress,
   small,
+  height = 64,
 }: {
   label: string;
   value: string;
   onPress: () => void;
   small?: boolean;
+  height?: number;
 }) {
   return (
-    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.row}>
+    <PressableScale accessibilityRole="button" onPress={onPress} style={[styles.row, { height }]}>
       <View style={{ flex: 1, gap: 2 }}>
         <Text variant="rowSubMedium" color="textSecondary">
           {label}
@@ -124,14 +134,16 @@ function Row({
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
-  head: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
+  // figma: header at +29 (44), rows 64 high every 76, dietary row 56, CTA at +397 (52)
+  body: { flex: 1, gap: 12, paddingHorizontal: 20, paddingTop: 29 },
+  head: { height: 44, flexDirection: 'row', alignItems: 'center' },
   reset: { height: 44, justifyContent: 'center', paddingHorizontal: 8 },
-  row: { minHeight: 64, flexDirection: 'row', alignItems: 'center', paddingVertical: 8 },
-  kinds: { flexDirection: 'row', gap: 12, marginTop: 8 },
+  row: { flexDirection: 'row', alignItems: 'center' },
+  kindsBlock: { height: 80, gap: 12 },
+  kinds: { flexDirection: 'row', gap: 8 },
   kind: {
     flex: 1,
-    height: 52,
+    height: 44,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

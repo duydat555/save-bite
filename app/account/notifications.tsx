@@ -116,9 +116,9 @@ export default function Notifications() {
                   <View style={styles.dotCol}>{n.unread ? <View style={styles.dot} /> : null}</View>
                   <View style={[styles.tile, n.tone === 'warm' && styles.tileWarm]}>
                     {n.icon === 'receipt' ? (
-                      <SymbolView name="doc.text" size={18} tintColor={colors.warning} />
+                      <SymbolView name="doc.text" size={20} tintColor={colors.warning} />
                     ) : (
-                      <SvgIcon name={n.icon as SvgName} size={20} />
+                      <SvgIcon name={n.icon as SvgName} size={22} />
                     )}
                   </View>
                   <View style={{ flex: 1, gap: 2 }}>
@@ -145,11 +145,13 @@ export default function Notifications() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
   sliders: { position: 'absolute', right: 10, top: 0, bottom: 0, justifyContent: 'center' },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
-  chips: { flexDirection: 'row', gap: 10 },
+  // figma 133:3547: chips 48 high (3 equal, gap 12) at y12, caption y76, groups y110 / y302 with 88-high rows, 16 gaps
+  content: { gap: 16, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
+  chips: { flexDirection: 'row', gap: 12 },
   chip: {
+    flex: 1,
     height: 48,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.pill,
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
   chipOn: { backgroundColor: colors.brand900 },
   chipOff: { borderWidth: 1, borderColor: colors.borderDefault, backgroundColor: colors.canvas },
   group: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 0,
     borderRadius: radius.md,
     backgroundColor: colors.white,
     shadowColor: colors.textPrimary,
@@ -166,18 +168,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
   },
   row: {
+    height: 88,
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-    paddingVertical: 14,
-    paddingRight: 8,
+    alignItems: 'center',
+    paddingLeft: 12,
+    paddingRight: 12,
+    gap: 12,
   },
   divider: { borderBottomWidth: 1, borderBottomColor: colors.borderDefault },
-  dotCol: { width: 6, paddingTop: 20 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.brand900 },
+  dotCol: { position: 'absolute', left: 6, top: 41, width: 5, height: 5 },
+  dot: { width: 5, height: 5, borderRadius: 2.5, backgroundColor: colors.brand900 },
   tile: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.input,

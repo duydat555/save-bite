@@ -24,7 +24,7 @@ export default function AllergenConflict() {
         <View style={styles.badge}>
           <SvgIcon name="warning-circle" size={32} />
         </View>
-        <Text variant="largeTitle" style={{ fontSize: 28, lineHeight: 34, marginTop: 8 }}>
+        <Text variant="largeTitle" style={{ fontSize: 28, lineHeight: 32 }}>
           {'Chưa đủ thông tin\ndị ứng cho món này.'}
         </Text>
         <Text variant="bodyLg" color="textSecondary" style={{ lineHeight: 22 }}>
@@ -43,7 +43,7 @@ export default function AllergenConflict() {
           Nếu dị ứng nghiêm trọng, đừng chọn khi chưa xác nhận được thành phần với cửa hàng.
         </Text>
       </View>
-      <View style={[styles.dock, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { paddingBottom: insets.bottom + 28 }]}>
         <Button label="Quay lại danh sách món" onPress={() => router.back()} />
         <Button
           label="Xem thông tin dị ứng"
@@ -58,7 +58,8 @@ export default function AllergenConflict() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 14, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
+  // figma 299:4816: emblem y12 (64), title y92 (64), body y172 (66), card y254 (76), note y346 (44) — uniform 16 gaps
+  content: { gap: 16, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
   badge: {
     width: 64,
     height: 64,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: colors.surfaceSubtle,
   },
-  card: { gap: 2, padding: 16, borderRadius: radius.md, backgroundColor: colors.brand100 },
+  card: { gap: 4, padding: 16, borderRadius: radius.md, backgroundColor: colors.brand100 },
   dock: {
     position: 'absolute',
     left: 0,

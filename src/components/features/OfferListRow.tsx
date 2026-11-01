@@ -12,6 +12,8 @@ type Props = {
   priceLabel: string;
   availabilityLabel: string; // "17:30–19:00 · Còn 4 phần"
   onPress?: () => void;
+  /** Row height: 92 (default, SB-015/031), 100 (SB-032/033) or 104 (SB-028/030 "Canonical fixture listing"). */
+  height?: number;
 };
 
 /** Figma OfferListRow: full width × 92, thumb 72 (r12), r18, 1px border. */
@@ -22,9 +24,14 @@ export function OfferListRow({
   priceLabel,
   availabilityLabel,
   onPress,
+  height,
 }: Props) {
   return (
-    <PressableScale accessibilityRole="button" onPress={onPress} style={styles.row}>
+    <PressableScale
+      accessibilityRole="button"
+      onPress={onPress}
+      style={[styles.row, height != null && { height }]}
+    >
       <Image source={image} contentFit="cover" style={styles.thumb} />
       <View style={styles.text}>
         <Text variant="itemTitleRow" numberOfLines={1}>

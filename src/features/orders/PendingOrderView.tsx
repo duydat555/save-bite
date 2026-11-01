@@ -55,7 +55,9 @@ export function PendingOrderView({ res }: { res: ReservationWithOffer }) {
         </View>
       </View>
 
-      <Text variant="bold15">Tiến trình khung nhận hôm nay</Text>
+      <Text variant="bold15" style={{ marginTop: 4, marginBottom: -3, lineHeight: 19 }}>
+        Tiến trình khung nhận hôm nay
+      </Text>
       <View style={styles.timeline}>
         {steps.map((s) => (
           <View key={s.time} style={styles.step}>
@@ -63,7 +65,7 @@ export function PendingOrderView({ res }: { res: ReservationWithOffer }) {
             <Text
               variant={s.on ? 'bold14' : 'rowSubMedium'}
               color={s.on ? 'brand900' : 'textSecondary'}
-              style={{ width: 44 }}
+              style={{ width: 54 }}
             >
               {s.time}
             </Text>
@@ -86,7 +88,7 @@ export function PendingOrderView({ res }: { res: ReservationWithOffer }) {
         <Button
           label="Chỉ đường"
           variant="neutral"
-          style={{ flex: 1, height: 52 }}
+          style={{ flex: 1 }}
           onPress={() =>
             router.push({ pathname: '/reserve/order/[id]/directions', params: { id } })
           }
@@ -110,18 +112,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: colors.brand900,
   },
-  body: { flexDirection: 'row', gap: 16, paddingHorizontal: 16, paddingTop: 16 },
+  body: { flexDirection: 'row', gap: 52, paddingHorizontal: 16, paddingTop: 16 }, // copy at x132 (figma 90:1498)
   photo: { width: 64, height: 64, borderRadius: 8 },
   cta: { paddingHorizontal: 16, paddingTop: 28, paddingBottom: 16 },
+  // figma 90:1563: 110 high, rows 28 apart starting at +18, dot x16, time x40 (60 wide), text x108
   timeline: {
-    gap: 14,
-    padding: 16,
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 18,
     borderRadius: radius.tile,
     borderWidth: 1,
     borderColor: colors.borderDefault,
     backgroundColor: colors.white,
   },
-  step: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  step: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   dot: { width: 10, height: 10, borderRadius: 5 },
   dotOn: { backgroundColor: colors.brand900 },
   dotOff: { borderWidth: 1.5, borderColor: colors.borderDefault, backgroundColor: colors.canvas },

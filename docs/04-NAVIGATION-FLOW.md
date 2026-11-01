@@ -127,3 +127,9 @@ Các liên kết **không vẽ trong Figma**, đã tự suy luận (đổi ở �
 | SB-095 | chuông ở Khám phá (SB-014) | |
 
 Còn treo (chưa có màn đích): "Đã lưu"/"Dị ứng & an toàn" ở SB-091 → "Đã lưu" nay → SB-033; "Dị ứng & an toàn" vẫn inert; câu hỏi trong SB-099; nút CTA của túi bất ngờ (SB-044) chưa chặn khách.
+
+## Rà soát 100 màn (2026-11-02)
+
+- **Phủ route:** test `__tests__/inventory-routes.test.ts` kiểm tra mọi frame `screen`/`sheet` trong inventory có file route và không còn `todo` (đã sửa 3 tên route lệch: SB-043, SB-052, SB-055).
+- **Màn mồ côi đã nối:** SB-042 (Đánh giá cửa hàng) nay mở được bằng cách chạm khối tên cửa hàng ở SB-038 (Figma không vẽ điểm vào — suy luận); từ đó "Cách báo cáo phản hồi" → SB-043.
+- **Còn mở (không có màn đích trong Figma):** liên kết "Điều cần biết"/"Quyền riêng tư" ở SB-006, các câu hỏi trong SB-099, các hàng thông báo SB-095.

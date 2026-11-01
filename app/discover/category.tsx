@@ -85,7 +85,7 @@ export default function CategoryScreen() {
         ) : (
           items.map((o, i) => (
             <Animated.View key={o.id} entering={entering(i)}>
-              <CategoryRow offer={o} />
+              <CategoryRow offer={o} height={104} />
             </Animated.View>
           ))
         )}
@@ -93,7 +93,7 @@ export default function CategoryScreen() {
         {surprise ? (
           <View style={{ gap: 8 }}>
             <Text variant="semi14">Thêm một lựa chọn</Text>
-            <CategoryRow offer={surprise} merchantLine={surprise.merchant.name} />
+            <CategoryRow offer={surprise} merchantLine={surprise.merchant.name} height={92} />
           </View>
         ) : null}
 

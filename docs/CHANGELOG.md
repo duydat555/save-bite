@@ -109,3 +109,13 @@
 - Tọa độ cửa hàng dùng chung (`merchant.coord`); SB-039/065 có `PricePin` "Điểm nhận" + nút "Chỉ đường" mở Apple Maps; SB-094 vẽ vòng bán kính thật bằng `Circle`.
 - Test chặn quay lại ảnh bản đồ tĩnh: `__tests__/no-static-maps.test.ts`. Thêm `@types/node` cho test. Dev hub có lối tắt tới các màn có bản đồ.
 - Kiểm tra: tsc, eslint, jest (13), expo-doctor 20/20, bundle iOS OK. Chưa chạy trên thiết bị.
+
+## 2026-11-02 — Rà soát toàn bộ 100 màn: số đo theo Figma + nối luồng
+
+Đối chiếu `get_metadata` của các frame còn dựng từ ảnh và sửa lệch:
+- **SB-009/010/011/012:** vị trí tiêu đề/ô nhập/nút (CTA nằm ngay trên bàn phím ở SB-009; dock 152 ở SB-010; thẻ bản đồ 353×320 + ghim tại (144.5,115), nút ở y660/724 ở SB-011/012; thẻ thông báo 104 cao).
+- **SB-018, 023–027:** sheet lọc cao 495/439/487 với header y29/33, hàng 64/52, nút 44 cao cho "Loại ưu đãi", CTA cách đáy 46; scrim 40% (trước 30%) và grabber 36×5 cho mọi sheet.
+- **SB-028–033:** hàng món cao 104/100/92 đúng từng màn, khoảng cách khối, tiêu đề; thẻ "Đã lưu" (heart 32, ghi chú 84 cao, nút tìm 44).
+- **SB-014:** thẻ đơn đang chờ cao 96. **SB-049:** gap 16, dock 152. **SB-054:** sheet y332, nút cách 10, cách đáy 52. **SB-060/061:** chữ trong thẻ đơn bắt đầu tại x132; timeline 110 cao; nút "Chỉ đường" 50.
+- **SB-093:** bán kính seed **800 m** (trước ghi nhầm 500 m); thẻ 92 cao, nhãn "Mặc định" 71×22. **SB-095:** hàng 88 cao, chip chia đều, chấm chưa đọc 5pt. **SB-097/098/099/100:** khoảng cách đều 20, icon 32, hero tác động mascot 100.
+- Nối SB-042 (từ khối tên cửa hàng ở SB-038). Thêm test phủ route cho inventory.

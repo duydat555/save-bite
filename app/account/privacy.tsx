@@ -32,20 +32,20 @@ export default function Privacy() {
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text variant="largeTitle" style={{ fontSize: 28, lineHeight: 34 }}>
+        <Text variant="largeTitle" style={{ fontSize: 28, lineHeight: 32 }}>
           {'Bạn quyết định\nnhững gì chia sẻ.'}
         </Text>
-        <View style={{ gap: 26, marginVertical: 12 }}>
+        <View style={{ gap: 20, marginVertical: 8 }}>
           {ROWS.map((r) => (
             <View key={r.title} style={styles.row}>
-              <View style={{ width: 24, paddingTop: 2 }}>
-                <SvgIcon name={r.icon} size={r.icon === 'fridge' ? 24 : 20} />
+              <View style={{ width: 32 }}>
+                <SvgIcon name={r.icon} size={32} />
               </View>
               <View style={{ flex: 1, gap: 2 }}>
                 <Text variant="rowTitle" style={{ lineHeight: 22 }}>
                   {r.title}
                 </Text>
-                <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 20 }}>
+                <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 18 }}>
                   {r.text}
                 </Text>
               </View>
@@ -62,6 +62,6 @@ export default function Privacy() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
-  row: { flexDirection: 'row', alignItems: 'flex-start', gap: 14 },
+  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
+  row: { minHeight: 72, flexDirection: 'row', alignItems: 'center', gap: 12 },
 });

@@ -47,10 +47,8 @@ export default function NotificationSettings() {
         showsVerticalScrollIndicator={false}
       >
         {SECTIONS.map((s) => (
-          <View key={s.title} style={{ gap: 16 }}>
-            <Text variant="title20" style={{ letterSpacing: -0.2 }}>
-              {s.title}
-            </Text>
+          <View key={s.title} style={{ gap: 20 }}>
+            <Text variant="titleSemi20">{s.title}</Text>
             {s.rows.map((r) => (
               <View key={r.key} style={styles.row}>
                 <View style={{ flex: 1, gap: 2 }}>
@@ -70,7 +68,7 @@ export default function NotificationSettings() {
             ))}
           </View>
         ))}
-        <View style={{ gap: 2, marginTop: 4 }}>
+        <View style={{ height: 72, justifyContent: 'center', gap: 4 }}>
           <Text variant="rowTitle" style={{ lineHeight: 22 }}>
             Giờ yên lặng
           </Text>
@@ -78,7 +76,7 @@ export default function NotificationSettings() {
             22:00–07:00 · Giờ Việt Nam
           </Text>
         </View>
-        <Text variant="meta" color="textSecondary" style={{ lineHeight: 20, marginTop: 8 }}>
+        <Text variant="meta" color="textSecondary" style={{ lineHeight: 18 }}>
           Nếu tắt quyền thông báo hệ thống, bạn vẫn xem lời nhắc trong ứng dụng.
         </Text>
       </ScrollView>
@@ -88,6 +86,7 @@ export default function NotificationSettings() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  // figma 133:3606: section title y12 (26), rows 48 high every 68, "Giờ yên lặng" row 72 high, note 36 — uniform 20 gaps
+  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
+  row: { height: 48, flexDirection: 'row', alignItems: 'center', gap: 12 },
 });

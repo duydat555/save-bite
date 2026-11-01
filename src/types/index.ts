@@ -95,7 +95,7 @@ export type SavedArea = {
   id: string;
   name: string;
   district: string;
-  radiusM: 500 | 1000 | 2000;
+  radiusM: 500 | 800 | 1000 | 2000; // 800 m = the seed "Ký túc xá / Nhà trọ" of SB-093
   isDefault?: boolean;
 };
 

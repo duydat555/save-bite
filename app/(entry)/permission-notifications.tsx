@@ -29,17 +29,17 @@ export default function PermissionNotifications() {
   return (
     <View style={styles.container}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 59 }]}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 61 }]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.preview}>
-          <Text variant="semi16" style={{ fontSize: 15 }}>
+          <Text variant="semi16" style={{ fontSize: 15, lineHeight: 22 }}>
             Xem trước lời nhắc
           </Text>
           {PREVIEWS.map((p) => (
             <View key={p.when} style={styles.note}>
               <View style={styles.noteHead}>
-                <SvgIcon name="bag-mark-forest" size={22} />
+                <SvgIcon name="bag-mark-forest" size={24} />
                 <Text variant="semi14" style={{ flex: 1 }}>
                   SaveBite
                 </Text>
@@ -47,13 +47,13 @@ export default function PermissionNotifications() {
                   {p.when}
                 </Text>
               </View>
-              <Text variant="bodyMedium" style={{ fontSize: 14, lineHeight: 20 }}>
+              <Text variant="bodyMedium" style={{ fontSize: 14, lineHeight: 18 }}>
                 {p.text}
               </Text>
             </View>
           ))}
         </View>
-        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 4 }}>
+        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 18 }}>
           Đừng bỏ lỡ giờ nhận món
         </Text>
         <Text variant="bodyLg" color="textSecondary" style={{ lineHeight: 22 }}>
@@ -61,7 +61,7 @@ export default function PermissionNotifications() {
           nhắc nhở.
         </Text>
       </ScrollView>
-      <View style={[styles.dock, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { paddingBottom: insets.bottom + 44 }]}>
         <Button
           label="Bật nhắc nhở"
           onPress={() => {
@@ -70,7 +70,7 @@ export default function PermissionNotifications() {
             done();
           }}
         />
-        <Button label="Để sau" variant="neutral" style={{ height: 52 }} onPress={done} />
+        <Button label="Để sau" variant="neutral" onPress={done} />
       </View>
     </View>
   );
@@ -78,10 +78,17 @@ export default function PermissionNotifications() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter },
-  preview: { gap: 14, padding: 20, borderRadius: 28, backgroundColor: colors.brand100 },
-  note: { gap: 6, padding: 14, borderRadius: 20, backgroundColor: colors.white },
-  noteHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  // figma 243:4460: card y120 (353×320, p20), notes 104 high at +58 / +178 (p14, header 24, text at +46)
+  content: { gap: 8, paddingHorizontal: layout.screenGutter },
+  preview: {
+    height: 320,
+    gap: 16,
+    padding: 20,
+    borderRadius: 28,
+    backgroundColor: colors.brand100,
+  },
+  note: { height: 104, padding: 14, gap: 8, borderRadius: 20, backgroundColor: colors.white },
+  noteHead: { height: 24, flexDirection: 'row', alignItems: 'center', gap: 8 },
   dock: {
     position: 'absolute',
     left: 0,

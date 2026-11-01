@@ -53,9 +53,11 @@ export function CategoryIntro({
 export function CategoryRow({
   offer,
   merchantLine,
+  height = 100,
 }: {
   offer: OfferWithMerchant;
   merchantLine?: string;
+  height?: number;
 }) {
   return (
     <OfferListRow
@@ -65,6 +67,7 @@ export function CategoryRow({
       priceLabel={formatPrice(offer.priceVnd)}
       availabilityLabel={`${formatTimeRange(offer.pickupStart, offer.pickupEnd)} · ${formatStock(offer.remaining, offer.unit)}`}
       onPress={() => openOffer(offer.id)}
+      height={height}
     />
   );
 }

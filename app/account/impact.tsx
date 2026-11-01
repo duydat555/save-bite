@@ -49,42 +49,44 @@ export default function Impact() {
             </Text>
           </View>
           <View style={styles.mascot}>
-            <SvgIcon name="mam-carry" size={84} />
+            <SvgIcon name="mam-carry" size={100} />
           </View>
         </View>
 
-        <View style={styles.totalRow}>
-          <Text variant="semi14" color="textSecondary">
-            Đã trả tại quầy
-          </Text>
-          <Text variant="heroTitle" color="price" style={{ fontSize: 28, lineHeight: 34 }}>
-            {vnd(total)}
-          </Text>
-        </View>
+        <View style={{ gap: 12 }}>
+          <View style={styles.totalRow}>
+            <Text variant="semi14" color="textSecondary">
+              Đã trả tại quầy
+            </Text>
+            <Text variant="heroTitle" color="price" style={{ fontSize: 28, lineHeight: 34 }}>
+              {vnd(total)}
+            </Text>
+          </View>
 
-        {rows === null ? (
-          <Skeleton height={190} radius={radius.md} />
-        ) : (
-          rows.map((r) => (
-            <View key={r.id} style={styles.entry}>
-              <Image source={r.image} contentFit="cover" style={styles.thumb} />
-              <View style={{ flex: 1, gap: 4 }}>
-                <View style={styles.entryTop}>
-                  <Text variant="bold14" style={{ flex: 1 }} numberOfLines={1}>
-                    {r.name}
+          {rows === null ? (
+            <Skeleton height={190} radius={radius.md} />
+          ) : (
+            rows.map((r) => (
+              <View key={r.id} style={styles.entry}>
+                <Image source={r.image} contentFit="cover" style={styles.thumb} />
+                <View style={{ flex: 1, gap: 4 }}>
+                  <View style={styles.entryTop}>
+                    <Text variant="bold14" style={{ flex: 1 }} numberOfLines={1}>
+                      {r.name}
+                    </Text>
+                    <Text variant="bold14">{vnd(r.amount)}</Text>
+                  </View>
+                  <Text variant="rowSub" color="textSecondary">
+                    {r.date}
                   </Text>
-                  <Text variant="bold14">{vnd(r.amount)}</Text>
-                </View>
-                <Text variant="rowSub" color="textSecondary">
-                  {r.date}
-                </Text>
-                <View style={styles.track}>
-                  <View style={[styles.fill, { width: `${(r.amount / max) * 100}%` }]} />
+                  <View style={styles.track}>
+                    <View style={[styles.fill, { width: `${(r.amount / max) * 100}%` }]} />
+                  </View>
                 </View>
               </View>
-            </View>
-          ))
-        )}
+            ))
+          )}
+        </View>
 
         <View style={styles.note}>
           <Text variant="bold14">Các con số này được tính thế nào?</Text>
@@ -99,7 +101,8 @@ export default function Impact() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 16, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
+  // figma 461:4966: body at y12; hero 164, total row 40 at +20, entries 72 high every 84, disclosure (96) at +20
+  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
   hero: {
     height: 164,
     flexDirection: 'row',
@@ -115,17 +118,23 @@ const styles = StyleSheet.create({
     fontFamily: 'BeVietnamPro_800ExtraBold',
   },
   rule: { height: 1, marginVertical: 10, backgroundColor: 'rgba(237,243,231,0.3)' },
-  mascot: { position: 'absolute', right: 18, top: 18 },
+  mascot: { position: 'absolute', left: 233, top: 14 }, // figma: 100×100 at (233,14)
   totalRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 4,
+    height: 40,
   },
-  entry: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  thumb: { width: 58, height: 58, borderRadius: radius.input },
+  entry: { height: 72, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  thumb: { width: 56, height: 56, borderRadius: radius.input },
   entryTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   track: { height: 6, overflow: 'hidden', borderRadius: 3, backgroundColor: colors.surfaceSubtle },
   fill: { height: 6, borderRadius: 3, backgroundColor: colors.brand700 },
-  note: { gap: 6, padding: 16, borderRadius: radius.md, backgroundColor: colors.surfaceSubtle },
+  note: {
+    minHeight: 96,
+    gap: 8,
+    padding: 16,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceSubtle,
+  },
 });

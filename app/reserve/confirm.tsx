@@ -37,7 +37,7 @@ export default function ConfirmSheet() {
             value={offer ? `Hôm nay · ${formatTimeRange(offer.pickupStart, offer.pickupEnd)}` : ' '}
           />
           <Line label="Trả tại quầy" value={offer ? formatPrice(offer.priceVnd * n) : ' '} price />
-          <View style={[styles.cta, { bottom: bottomInset + 14 }]}>
+          <View style={[styles.cta, { bottom: bottomInset + 18 }]}>
             <Button
               label="Xác nhận giữ chỗ"
               onPress={() => {
@@ -45,12 +45,7 @@ export default function ConfirmSheet() {
                 dismiss();
               }}
             />
-            <Button
-              label="Xem lại đơn"
-              variant="neutral"
-              style={{ height: 52 }}
-              onPress={dismiss}
-            />
+            <Button label="Xem lại đơn" variant="neutral" onPress={dismiss} />
           </View>
         </View>
       )}
@@ -76,7 +71,7 @@ function Line({ label, value, price }: { label: string; value: string; price?: b
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, gap: 12, paddingHorizontal: 20, paddingTop: 34 },
+  body: { flex: 1, gap: 12, paddingHorizontal: 20, paddingTop: 28 }, // figma 83:1138: title at +28, buttons at +356 / +418
   card: {
     gap: 4,
     padding: 14,
@@ -84,5 +79,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand100,
   },
   line: { height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  cta: { position: 'absolute', left: 20, right: 20, gap: 8 },
+  cta: { position: 'absolute', left: 20, right: 20, gap: 10 },
 });

@@ -55,7 +55,15 @@ export default function MerchantProfile() {
           </View>
         </View>
 
-        <View style={{ gap: 4 }}>
+        {/* ASSUMPTION: Figma draws no entry to SB-042 (reviews) → tapping the store name block opens it */}
+        <PressableScale
+          accessibilityRole="button"
+          accessibilityLabel="Xem đánh giá cửa hàng"
+          onPress={() =>
+            router.push({ pathname: '/offer/merchant/[id]/reviews', params: { id: merchant.id } })
+          }
+          style={{ gap: 4 }}
+        >
           <Text variant="authTitle" style={{ lineHeight: 28 }}>
             {merchant.name}
           </Text>
@@ -65,7 +73,7 @@ export default function MerchantProfile() {
           <Text variant="linkMedium13" color="success">
             Giờ nhận theo từng món
           </Text>
-        </View>
+        </PressableScale>
 
         <View style={styles.pills}>
           <PressableScale

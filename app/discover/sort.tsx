@@ -40,7 +40,7 @@ export default function SortSheet() {
               />
             ))}
           </View>
-          <View style={[styles.cta, { bottom: bottomInset + 14 }]}>
+          <View style={[styles.cta, { bottom: bottomInset + 12 }]}>
             <Button
               label="Áp dụng"
               onPress={() => {
@@ -56,7 +56,7 @@ export default function SortSheet() {
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
-  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  body: { flex: 1, paddingHorizontal: 20, paddingTop: 33 },
+  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   cta: { position: 'absolute', left: 20, right: 20 },
 });

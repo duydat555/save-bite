@@ -28,14 +28,17 @@ export default function Urgent() {
     <View style={styles.container}>
       <CategoryHeader title="Nhận sớm" />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30 }}>
-          Khung nhận gần nhất
-        </Text>
-        <Text variant="rowSub" color="textSecondary" style={{ marginTop: -8 }}>
-          Chọn món theo giờ bạn có thể ghé nhận.
-        </Text>
+        {/* figma 104:2475: header block 60 high at y125 (title 28 + sub 16 at +30), rows at y200 */}
+        <View style={{ height: 60, marginBottom: 3 }}>
+          <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 28 }}>
+            Khung nhận gần nhất
+          </Text>
+          <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 16, marginTop: 2 }}>
+            Chọn món theo giờ bạn có thể ghé nhận
+          </Text>
+        </View>
         {offers.map((o) => (
-          <CategoryRow key={o.id} offer={o} />
+          <CategoryRow key={o.id} offer={o} height={92} />
         ))}
       </ScrollView>
       <StackTabBar />
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
   content: {
     gap: 12,
     paddingHorizontal: layout.screenGutter,
-    paddingTop: 12,
+    paddingTop: 10,
     paddingBottom: layout.scrollBottomPadding,
   },
 });

@@ -73,7 +73,7 @@ export function SheetModal({ height, fill, children }: Props) {
 
   const sheet = useAnimatedStyle(() => ({ transform: [{ translateY: ty.value }] }));
   const scrim = useAnimatedStyle(() => ({
-    opacity: interpolate(ty.value, [0, total], [0.3, 0], 'clamp'),
+    opacity: interpolate(ty.value, [0, total], [0.4, 0], 'clamp'),
   }));
 
   return (
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
   },
   handle: {
     position: 'absolute',
-    top: 13,
+    top: 12, // figma grabber: 36×5 at y12
     alignSelf: 'center',
     width: 36,
-    height: 4,
-    borderRadius: 2,
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: colors.dotInactive,
   },
 });

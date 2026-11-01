@@ -17,7 +17,7 @@ export default function PermissionLocation() {
   return (
     <View style={styles.container}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 59 }]}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 61 }]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.map}>
@@ -33,7 +33,7 @@ export default function PermissionLocation() {
             <Text variant="bold15">Bạn chủ động chọn khu vực</Text>
           </View>
         </View>
-        <Text variant="largeTitle" style={{ fontSize: 28, lineHeight: 34, marginTop: 4 }}>
+        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 18 }}>
           Món ngon quanh bạn
         </Text>
         <Text variant="bodyLg" color="textSecondary" style={{ lineHeight: 22 }}>
@@ -41,9 +41,9 @@ export default function PermissionLocation() {
           cửa hàng.
         </Text>
       </ScrollView>
-      <View style={[styles.dock, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { paddingBottom: insets.bottom + 44 }]}>
         <Button label="Cho phép vị trí" onPress={next} />
-        <Button label="Tự chọn khu vực" variant="neutral" style={{ height: 52 }} onPress={next} />
+        <Button label="Tự chọn khu vực" variant="neutral" onPress={next} />
       </View>
     </View>
   );
@@ -51,13 +51,14 @@ export default function PermissionLocation() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter },
+  // figma 100:1986: card y120 (353×320), title y470 (30), body y508 (3×22), buttons y660 (52) / y724 (50)
+  content: { gap: 8, paddingHorizontal: layout.screenGutter },
   // figma (screenshot): map card 353×322 r28 starting y=118; centre pin 64 brand900 disc; label pill at the bottom
-  map: { height: 322, overflow: 'hidden', borderRadius: 28 },
+  map: { height: 320, overflow: 'hidden', borderRadius: 28 },
   pin: {
     position: 'absolute',
     left: 144.5,
-    top: 117,
+    top: 115,
     width: 64,
     height: 64,
     alignItems: 'center',
@@ -67,8 +68,8 @@ const styles = StyleSheet.create({
   },
   pill: {
     position: 'absolute',
-    left: 28,
-    right: 28,
+    left: 25,
+    right: 25,
     bottom: 28,
     height: 48,
     alignItems: 'center',

@@ -68,7 +68,7 @@ export const savedAreasSeed: SavedArea[] = [
     radiusM: 1000,
     isDefault: true,
   },
-  { id: 'a2', name: 'Ký túc xá / Nhà trọ', district: 'Quận Hải Châu, Đà Nẵng', radiusM: 500 },
+  { id: 'a2', name: 'Ký túc xá / Nhà trọ', district: 'Quận Hải Châu, Đà Nẵng', radiusM: 800 },
 ];
 
 export const notificationsSeed: NotificationItem[] = [

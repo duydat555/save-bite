@@ -43,7 +43,7 @@ export function ActiveOrderCard({ status, time, title, subtitle, onPress }: Prop
 
 const styles = StyleSheet.create({
   card: {
-    height: 94,
+    height: 96,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,

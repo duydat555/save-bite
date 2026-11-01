@@ -21,7 +21,7 @@ export default function SlotsSheet() {
   const set = useFilters((s) => s.set);
   const [value, setValue] = useState(slot?.start ?? null);
   return (
-    <SheetModal height={486}>
+    <SheetModal height={487}>
       {({ dismiss, bottomInset }) => (
         <View style={styles.body}>
           <View style={styles.head}>
@@ -41,7 +41,7 @@ export default function SlotsSheet() {
               />
             ))}
           </View>
-          <View style={[styles.cta, { bottom: bottomInset + 14 }]}>
+          <View style={[styles.cta, { bottom: bottomInset + 12 }]}>
             <Button
               label="Lưu khung giờ"
               onPress={() => {
@@ -58,7 +58,7 @@ export default function SlotsSheet() {
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
-  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  body: { flex: 1, paddingHorizontal: 20, paddingTop: 33 },
+  head: { height: 44, flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   cta: { position: 'absolute', left: 20, right: 20 },
 });

@@ -28,14 +28,18 @@ export default function SavedAreas() {
             <View style={styles.pin}>
               <SvgIcon name="map-pin" size={20} />
             </View>
-            <View style={{ flex: 1, gap: 2 }}>
-              <Text variant="bold15" style={{ lineHeight: 22 }}>
+            <View style={{ flex: 1 }}>
+              <Text variant="bold15" style={{ lineHeight: 19 }}>
                 {a.name}
               </Text>
-              <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 20 }}>
+              <Text variant="meta" color="textSecondary" style={{ lineHeight: 16, marginTop: 3 }}>
                 {a.district}
               </Text>
-              <Text variant="meta" color="textSecondary" style={{ lineHeight: 18 }}>
+              <Text
+                variant="caption"
+                color="textSecondary"
+                style={{ lineHeight: 15, marginTop: 6 }}
+              >
                 {`Bán kính ưu tiên: ${radiusLabel(a.radiusM)}`}
               </Text>
             </View>
@@ -49,7 +53,7 @@ export default function SavedAreas() {
           </View>
         ))}
         <View style={styles.note}>
-          <Text variant="meta" color="textSecondary" style={{ lineHeight: 16 }}>
+          <Text variant="caption" color="textSecondary" style={{ lineHeight: 15, fontSize: 12 }}>
             Vị trí đã lưu chỉ dùng để lọc ưu đãi gần bạn. SaveBite không chia sẻ vị trí này cho cửa
             hàng hoặc công khai cho người khác.
           </Text>
@@ -70,13 +74,14 @@ export default function SavedAreas() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
+  // figma 94:1684: card y124 (92 high, p16, pin 40, copy x68), cards 10 apart, note 72 high at +12, button y420 (50)
+  content: { gap: 10, paddingHorizontal: layout.screenGutter, paddingTop: 9 },
   card: {
-    minHeight: 92,
+    height: 92,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 12,
-    padding: 12,
+    padding: 16,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.borderDefault,
@@ -92,18 +97,25 @@ const styles = StyleSheet.create({
   },
   tag: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-    height: 24,
+    top: 16,
+    right: 9,
+    height: 22,
     paddingHorizontal: 10,
     justifyContent: 'center',
     borderRadius: radius.pill,
     backgroundColor: colors.brand100,
   },
-  note: { padding: 14, borderRadius: radius.tile, backgroundColor: colors.surfaceSubtle },
+  note: {
+    minHeight: 72,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    marginTop: 2,
+    borderRadius: radius.tile,
+    backgroundColor: colors.surfaceSubtle,
+  },
   add: {
     height: 50,
-    marginTop: 4,
+    marginTop: 8,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.pill,

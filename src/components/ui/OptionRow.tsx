@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: radius.tile,
   },
-  tall: { height: 60 },
+  tall: { height: 64 },
   on: { backgroundColor: colors.brand900 },
   off: { borderWidth: 1, borderColor: colors.borderDefault, backgroundColor: colors.canvas },
 });

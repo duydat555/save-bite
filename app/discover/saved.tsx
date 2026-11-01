@@ -28,6 +28,7 @@ export default function Saved() {
         right={
           <GlassButton
             symbol="magnifyingglass"
+            size={44}
             accessibilityLabel="Tìm kiếm"
             onPress={() => router.push('/discover/search')}
           />
@@ -35,7 +36,7 @@ export default function Saved() {
       />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.banner}>
-          <SvgIcon name="heart" size={28} />
+          <SvgIcon name="heart" size={32} />
           <View style={{ gap: 2 }}>
             <Text variant="title20" style={{ fontSize: 18, lineHeight: 24 }}>
               Để dành lúc muốn ghé lấy
@@ -61,7 +62,7 @@ export default function Saved() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
   content: {
-    gap: 12,
+    gap: 16, // figma 294:4869: heading card y12 (100), rows (100) every 116, note (84) at +16
     paddingHorizontal: layout.screenGutter,
     paddingTop: 12,
     paddingBottom: layout.scrollBottomPadding,
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
   note: {
     flexDirection: 'row',
     gap: 12,
-    padding: 16,
+    padding: 12,
+    minHeight: 84,
     borderRadius: radius.tile,
     backgroundColor: colors.surfaceSubtle,
   },

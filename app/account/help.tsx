@@ -42,17 +42,15 @@ export default function Help() {
           placeholder="Tìm câu hỏi hoặc chủ đề"
           returnKeyType="search"
         />
-        <Text variant="title20" style={{ marginTop: 8, letterSpacing: -0.2 }}>
-          Thanh toán lúc nào?
-        </Text>
+        <Text variant="titleSemi20">Thanh toán lúc nào?</Text>
         <Text variant="bodyLg" style={{ lineHeight: 22 }}>
           Bạn đặt giữ chỗ trước, đến nhận trong khung giờ và thanh toán trực tiếp tại quầy.
         </Text>
-        <View style={{ gap: 24, marginTop: 10 }}>
+        <View style={{ gap: 20 }}>
           {shown.map((t) => (
             <View key={t.id} style={styles.row}>
-              <View style={{ width: 24, alignItems: 'center', paddingTop: 2 }}>
-                <SvgIcon name={t.icon as SvgName} size={24} />
+              <View style={{ width: 32 }}>
+                <SvgIcon name={t.icon as SvgName} size={32} />
               </View>
               <View style={{ flex: 1, gap: 2 }}>
                 <Text variant="rowTitle" style={{ lineHeight: 22 }}>
@@ -71,7 +69,7 @@ export default function Help() {
           ) : null}
         </View>
       </ScrollView>
-      <View style={[styles.dock, { bottom: insets.bottom + 20 }]}>
+      <View style={[styles.dock, { bottom: insets.bottom + 38 }]}>
         <Button
           label="Báo sự cố nhận món"
           onPress={() =>
@@ -85,7 +83,7 @@ export default function Help() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
-  row: { flexDirection: 'row', alignItems: 'flex-start', gap: 14 },
+  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
+  row: { height: 72, flexDirection: 'row', alignItems: 'center', gap: 12 },
   dock: { position: 'absolute', left: layout.screenGutter, right: layout.screenGutter },
 });

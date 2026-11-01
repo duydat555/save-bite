@@ -36,10 +36,10 @@ export default function Nearby() {
           region={{ ...CAMPUS, latitudeDelta: 0.0075, longitudeDelta: 0.0075 }}
           style={styles.map}
         />
-        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 30, marginTop: 4 }}>
+        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 32 }}>
           Ở gần khu học xá
         </Text>
-        <Text variant="rowSub" color="textSecondary" style={{ marginTop: -8 }}>
+        <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 18 }}>
           Chọn nơi thuận tiện để ghé nhận.
         </Text>
         {offers.map((o) => (
@@ -54,7 +54,7 @@ export default function Nearby() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
   content: {
-    gap: 12,
+    gap: 16, // figma 294:4789: strip y12 (124), title y152, sub y200, rows (100) every 116
     paddingHorizontal: layout.screenGutter,
     paddingTop: 12,
     paddingBottom: layout.scrollBottomPadding,

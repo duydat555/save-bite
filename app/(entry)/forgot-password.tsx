@@ -34,13 +34,13 @@ export default function ForgotPassword() {
       <View style={{ height: insets.top }} />
       <AppBar title="Quên mật khẩu" />
       <View style={styles.content}>
-        <Text variant="authTitle" style={{ fontSize: 26, lineHeight: 32 }}>
+        <Text variant="authTitle" style={{ lineHeight: 30 }}>
           Đặt lại mật khẩu
         </Text>
-        <Text variant="rowSub" color="textSecondary" style={{ marginTop: 4, lineHeight: 18 }}>
+        <Text variant="rowSub" color="textSecondary" style={{ marginTop: 4, lineHeight: 20 }}>
           Nhập email bạn đã dùng để tạo tài khoản. SaveBite sẽ gửi hướng dẫn đặt lại mật khẩu.
         </Text>
-        <View style={{ marginTop: 24 }}>
+        <View style={{ marginTop: 16 }}>
           <InputField
             label="Email"
             value={email}
@@ -69,7 +69,8 @@ export default function ForgotPassword() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { paddingHorizontal: layout.screenGutter, paddingTop: 12 },
+  // figma 100:1855: title y125 (30), sub y159 (2×20), input y215 (74), CTA y477 right above the keyboard (y545)
+  content: { paddingHorizontal: layout.screenGutter, paddingTop: 10 },
   spacer: { flex: 1 },
   dock: { paddingHorizontal: layout.screenGutter, paddingTop: 12 },
 });
