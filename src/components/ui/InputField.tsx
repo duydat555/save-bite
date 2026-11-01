@@ -1,10 +1,13 @@
 import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
 import { colors, radius } from '@/design-system/tokens';
+import type { TextInputHandle } from '@/hooks/useFocusAfterTransition';
 
 import { Text } from './Text';
 
 type Props = Omit<TextInputProps, 'style'> & {
+  /** Ref to the underlying TextInput (pair with `useFocusAfterTransition` instead of `autoFocus`). */
+  inputRef?: React.Ref<TextInputHandle>;
   label: string;
   error?: string;
 };
@@ -14,7 +17,7 @@ type Props = Omit<TextInputProps, 'style'> & {
  * Label/value sizes, field radius and the error look are estimated from screenshots (Code Connect hides them) —
  * the error copy ("Kiểm tra lại thông tin đã nhập.", "Mật khẩu chưa đúng, thử lại.") is from the component props.
  */
-export function InputField({ label, error, ...input }: Props) {
+export function InputField({ label, error, inputRef, ...input }: Props) {
   return (
     <View style={styles.wrap}>
       <Text variant="fieldLabel" style={{ lineHeight: 18 }}>
@@ -22,6 +25,7 @@ export function InputField({ label, error, ...input }: Props) {
       </Text>
       <TextInput
         {...input}
+        ref={inputRef}
         accessibilityLabel={label}
         placeholderTextColor={colors.textSecondary}
         selectionColor={colors.brand900}

@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -9,6 +9,7 @@ import { InputField } from '@/components/ui/InputField';
 import { Text } from '@/components/ui/Text';
 import { demoUser } from '@/data/mock/users';
 import { colors, layout } from '@/design-system/tokens';
+import { useFocusAfterTransition, type TextInputHandle } from '@/hooks/useFocusAfterTransition';
 import { ERROR_GENERIC, isValidEmail } from '@/features/auth/validation';
 
 // SB-009 · Quên mật khẩu · Email & Keyboard. "Quên mật khẩu?" on SB-008 → here → "Gửi liên kết khôi phục" → SB-010.
@@ -17,6 +18,8 @@ export default function ForgotPassword() {
   const insets = useSafeAreaInsets();
   const [email, setEmail] = useState(demoUser.email);
   const [error, setError] = useState<string>();
+  const input = useRef<TextInputHandle>(null);
+  useFocusAfterTransition(input); // keyboard after the slide, not during it
 
   const send = () => {
     if (!isValidEmail(email)) return setError(ERROR_GENERIC);
@@ -46,7 +49,7 @@ export default function ForgotPassword() {
               setError(undefined);
             }}
             error={error}
-            autoFocus
+            inputRef={input}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}

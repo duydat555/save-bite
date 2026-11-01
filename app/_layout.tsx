@@ -61,6 +61,11 @@ export default function RootLayout() {
             name="(tabs)"
             options={{ animation: 'fade', animationDuration: duration.slow, gestureEnabled: false }}
           />
+          {/* Search: a light cross-fade; the keyboard is focused after the transition (useFocusAfterTransition) */}
+          <Stack.Screen
+            name="discover/search"
+            options={{ animation: 'fade', animationDuration: 180 }}
+          />
           <Stack.Screen
             name="reserve/success"
             options={{ animation: 'fade', animationDuration: duration.slow, gestureEnabled: false }}

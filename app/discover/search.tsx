@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -13,7 +13,7 @@ import {
   SearchInputBar,
   SuggestionRow,
 } from '@/features/discovery/SearchParts';
-import { useStaggerEntering } from '@/hooks/useEntering';
+import { useFocusAfterTransition, type TextInputHandle } from '@/hooks/useFocusAfterTransition';
 import { offerService } from '@/services/offerService';
 import { useSearchStore } from '@/store/searchStore';
 import type { OfferWithMerchant } from '@/types';
@@ -27,7 +27,9 @@ export default function Search() {
   const { recent, add, clear } = useSearchStore();
   const [q, setQ] = useState('');
   const [matches, setMatches] = useState<OfferWithMerchant[]>([]);
-  const entering = useStaggerEntering();
+  const input = useRef<TextInputHandle>(null);
+  // keyboard rises after the slide finishes; list rows render without entrance animations (nothing competes with the transition)
+  useFocusAfterTransition(input);
 
   useEffect(() => {
     let live = true;
@@ -54,7 +56,7 @@ export default function Search() {
           onChangeText={setQ}
           onSubmit={() => submit(q)}
           onCancel={() => router.back()}
-          autoFocus
+          inputRef={input}
         />
       </View>
 
@@ -72,10 +74,8 @@ export default function Search() {
                 </Text>
               </PressableScale>
             </View>
-            {recent.map((r, i) => (
-              <Animated.View key={r} entering={entering(i)}>
-                <RecentRow label={r} onPress={() => submit(r)} onFill={() => setQ(r)} />
-              </Animated.View>
+            {recent.map((r) => (
+              <RecentRow key={r} label={r} onPress={() => submit(r)} onFill={() => setQ(r)} />
             ))}
             <Text variant="bold14" color="textSecondary" style={styles.quickTitle}>
               Gợi ý nhanh
@@ -102,8 +102,8 @@ export default function Search() {
             <Text variant="bold13" color="textSecondary" style={styles.suggestTitle}>
               {`Gợi ý cho “${q.trim()}”`}
             </Text>
-            {matches.map((o, i) => (
-              <Animated.View key={o.id} entering={entering(i)}>
+            {matches.map((o) => (
+              <Animated.View key={o.id} entering={FadeIn.duration(150)}>
                 <SuggestionRow
                   image={o.image}
                   title={o.title}

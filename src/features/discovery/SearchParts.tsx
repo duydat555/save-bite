@@ -1,5 +1,6 @@
 import { Image, type ImageSource } from 'expo-image';
 import { SymbolView, type SFSymbol } from 'expo-symbols';
+import type { TextInputHandle } from '@/hooks/useFocusAfterTransition';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -15,6 +16,7 @@ export function SearchInputBar({
   onCancel,
   onPressField,
   autoFocus,
+  inputRef,
   placeholder = 'Tìm món hoặc cửa hàng',
 }: {
   value: string;
@@ -24,6 +26,8 @@ export function SearchInputBar({
   /** When set, the field is a button (results screen: tap to edit the query). */
   onPressField?: () => void;
   autoFocus?: boolean;
+  /** Use with `useFocusAfterTransition` instead of `autoFocus` so the keyboard does not fight the screen transition. */
+  inputRef?: React.Ref<TextInputHandle>;
   placeholder?: string;
 }) {
   const field = (
@@ -35,6 +39,7 @@ export function SearchInputBar({
         </Text>
       ) : (
         <TextInput
+          ref={inputRef}
           value={value}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmit}
