@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { StackTabBar } from '@/components/features/GlassTabBar';
 import { OfferCard } from '@/components/features/OfferCard';
 import { Text } from '@/components/ui/Text';
 import { colors } from '@/design-system/tokens';
@@ -111,6 +112,7 @@ export default function CategoryScreen() {
           />
         ) : null}
       </ScrollView>
+      <StackTabBar />
     </View>
   );
 }

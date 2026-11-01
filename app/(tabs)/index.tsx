@@ -28,7 +28,7 @@ import type { OfferWithMerchant, ReservationWithOffer } from '@/types';
 import { formatTimeRange } from '@/utils/format';
 
 const openCategory = (cat: 'bakery' | 'meal' | 'produce') =>
-  router.navigate({ pathname: '/(tabs)/category', params: { cat } });
+  router.push({ pathname: '/discover/category', params: { cat } });
 
 // SB-013 (guest) / SB-014 (signed in, active order) / SB-015 · Discovery · Rescue Market (logged-in feed). Header 56 below the status bar, scroll area below it.
 // Motion: staggered FadeInDown on first mount (first 8 blocks), skeleton while the mock repo loads, pull-to-refresh.
@@ -78,7 +78,7 @@ export default function DiscoverTab() {
         guest={guest}
         onPressLogin={() => router.push('/(entry)/login')}
         onPressArea={() => router.push('/discover/area')}
-        onPressSaved={() => router.navigate('/(tabs)/saved')}
+        onPressSaved={() => router.push('/discover/saved')}
         onPressNotifications={() => router.push('/account/notifications')}
       />
       <ScrollView
@@ -146,9 +146,9 @@ export default function DiscoverTab() {
         <Animated.View entering={entering(3)}>
           <SectionHeader
             title="Chọn cho chiều nay"
-            onPressTitle={() => router.navigate('/(tabs)/urgent')}
+            onPressTitle={() => router.push('/discover/urgent')}
             actionLabel="Bản đồ →"
-            onPressAction={() => router.navigate('/(tabs)/map')}
+            onPressAction={() => router.push('/discover/map')}
           />
         </Animated.View>
 

@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { StackTabBar } from '@/components/features/GlassTabBar';
 import { Text } from '@/components/ui/Text';
 import { colors, layout } from '@/design-system/tokens';
 import { CategoryHeader, CategoryRow } from '@/features/discovery/CategoryParts';
@@ -44,6 +45,7 @@ export default function Nearby() {
           <CategoryRow key={o.id} offer={o} />
         ))}
       </ScrollView>
+      <StackTabBar />
     </View>
   );
 }

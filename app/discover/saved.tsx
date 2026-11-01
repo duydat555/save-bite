@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { StackTabBar } from '@/components/features/GlassTabBar';
 import { GlassButton } from '@/components/ui/GlassButton';
 import { SvgIcon } from '@/components/ui/SvgIcon';
 import { Text } from '@/components/ui/Text';
@@ -52,6 +53,7 @@ export default function Saved() {
           </Text>
         </View>
       </ScrollView>
+      <StackTabBar />
     </View>
   );
 }

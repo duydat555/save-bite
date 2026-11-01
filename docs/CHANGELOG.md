@@ -80,3 +80,8 @@
 - Tự nối các liên kết còn treo theo suy luận — bảng đầy đủ ở `docs/04-NAVIGATION-FLOW.md`.
 - Ảnh tải từ Figma: hero danh mục (128×128 — bản Figma xuất 1×, sẽ hơi mờ trên màn Retina), bản đồ, ảnh sữa/trứng.
 - Kiểm tra: tsc, eslint, jest (11), expo-doctor 20/20, expo export ios đều OK. **Chưa chạy trên thiết bị.** Tổng: 100/100 màn done.
+
+## 2026-11-02 — Sửa lỗi điều hướng bản đồ / danh mục
+
+- **Nguyên nhân:** SDK 58 coi tab `href: null` là `hidden` và **không cho điều hướng tới**, nên bấm Bản đồ / Bánh mì / Bữa ăn / Rau củ chỉ quay về Khám phá. Các màn SB-016/017, 028–033 vì thế chưa từng mở được.
+- **Sửa:** chuyển thành màn stack thường (`/discover/map`, `/discover/category?cat=…`, `/discover/urgent`, `/discover/nearby`, `/discover/saved`) và thêm `StackTabBar` (cùng giao diện Tab Bar, tách từ `GlassTabBar`) để thanh tab vẫn hiện như Figma; chạm một tab sẽ đóng các màn stack và về tab đó. Nút Back dùng `router.back()`.

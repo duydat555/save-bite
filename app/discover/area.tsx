@@ -82,7 +82,7 @@ export default function ChooseArea() {
         </Text>
       </ScrollView>
       <View style={[styles.dock, { bottom: insets.bottom + 20 }]}>
-        <Button label="Xác nhận khu vực" onPress={() => router.dismissTo('/(tabs)/nearby')} />
+        <Button label="Xác nhận khu vực" onPress={() => router.replace('/discover/nearby')} />
       </View>
     </View>
   );

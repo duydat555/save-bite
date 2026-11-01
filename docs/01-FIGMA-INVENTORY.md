@@ -37,12 +37,12 @@ File này sinh bởi `node scripts/gen-inventory.js` từ `scripts/figma-frames.
 | SB-025 | Lọc thời gian nhận · Pickup Slots | sheet | `/discover/filter-slots` | [103:2256](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=103-2256) | done |
 | SB-026 | Nhu cầu ăn uống & An toàn · Dietary | sheet | `/discover/filter-dietary` | [103:2297](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=103-2297) | done |
 | SB-027 | Sắp xếp kết quả · Sort Options | sheet | `/discover/sort` | [103:2334](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=103-2334) | done |
-| SB-028 | Danh mục Bữa ăn · Cooked Meals | screen | `/(tabs)/category?key=meal` | [104:2253](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2253) | done |
-| SB-029 | Danh mục Bánh mì & Pastry · Bakery | screen | `/(tabs)/category?key=bakery` | [104:2329](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2329) | done |
-| SB-030 | Danh mục Thực phẩm & Rau củ · Fresh Produce | screen | `/(tabs)/category?key=produce` | [104:2404](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2404) | done |
-| SB-031 | Đang nhận sớm · Urgent Rescues | screen | `/(tabs)/urgent` | [104:2475](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2475) | done |
-| SB-032 | Quanh trường · Walking Distance | screen | `/(tabs)/nearby` | [104:2551](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2551) | done |
-| SB-033 | Yêu thích & Đã lưu · Saved Items | screen | `/(tabs)/saved` | [104:2627](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2627) | done |
+| SB-028 | Danh mục Bữa ăn · Cooked Meals | screen | `/discover/category?cat=meal` | [104:2253](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2253) | done |
+| SB-029 | Danh mục Bánh mì & Pastry · Bakery | screen | `/discover/category?cat=bakery` | [104:2329](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2329) | done |
+| SB-030 | Danh mục Thực phẩm & Rau củ · Fresh Produce | screen | `/discover/category?cat=produce` | [104:2404](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2404) | done |
+| SB-031 | Đang nhận sớm · Urgent Rescues | screen | `/discover/urgent` | [104:2475](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2475) | done |
+| SB-032 | Quanh trường · Walking Distance | screen | `/discover/nearby` | [104:2551](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2551) | done |
+| SB-033 | Yêu thích & Đã lưu · Saved Items | screen | `/discover/saved` | [104:2627](https://www.figma.com/design/7suZz9C8oL5zV2NMxlsIVI/SaveBite-V2?node-id=104-2627) | done |
 
 ## 02 · Offer & Merchant (17)
 

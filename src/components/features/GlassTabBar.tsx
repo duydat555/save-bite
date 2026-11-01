@@ -1,8 +1,10 @@
 import * as Haptics from 'expo-haptics';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
+import { router, type Href } from 'expo-router';
 import { SymbolView, type SFSymbol } from 'expo-symbols';
 import { useEffect } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -34,12 +36,58 @@ const INSET = 4;
  * Geometry (height 64, margins 20, pill) is estimated from the SB-015 screenshot.
  */
 export function GlassTabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
+  const visible = state.routes.filter((r) => TABS[r.name]);
+  const activeName = state.routes[state.index]?.name;
+  return (
+    <TabBarView
+      bottomInset={insets.bottom}
+      activeName={activeName}
+      onSelect={(name) => {
+        const route = visible.find((r) => r.name === name);
+        if (!route) return;
+        const event = emitter.emit({
+          type: 'tabPress',
+          target: route.key,
+          canPreventDefault: true,
+        });
+        if (name !== activeName && !event.defaultPrevented) navigateToTab(route.key);
+      }}
+    />
+  );
+}
+
+/**
+ * Same bar for screens pushed on the root stack (map, categories, saved…): Figma keeps the tab bar visible there.
+ * The pill stays on Khám phá; picking a tab returns to the tab shell first.
+ */
+export function StackTabBar() {
+  const insets = useSafeAreaInsets();
+  return (
+    <TabBarView
+      bottomInset={insets.bottom}
+      activeName="index"
+      onSelect={(name) => {
+        router.dismissAll();
+        if (name !== 'index') router.navigate(`/(tabs)/${name}` as Href);
+      }}
+    />
+  );
+}
+
+function TabBarView({
+  bottomInset,
+  activeName,
+  onSelect,
+}: {
+  bottomInset: number;
+  activeName: string | undefined;
+  onSelect: (name: string) => void;
+}) {
   const { width } = useWindowDimensions();
   const reduced = useReducedMotion();
   const barWidth = width - BAR_MARGIN * 2;
   // Hidden routes (e.g. the map) are not tabs; while one is focused the pill stays on Khám phá (as in Figma).
-  const visible = state.routes.filter((r) => TABS[r.name]);
-  const activeName = state.routes[state.index]?.name;
+  const visible = Object.keys(TABS).map((name) => ({ key: name, name }));
   const activeIndex = Math.max(
     visible.findIndex((r) => r.name === activeName),
     0,
@@ -57,7 +105,7 @@ export function GlassTabBar({ state, emitter, navigateToTab, insets }: BottomTab
   const pillStyle = useAnimatedStyle(() => ({ transform: [{ translateX: pillX.value }] }));
 
   return (
-    <View pointerEvents="box-none" style={[styles.wrap, { paddingBottom: insets.bottom }]}>
+    <View pointerEvents="box-none" style={[styles.wrap, { paddingBottom: bottomInset }]}>
       <GlassSurface variant="bar" radius={radius.pill} style={{ height: BAR_HEIGHT }}>
         <View style={styles.row}>
           <Animated.View
@@ -76,12 +124,7 @@ export function GlassTabBar({ state, emitter, navigateToTab, insets }: BottomTab
                 focused={focused}
                 onPress={() => {
                   Haptics.selectionAsync();
-                  const event = emitter.emit({
-                    type: 'tabPress',
-                    target: route.key,
-                    canPreventDefault: true,
-                  });
-                  if (!focused && !event.defaultPrevented) navigateToTab(route.key);
+                  onSelect(route.name);
                 }}
               />
             );

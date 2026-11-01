@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { StackTabBar } from '@/components/features/GlassTabBar';
 import { OfferListRow } from '@/components/features/OfferListRow';
 import { SearchInputBar } from '@/features/discovery/SearchParts';
 import { MapChip, MapDisclosure, MapPricePin, PeekSheetFrame } from '@/features/discovery/MapParts';
@@ -56,7 +57,7 @@ export default function MapTab() {
       </View>
       <View style={[styles.chips, { top: insets.top + 64 }]}>
         <MapChip label="Bản đồ · 3" width={113} selected />
-        <MapChip label="Danh sách" width={113} onPress={() => router.navigate('/(tabs)')} />
+        <MapChip label="Danh sách" width={113} onPress={() => router.back()} />
         {/* Filter sheet (SB-023) is outside this batch — inert */}
         <MapChip label="Lọc" width={111} />
       </View>
@@ -99,6 +100,7 @@ export default function MapTab() {
           ) : null}
         </PeekSheetFrame>
       </View>
+      <StackTabBar />
     </View>
   );
 }

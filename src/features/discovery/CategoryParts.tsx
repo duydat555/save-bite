@@ -19,7 +19,7 @@ export function CategoryHeader({ title, right }: { title: string; right?: React.
   return (
     <>
       <View style={{ height: insets.top }} />
-      <AppBar title={title} onBack={() => router.navigate('/(tabs)')} right={right} />
+      <AppBar title={title} onBack={() => router.back()} right={right} />
     </>
   );
 }

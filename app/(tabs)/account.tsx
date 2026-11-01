@@ -80,7 +80,7 @@ export default function AccountTab() {
               icon: 'heart',
               title: 'Đã lưu',
               subtitle: 'Ưu đãi bạn muốn xem lại',
-              onPress: () => router.navigate('/(tabs)/saved'),
+              onPress: () => router.push('/discover/saved'),
             },
           ]}
         />

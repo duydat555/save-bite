@@ -32,7 +32,7 @@ const LINKS: { label: string; href: Href }[] = [
   { label: 'Đã quá hạn dùng (SB-084) →', href: '/account/pantry/overdue' },
   { label: 'Gợi ý từ tủ (SB-088) →', href: '/account/pantry/suggestions' },
   { label: 'Thông báo (SB-095/096) →', href: '/account/notifications' },
-  { label: 'Nhận sớm (SB-031) →', href: '/(tabs)/urgent' },
+  { label: 'Nhận sớm (SB-031) →', href: '/discover/urgent' },
   { label: 'Quyền vị trí (SB-011) →', href: '/(entry)/permission-location' },
   { label: 'Quyền thông báo (SB-012) →', href: '/(entry)/permission-notifications' },
 ];
