@@ -45,3 +45,14 @@ export const travel = {
   parallaxStage: 0.2, // onboarding: extra horizontal shift of the hero stage (× page offset)
   parallaxCopy: -0.1, // onboarding: opposite shift of the copy block
 } as const;
+
+/** Map screen (SB-016/017): iOS-like springs (damping 20–26, stiffness 180–260, mass 1) and camera timings. */
+export const mapMotion = {
+  camera: 450, // animateToRegion / fitToCoordinates (350–500 ms)
+  pinIn: 280, // pin scale-in + fade
+  pinStagger: 40, // ms between pins (30–50)
+  sheet: { damping: 24, stiffness: 240, mass: 1 } as WithSpringConfig, // detent snap
+  pin: { damping: 22, stiffness: 260, mass: 1 } as WithSpringConfig, // selected pin scale
+  rubber: 0.3, // resistance past the first / last detent
+  selectedScale: 1.12,
+} as const;

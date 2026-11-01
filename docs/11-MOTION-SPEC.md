@@ -39,3 +39,15 @@ Tắt: scale, trượt, parallax, stagger, pill/thumb spring (đổi sang timing
 ## Kính (`GlassSurface`)
 
 `variant` circle | pill | bar. iOS 26 → `GlassView` (expo-glass-effect); iOS cũ/không khả dụng → `BlurView` (intensity 40–80, tint light). Luôn thêm: lớp phủ trắng mờ (0.32 khi dùng blur, 0.14 khi dùng kính thật), sheen trắng phía trên, viền 1 px gradient sáng→mờ, highlight mỏng ở mép trên, bóng mềm bên dưới. Dùng cho: nút heart/bell/filter/back/close và Tab Bar nổi.
+
+## Bản đồ (SB-016/017) — `mapMotion` trong `motion.ts`
+
+| Phần tử | Hành vi | Thông số |
+| --- | --- | --- |
+| Camera (`animateToRegion`, `fitToCoordinates`) | Chọn ghim → dịch tâm để ghim nằm trên vùng không bị sheet che; chạm cụm → zoom vào các ghim trong cụm. Không animate khi người dùng đang kéo/zoom | 450 ms |
+| Ghim giá (`PricePin`) | Hiện sau `onMapReady`: scale 0.6→1 + fade + nhích 6 px, so le 40 ms/ghim. Chọn: spring lên ×1.12, nền chuyển brand900 → price (theo Figma), bóng sâu hơn. Hết hàng: opacity 0.5 | timing 280 ms · spring `mapMotion.pin` (damping 22, stiffness 260, mass 1) |
+| Chấm người dùng | Quầng xanh nở + mờ dần, lặp | 1800 ms |
+| Bottom sheet (`DetentSheet`) | 3 nấc (152 · nửa màn · gần đầy). Kéo theo ngón tay; thả: chiếu vận tốc → snap nấc gần nhất bằng spring; rubber-band ×0.3 quá hai đầu; chỉ cuộn danh sách ở nấc cuối | spring `mapMotion.sheet` (damping 24, stiffness 240, mass 1) |
+| Nhóm nút kính | Nhấn scale 0.92 + haptic Light; "Vị trí của tôi" bật → icon `location.fill` + màu brand | như #4 |
+| Haptic | `selectionAsync` khi chọn ghim / đổi nấc sheet / chạm cụm; `impactAsync(Light)` khi chạm nút điều khiển | — |
+| Reduce Motion | Bỏ scale/bounce/nhích/quầng nhấp nháy, chỉ còn fade; sheet dùng timing 250 ms | — |

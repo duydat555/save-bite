@@ -1,56 +1,152 @@
+import * as Haptics from 'expo-haptics';
+import { SymbolView, type SFSymbol } from 'expo-symbols';
+import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
+  withDelay,
+  withRepeat,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { useEffect } from 'react';
 
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
-import { duration, spring } from '@/design-system/motion';
+import { duration, easing, mapMotion } from '@/design-system/motion';
 import { colors, radius } from '@/design-system/tokens';
 
-/* MapPricePin (88×43): price pill with a white rim; selected = Rescue Price fill, others brand900. */
-export function MapPricePin({
+/**
+ * Price pin for the real map (Marker child). Figma MapPricePin: brand900 pill 88×43 with a white rim and white price,
+ * selected = Rescue Price fill. Added for the native map: a small tail anchoring the pin, two soft shadow layers, tabular
+ * digits, a staggered scale-in (`delay`) and a spring to ×1.12 when selected. `dimmed` (sold out) fades to 0.5.
+ */
+export function PricePin({
   label,
   selected,
-  onPress,
-  style,
+  dimmed,
+  delay,
 }: {
   label: string;
   selected: boolean;
-  onPress: () => void;
-  style: object;
+  dimmed?: boolean;
+  delay: number;
 }) {
   const reduced = useReducedMotion();
+  const appear = useSharedValue(0);
   const lift = useSharedValue(selected ? 1 : 0);
+  useEffect(() => {
+    appear.value = withDelay(
+      delay,
+      withTiming(1, {
+        duration: reduced ? duration.fast : mapMotion.pinIn,
+        easing: easing.enter,
+      }),
+    );
+  }, [appear, delay, reduced]);
   useEffect(() => {
     lift.value = reduced
       ? withTiming(selected ? 1 : 0, { duration: duration.fast })
-      : withSpring(selected ? 1 : 0, spring.bounce);
+      : withSpring(selected ? 1 : 0, mapMotion.pin);
   }, [selected, reduced, lift]);
-  const scale = useAnimatedStyle(() => ({ transform: [{ scale: 1 + lift.value * 0.08 }] }));
+
+  const style = useAnimatedStyle(() => ({
+    opacity: appear.value * (dimmed ? 0.5 : 1),
+    transform: [
+      { translateY: reduced ? 0 : (1 - appear.value) * 6 },
+      {
+        scale:
+          (reduced ? 1 : 0.6 + appear.value * 0.4) *
+          (reduced ? 1 : 1 + lift.value * (mapMotion.selectedScale - 1)),
+      },
+    ],
+  }));
+  const fill = selected ? colors.price : colors.brand900;
 
   return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityState={{ selected }}
-      accessibilityLabel={`Giá ${label}`}
-      onPress={onPress}
-      style={[styles.pinHit, style]}
-    >
-      <Animated.View
-        style={[styles.pin, { backgroundColor: selected ? colors.price : colors.brand900 }, scale]}
-      >
-        <Text variant="bold14" color="white">
-          {label}
+    <Animated.View collapsable={false} style={[styles.pinBox, style]}>
+      <View style={styles.pinAmbient}>
+        <View
+          style={[styles.pinPill, { backgroundColor: fill }, selected && styles.pinPillSelected]}
+        >
+          <Text variant="bold14" color="white" style={styles.tabular}>
+            {label}
+          </Text>
+        </View>
+      </View>
+      <View style={[styles.tail, { borderTopColor: fill }]} />
+    </Animated.View>
+  );
+}
+
+/** Cluster bubble: round brand900 disc with the count and a white rim (tap zooms into the group). */
+export function ClusterBubble({ count }: { count: number }) {
+  return (
+    <View collapsable={false} style={styles.clusterBox}>
+      <View style={styles.cluster}>
+        <Text variant="bold15" color="white" style={styles.tabular}>
+          {count}
         </Text>
-      </Animated.View>
-    </PressableScale>
+      </View>
+    </View>
+  );
+}
+
+/** Apple-style user dot: blue disc with a white rim and a soft halo that pulses. Static under Reduce Motion. */
+export function UserDot() {
+  const reduced = useReducedMotion();
+  const pulse = useSharedValue(0);
+  useEffect(() => {
+    if (reduced) return;
+    pulse.value = withRepeat(withTiming(1, { duration: 1800, easing: easing.enter }), -1, false);
+    return () => cancelAnimation(pulse);
+  }, [pulse, reduced]);
+  const halo = useAnimatedStyle(() => ({
+    opacity: reduced ? 0.25 : 0.35 * (1 - pulse.value),
+    transform: [{ scale: reduced ? 1 : 0.6 + pulse.value * 1.2 }],
+  }));
+  return (
+    <View collapsable={false} style={styles.userBox}>
+      <Animated.View style={[styles.userHalo, halo]} />
+      <View style={styles.userDot} />
+    </View>
+  );
+}
+
+/** Vertical Liquid Glass control group (Apple Maps): 46pt buttons separated by a hairline. */
+export function MapControlGroup({
+  items,
+}: {
+  items: { symbol: SFSymbol; label: string; active?: boolean; onPress: () => void }[];
+}) {
+  return (
+    <GlassSurface variant="bar" radius={23} style={{ width: 46, height: items.length * 46 }}>
+      <View style={{ flex: 1 }}>
+        {items.map((it, i) => (
+          <PressableScale
+            key={it.label}
+            accessibilityRole="button"
+            accessibilityLabel={it.label}
+            accessibilityState={{ selected: !!it.active }}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              it.onPress();
+            }}
+            style={[styles.ctrl, i > 0 && styles.ctrlRule]}
+          >
+            <SymbolView
+              name={it.symbol}
+              size={19}
+              weight="medium"
+              tintColor={it.active ? colors.brand900 : colors.textPrimary}
+            />
+          </PressableScale>
+        ))}
+      </View>
+    </GlassSurface>
   );
 }
 
@@ -88,16 +184,6 @@ export function MapChip({
   );
 }
 
-/* MapPeekSheet (361×152): handle + a list row of the selected pin's offer. */
-export function PeekSheetFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <View style={styles.sheet}>
-      <View style={styles.handle} />
-      <View style={{ marginTop: 14 }}>{children}</View>
-    </View>
-  );
-}
-
 /* Disclosure pill above the sheet (361×28). */
 export function MapDisclosure({ text }: { text: string }) {
   return (
@@ -108,26 +194,79 @@ export function MapDisclosure({ text }: { text: string }) {
 }
 
 const styles = StyleSheet.create({
-  pinHit: {
-    position: 'absolute',
-    width: 88,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+  tabular: { fontVariant: ['tabular-nums'] },
+  pinBox: { width: 100, height: 56, alignItems: 'center', justifyContent: 'flex-start' },
+  // two soft shadow layers: a 1pt contact shadow on the rim, a wide ambient one on this wrapper
+  pinAmbient: {
+    borderRadius: 22,
+    borderCurve: 'continuous',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
   },
-  pin: {
+  pinPill: {
     width: 88,
     height: 43,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 22,
+    borderCurve: 'continuous',
     borderWidth: 2,
     borderColor: colors.white,
-    shadowColor: colors.textPrimary,
-    shadowOpacity: 0.25,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 1,
+    shadowOffset: { width: 0, height: 1 },
+  },
+  pinPillSelected: { shadowOpacity: 0.2, shadowRadius: 3 },
+  tail: {
+    width: 0,
+    height: 0,
+    marginTop: -1,
+    borderLeftWidth: 6,
+    borderRightWidth: 6,
+    borderTopWidth: 8,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+  },
+  clusterBox: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center' },
+  cluster: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 22,
+    borderWidth: 2.5,
+    borderColor: colors.white,
+    backgroundColor: colors.brand900,
+    shadowColor: '#000',
+    shadowOpacity: 0.18,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 3 },
   },
+  userBox: { width: 56, height: 56, alignItems: 'center', justifyContent: 'center' },
+  userHalo: {
+    position: 'absolute',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#0A84FF',
+  },
+  userDot: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 3,
+    borderColor: colors.white,
+    backgroundColor: '#0A84FF',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 1 },
+  },
+  ctrl: { width: 46, height: 46, alignItems: 'center', justifyContent: 'center' },
+  ctrlRule: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(9,47,41,0.18)' },
   chipSolid: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -138,24 +277,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
   },
-  sheet: {
-    width: 361,
-    height: 152,
-    paddingHorizontal: 17,
-    paddingTop: 13,
-    borderRadius: 28,
-    borderWidth: 1,
-    borderColor: colors.borderDefault,
-    backgroundColor: colors.canvas,
-    shadowColor: colors.textPrimary,
-    shadowOpacity: 0.12,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 6 },
-  },
-  handle: { width: 36, height: 4, borderRadius: 2, backgroundColor: colors.dotInactive },
   disclosure: {
     width: 361,
     height: 28,
+    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.input,

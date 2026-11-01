@@ -85,3 +85,10 @@
 
 - **Nguyên nhân:** SDK 58 coi tab `href: null` là `hidden` và **không cho điều hướng tới**, nên bấm Bản đồ / Bánh mì / Bữa ăn / Rau củ chỉ quay về Khám phá. Các màn SB-016/017, 028–033 vì thế chưa từng mở được.
 - **Sửa:** chuyển thành màn stack thường (`/discover/map`, `/discover/category?cat=…`, `/discover/urgent`, `/discover/nearby`, `/discover/saved`) và thêm `StackTabBar` (cùng giao diện Tab Bar, tách từ `GlassTabBar`) để thanh tab vẫn hiện như Figma; chạm một tab sẽ đóng các màn stack và về tab đó. Nút Back dùng `router.back()`.
+
+## 2026-11-02 — Bản đồ thật (SB-016/017)
+
+- Thay ảnh tĩnh bằng **Apple Maps** (`react-native-maps` 1.29, chạy trong Expo Go): `mutedStandard`, tắt POI/la bàn/thang tỷ lệ, khóa giao diện sáng, `mapPadding` để logo Apple và tâm bản đồ nằm trên sheet + tab bar; nền tạm #F4EFE6 và ghim chỉ hiện sau `onMapReady`.
+- Ghim giá (màu/kích thước theo Figma: brand900, chọn = Rescue Price) thêm đuôi nhỏ, 2 lớp bóng, số `tabular-nums`, scale-in so le, spring khi chọn; gom cụm theo mức zoom (tự viết, chạm cụm → zoom); chấm người dùng kiểu Apple có quầng sóng (tọa độ demo, không xin quyền vị trí).
+- `DetentSheet`: bottom sheet 3 nấc kéo theo ngón tay, snap bằng spring theo vận tốc, rubber-band, grabber 36×5; chọn ghim → sheet về nấc đầu và bản đồ dịch tâm. Nhóm nút kính dọc (Vị trí của tôi, Kiểu bản đồ). Chip "Lọc" nối SB-023.
+- Tọa độ cửa hàng là **dữ liệu demo** (`src/data/mock/mapPins.ts`). Đã cập nhật CLAUDE.md và docs/07, docs/11.
