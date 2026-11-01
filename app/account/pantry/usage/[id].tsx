@@ -11,7 +11,7 @@ import { Choice } from '@/components/ui/Choice';
 import { Text } from '@/components/ui/Text';
 import { storageLabel } from '@/constants/pantry';
 import { colors, radius } from '@/design-system/tokens';
-import { ItemSummary, StickyDock, flowStyles } from '@/features/pantry/PantryFlowParts';
+import { ItemSummary, StickyDock } from '@/features/pantry/PantryFlowParts';
 import { usePantryStore } from '@/store/pantryStore';
 import { formatAmount, parseQuantity } from '@/utils/pantry';
 
@@ -55,15 +55,16 @@ export default function PantryUsage() {
       <View style={{ height: insets.top }} />
       <AppBar title="Cập nhật lượng dùng" />
       <ScrollView
-        contentContainerStyle={[flowStyles.content, { paddingBottom: insets.bottom + 120 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
         showsVerticalScrollIndicator={false}
       >
         <ItemSummary
-          glyph={<SymbolView name="fork.knife" size={22} tintColor={colors.brand900} />}
+          glyph={<SymbolView name="fork.knife" size={24} tintColor={colors.brand900} />}
           name={item.name}
           sub={`${item.quantity} · ${storageLabel[item.storage]}`}
+          height={72}
         />
-        <Text variant="largeTitle" style={[flowStyles.title, { marginTop: 8 }]}>
+        <Text variant="largeTitle" style={{ fontSize: 24, lineHeight: 32 }}>
           Bạn đã dùng bao nhiêu?
         </Text>
         <Text variant="bodyLg" style={{ lineHeight: 22 }}>
@@ -74,7 +75,7 @@ export default function PantryUsage() {
             <Choice
               key={o.label}
               label={o.label}
-              height={52}
+              height={50}
               selected={used === o.used}
               onPress={() => setUsed(o.used)}
             />
@@ -92,7 +93,7 @@ export default function PantryUsage() {
           {'Nếu dùng hết, lịch nhắc của món sẽ kết thúc.\nDùng một phần sẽ giữ lại nhắc hạn.'}
         </Text>
       </ScrollView>
-      <StickyDock>
+      <StickyDock offset={36}>
         <Button label="Xác nhận lượng đã dùng" onPress={confirm} />
       </StickyDock>
     </View>
@@ -101,11 +102,14 @@ export default function PantryUsage() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  row: { flexDirection: 'row', gap: 12, marginTop: 6 },
+  // figma 133:3370: item context y12 (72), heading y104, body y156, fractions y220 (50 high, 109.6 wide, gap 12),
+  // remaining card y288 (96, pad 20), note y404 — 20pt gaps between blocks
+  content: { gap: 20, paddingHorizontal: 20, paddingTop: 12 },
+  row: { flexDirection: 'row', gap: 12 },
   remaining: {
-    gap: 4,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    height: 96,
+    gap: 12,
+    padding: 20,
     borderRadius: radius.md,
     backgroundColor: colors.brand100,
   },

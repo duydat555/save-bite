@@ -106,13 +106,28 @@ export const typography = {
   alt17: { fontFamily: fontFamily.semiBold, fontSize: 17, lineHeight: 22 },
   alt14: { fontFamily: fontFamily.medium, fontSize: 14, lineHeight: 18 },
   // — Pantry (SB-074…090) —
-  pantryTitle: { fontFamily: fontFamily.bold, fontSize: 30, lineHeight: 38 },
+  pantryTitle: { fontFamily: fontFamily.semiBold, fontSize: 26, lineHeight: 38 }, // figma 606:8187 (SemiBold 26/38)
   rowName: { fontFamily: fontFamily.medium, fontSize: 14, lineHeight: 21 },
   statusTag: { fontFamily: fontFamily.semiBold, fontSize: 11, lineHeight: 16 },
   rowAction: { fontFamily: fontFamily.semiBold, fontSize: 12, lineHeight: 16 },
   dateCaption: { fontFamily: fontFamily.medium, fontSize: 12, lineHeight: 18 },
   formLabel: { fontFamily: fontFamily.semiBold, fontSize: 14 },
-  heroPantry: { fontFamily: fontFamily.display, fontSize: 22, lineHeight: 28 },
+  heroPantry: { fontFamily: fontFamily.display, fontSize: 20, lineHeight: 26 }, // figma 624:1248 (Fraunces Bold 20/26)
+  semi13: { fontFamily: fontFamily.semiBold, fontSize: 13, lineHeight: 19 },
+  titleSemi20: {
+    fontFamily: fontFamily.semiBold,
+    fontSize: 20,
+    lineHeight: 26,
+    letterSpacing: -0.2,
+  }, // type/title/section
+  titleSemi20Tall: {
+    fontFamily: fontFamily.semiBold,
+    fontSize: 20,
+    lineHeight: 28,
+    letterSpacing: -0.2,
+  },
+  menuSystem: { fontSize: 17, lineHeight: 20, letterSpacing: -0.43 }, // SF Pro (native menu items)
+  popupSystem: { fontSize: 13, fontWeight: '600' }, // SF Pro Semibold 13 (Apple27 popup button)
   // — Controls (SDS Button, size Medium) — size/weight estimated from screenshots: not exposed (Code Connect).
   buttonLabel: { fontFamily: fontFamily.semiBold, fontSize: 16 },
   buttonSubtle: { fontFamily: fontFamily.regular, fontSize: 15 },

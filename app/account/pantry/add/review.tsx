@@ -52,7 +52,7 @@ export default function PantryReview() {
       >
         <Text variant="displayEditorial">Mọi thứ đã đúng chưa?</Text>
         <View style={styles.card}>
-          <Text variant="title20" style={{ marginBottom: 6 }}>
+          <Text variant="titleSemi20" style={{ marginBottom: 0 }}>
             {draft.name}
           </Text>
           <Line
@@ -75,7 +75,7 @@ export default function PantryReview() {
         <Button
           label="Sửa lại thông tin"
           variant="neutral"
-          style={{ height: 50 }}
+          style={{ height: 52 }}
           onPress={() => router.back()}
         />
       </View>
@@ -88,10 +88,10 @@ function Line({ icon, label, value }: { icon: SvgName; label: string; value: str
     <View style={styles.line}>
       <SvgIcon name={icon} size={24} />
       <View>
-        <Text variant="helper" color="textSecondary">
+        <Text variant="helper" color="textSecondary" style={{ lineHeight: 17 }}>
           {label}
         </Text>
-        <Text variant="semi16">{value}</Text>
+        <Text variant="bodyMedium">{value}</Text>
       </View>
     </View>
   );
@@ -99,8 +99,9 @@ function Line({ icon, label, value }: { icon: SvgName; label: string; value: str
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 16, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
-  card: { gap: 14, padding: 20, borderRadius: 24, backgroundColor: colors.white },
-  line: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  // figma 205:4303: title at y20, card at +20, rows 44 high every 56, note 20 below the card
+  content: { gap: 20, paddingHorizontal: layout.screenGutter, paddingTop: 20 },
+  card: { gap: 12, padding: 20, borderRadius: 24, backgroundColor: colors.white }, // radius 24 = ESTIMATE
+  line: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 12 },
   footer: { position: 'absolute', left: layout.screenGutter, right: layout.screenGutter, gap: 8 },
 });

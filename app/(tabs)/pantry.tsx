@@ -1,32 +1,37 @@
 import { router, useFocusEffect } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useMemo, useState } from 'react';
-import { ActionSheetIOS, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Button } from '@/components/ui/Button';
 import { GlassButton } from '@/components/ui/GlassButton';
+import { GlassMenu } from '@/components/ui/GlassMenu';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { SvgIcon } from '@/components/ui/SvgIcon';
-import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
-import { categoryMeta, categoryOrder, storageLabel } from '@/constants/pantry';
+import { categoryMeta, storageLabel } from '@/constants/pantry';
 import { colors, layout, radius } from '@/design-system/tokens';
-import { FilterPopup, PantryItemRow, PantryOverviewHero } from '@/features/pantry/PantryParts';
+import { PantryItemRow, PantryOverviewHero, PopupButton } from '@/features/pantry/PantryParts';
 import { useStaggerEntering } from '@/hooks/useEntering';
 import { useAccountStore } from '@/store/accountStore';
 import { usePantryDraft } from '@/store/pantryDraft';
 import { usePantryStore } from '@/store/pantryStore';
-import type { PantryFreshness, PantryStorage } from '@/types';
+import type { PantryCategory, PantryFreshness, PantryStorage } from '@/types';
 import { freshnessOf } from '@/utils/pantry';
 
-// SB-075 · Smart Pantry · Kitchen Inventory and SB-076 · Tủ trống (empty state with quick-add by category).
-// "Dùng" → SB-086 (update usage), "Bỏ" (overdue rows) → SB-087 (mark discarded); "…" → SB-089 history / SB-090 device data.
-const EXPIRY: Record<string, PantryFreshness | null> = {
+// SB-075 · Smart Pantry · Kitchen Inventory and SB-076 · Tủ trống · Quick Add. Geometry from Figma nodes 20:2 / 117:3058:
+// header at y=63 (title 185 + "Thêm món" 108×44 r14 + glass "…" 44), scroll viewport at y=120, hero 88, filters at +96,
+// section title at +148, rows every 120. Menus are the Apple27 native menus (expiry (20,268), storage (135,268),
+// actions (135,115), 238 wide).
+// "Dùng" → SB-086, "Bỏ" (overdue) → SB-087, "…" → SB-089 history / SB-090 device data.
+const EXPIRY: Record<string, PantryFreshness | 'unknown' | null> = {
   'Tất cả': null,
-  'Còn hạn': 'good',
   'Sắp hạn': 'soon',
+  'Còn hạn': 'good',
   'Quá hạn': 'overdue',
+  'Chưa rõ': 'unknown', // items without a date — the demo pantry always has one, so this shows the empty-filter message
 };
 const STORAGE: Record<string, PantryStorage | null> = {
   'Tất cả': null,
@@ -34,6 +39,7 @@ const STORAGE: Record<string, PantryStorage | null> = {
   [storageLabel.dry]: 'dry',
   [storageLabel.frozen]: 'frozen',
 };
+const ACTIONS = ['Lịch sử tủ thực phẩm', 'Dữ liệu trên máy'];
 
 export default function PantryTab() {
   const insets = useSafeAreaInsets();
@@ -41,6 +47,7 @@ export default function PantryTab() {
   const setDraft = usePantryDraft((s) => s.set);
   const [expiry, setExpiry] = useState('Tất cả');
   const [storage, setStorage] = useState('Tất cả');
+  const [menu, setMenu] = useState<null | 'expiry' | 'storage' | 'actions'>(null);
   const entering = useStaggerEntering();
 
   // SB-074: first visit to this tab shows the Pantry introduction once (ASSUMPTION — Figma draws no entry point).
@@ -55,62 +62,58 @@ export default function PantryTab() {
 
   const shown = useMemo(
     () =>
-      items.filter(
-        (i) =>
-          (EXPIRY[expiry] == null || freshnessOf(i.expiry) === EXPIRY[expiry]) &&
-          (STORAGE[storage] == null || i.storage === STORAGE[storage]),
-      ),
+      items.filter((i) => {
+        const e = EXPIRY[expiry];
+        return (
+          (e == null || (e !== 'unknown' && freshnessOf(i.expiry) === e)) &&
+          (STORAGE[storage] == null || i.storage === STORAGE[storage])
+        );
+      }),
     [items, expiry, storage],
   );
 
-  // ESTIMATE: the "…" menu is not drawn in Figma; a native action sheet lists the two destinations.
-  const openMenu = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      { options: ['Lịch sử tủ thực phẩm', 'Dữ liệu trên máy', 'Đóng'], cancelButtonIndex: 2 },
-      (i) => {
-        if (i === 0) router.push('/account/pantry/history');
-        if (i === 1) router.push('/account/pantry/data');
-      },
-    );
-
-  const add = (category?: (typeof categoryOrder)[number]) => {
+  const add = (category?: PantryCategory) => {
     if (category) setDraft({ category });
     router.push('/account/pantry/add');
   };
+
+  const empty = items.length === 0;
 
   return (
     <View style={styles.container}>
       <View style={[styles.header, { marginTop: insets.top + 4 }]}>
         <Text
-          variant="pantryTitle"
+          variant={empty ? 'largeTitle' : 'pantryTitle'}
           numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.85}
-          style={{ flex: 1 }}
+          style={empty ? styles.titleEmpty : styles.title}
         >
           Tủ thực phẩm
         </Text>
-        {items.length > 0 ? (
+        {!empty ? (
           <PressableScale accessibilityRole="button" onPress={() => add()} style={styles.addBtn}>
-            <SymbolView name="plus" size={14} weight="bold" tintColor={colors.white} />
-            <Text variant="semi14" color="white">
+            <SymbolView name="plus" size={16} weight="medium" tintColor={colors.canvas} />
+            <Text variant="semi13" color="canvas" style={{ width: 70 }}>
               Thêm món
             </Text>
           </PressableScale>
         ) : null}
         <GlassButton
           symbol="ellipsis"
-          accessibilityLabel="Tùy chọn tủ thực phẩm"
+          accessibilityLabel="Lịch sử và dữ liệu trên máy"
           size={44}
-          onPress={openMenu}
+          onPress={() => setMenu('actions')}
+          style={empty ? styles.ellipsisEmpty : undefined}
         />
       </View>
 
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: layout.scrollBottomPadding }]}
+        contentContainerStyle={[
+          empty ? styles.contentEmpty : styles.content,
+          { paddingBottom: layout.scrollBottomPadding },
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        {items.length === 0 ? (
+        {empty ? (
           <Empty onAdd={add} />
         ) : (
           <>
@@ -118,22 +121,20 @@ export default function PantryTab() {
               <PantryOverviewHero count={items.length} />
             </Animated.View>
             <Animated.View entering={entering(1)} style={styles.filters}>
-              <FilterPopup
+              <PopupButton
                 label="Hạn dùng"
                 value={expiry}
-                options={Object.keys(EXPIRY)}
-                onChange={setExpiry}
                 width={173}
+                onPress={() => setMenu('expiry')}
               />
-              <FilterPopup
+              <PopupButton
                 label="Nơi cất"
                 value={storage}
-                options={Object.keys(STORAGE)}
-                onChange={setStorage}
                 width={172}
+                onPress={() => setMenu('storage')}
               />
             </Animated.View>
-            <Text variant="bold15" style={{ fontSize: 17, lineHeight: 22 }}>
+            <Text variant="bold15" style={styles.section}>
               Thực phẩm của bạn
             </Text>
             {shown.length === 0 ? (
@@ -141,62 +142,99 @@ export default function PantryTab() {
                 Chưa có món trong ngăn này.
               </Text>
             ) : (
-              <View style={{ gap: 8 }}>
-                {shown.map((it, i) => (
-                  <Animated.View key={it.id} entering={entering(2 + i)}>
-                    <PantryItemRow
-                      item={it}
-                      onPress={() =>
-                        router.push({ pathname: '/account/pantry/[id]', params: { id: it.id } })
-                      }
-                      onPressTag={() =>
-                        router.push(
+              shown.map((it, i) => (
+                <Animated.View key={it.id} entering={entering(2 + i)}>
+                  <PantryItemRow
+                    item={it}
+                    onPress={() =>
+                      router.push({ pathname: '/account/pantry/[id]', params: { id: it.id } })
+                    }
+                    onPressTag={() =>
+                      router.push(
+                        freshnessOf(it.expiry) === 'overdue'
+                          ? { pathname: '/account/pantry/overdue', params: { id: it.id } }
+                          : '/account/pantry/soon',
+                      )
+                    }
+                    onAction={() =>
+                      router.push({
+                        pathname:
                           freshnessOf(it.expiry) === 'overdue'
-                            ? { pathname: '/account/pantry/overdue', params: { id: it.id } }
-                            : '/account/pantry/soon',
-                        )
-                      }
-                      onAction={() =>
-                        router.push({
-                          pathname:
-                            freshnessOf(it.expiry) === 'overdue'
-                              ? '/account/pantry/discard/[id]'
-                              : '/account/pantry/usage/[id]',
-                          params: { id: it.id },
-                        })
-                      }
-                    />
-                  </Animated.View>
-                ))}
-              </View>
+                            ? '/account/pantry/discard/[id]'
+                            : '/account/pantry/usage/[id]',
+                        params: { id: it.id },
+                      })
+                    }
+                  />
+                </Animated.View>
+              ))
             )}
           </>
         )}
       </ScrollView>
+
+      <GlassMenu
+        visible={menu === 'expiry'}
+        onClose={() => setMenu(null)}
+        x={20}
+        y={268}
+        items={Object.keys(EXPIRY)}
+        selected={expiry}
+        system
+        onSelect={(v) => {
+          setExpiry(v);
+          setMenu(null);
+        }}
+      />
+      <GlassMenu
+        visible={menu === 'storage'}
+        onClose={() => setMenu(null)}
+        x={135}
+        y={268}
+        items={Object.keys(STORAGE)}
+        selected={storage}
+        system
+        onSelect={(v) => {
+          setStorage(v);
+          setMenu(null);
+        }}
+      />
+      <GlassMenu
+        visible={menu === 'actions'}
+        onClose={() => setMenu(null)}
+        x={135}
+        y={115}
+        items={ACTIONS}
+        onSelect={(v) => {
+          setMenu(null);
+          router.push(v === ACTIONS[0] ? '/account/pantry/history' : '/account/pantry/data');
+        }}
+      />
     </View>
   );
 }
 
-/* SB-076: Mầm card, editorial title, CTA and a grid of quick-add categories. */
-function Empty({ onAdd }: { onAdd: (c?: (typeof categoryOrder)[number]) => void }) {
+/* SB-076 · Tủ trống (node 117:3058): 196 r28 brand100 card with two shelf lines and Mầm "Hello" 128, Fraunces 28/34 title,
+ * 15/22 body, primary CTA, "Thêm nhanh theo nhóm" and two 170×112 category tiles, then a 13/18 note. */
+function Empty({ onAdd }: { onAdd: (c?: PantryCategory) => void }) {
   return (
     <>
       <View style={styles.emptyCard}>
-        <SvgIcon name="mam-kitchen" size={150} />
+        <View style={[styles.shelf, { left: 50, top: 136, width: 253 }]} />
+        <View style={[styles.shelf, { left: 72, top: 157, width: 209 }]} />
+        <View style={styles.hello}>
+          <SvgIcon name="mam-hello" size={128} />
+        </View>
       </View>
-      <Text variant="displayEditorial" style={{ marginTop: 4 }}>
-        {'Tủ đang trống.\nBắt đầu từ món bạn có.'}
-      </Text>
+      <Text variant="displayEditorial">{'Tủ đang trống.\nBắt đầu từ món bạn có.'}</Text>
       <Text variant="bodyLg" color="textSecondary" style={{ lineHeight: 22 }}>
         Ghi lại món trong ngăn mát, kệ khô hoặc ngăn đông. Thêm ngày trên nhãn để biết món nào cần
         dùng trước.
       </Text>
       <Button label="Thêm thực phẩm đầu tiên" onPress={() => onAdd()} />
-      <Text variant="bold15" style={{ fontSize: 17, lineHeight: 22, marginTop: 4 }}>
-        Thêm nhanh theo nhóm
-      </Text>
+      <Text variant="titleSemi20">Thêm nhanh theo nhóm</Text>
       <View style={styles.grid}>
-        {categoryOrder.slice(1, 5).map((c) => (
+        {(['milkEggs', 'produce'] as const).map((c) => (
           <PressableScale
             key={c}
             accessibilityRole="button"
@@ -204,10 +242,15 @@ function Empty({ onAdd }: { onAdd: (c?: (typeof categoryOrder)[number]) => void 
             style={styles.quick}
           >
             <SvgIcon name={categoryMeta[c].icon} size={32} />
-            <Text variant="semi14">{categoryMeta[c].label}</Text>
+            <Text variant="rowName" color="brand900" style={{ textAlign: 'center', width: 144 }}>
+              {categoryMeta[c].label}
+            </Text>
           </PressableScale>
         ))}
       </View>
+      <Text variant="captionMeta" color="textSecondary">
+        Bạn chủ động nhập món và hạn dùng. Đơn nhận món không tự chuyển vào tủ.
+      </Text>
     </>
   );
 }
@@ -221,7 +264,9 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: layout.screenGutter,
   },
-  // figma: "Add food" 108×44 — plus icon at x=8, label at x=30
+  title: { width: 185 },
+  titleEmpty: { flex: 1 },
+  // figma "Add food ·44pt": 108×44, r14, plus icon at x=8, label at x=30
   addBtn: {
     width: 108,
     height: 44,
@@ -230,27 +275,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     paddingHorizontal: 8,
-    borderRadius: radius.pill,
+    borderRadius: radius.input,
     backgroundColor: colors.brand900,
   },
+  ellipsisEmpty: { marginLeft: 0 },
   content: { gap: 8, paddingHorizontal: layout.screenGutter, paddingTop: 13 },
-  filters: { flexDirection: 'row', gap: 8, marginBottom: 4 },
+  contentEmpty: { gap: 22, paddingHorizontal: layout.screenGutter, paddingTop: 28 }, // viewport starts y=115, content pt20 → y=135
+  filters: { flexDirection: 'row', gap: 8 },
+  section: { fontSize: 17, lineHeight: 22 },
   emptyCard: {
     height: 196,
-    alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'hidden',
     borderRadius: 28,
     backgroundColor: colors.brand100,
-    marginBottom: 8,
   },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 13 },
+  shelf: { position: 'absolute', height: 2, backgroundColor: colors.brand700, opacity: 0.2 },
+  hello: { position: 'absolute', left: 112.5, top: 8 },
+  grid: { flexDirection: 'row', gap: 13 },
   quick: {
     width: 170,
     height: 112,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
-    borderRadius: radius.tile,
+    gap: 10,
+    padding: 12,
+    borderRadius: radius.md,
     backgroundColor: colors.surfaceSubtle,
   },
 });

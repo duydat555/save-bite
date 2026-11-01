@@ -134,7 +134,7 @@ export default function PantryDateSheet() {
         onPress={() => set({ date: '' })}
       />
 
-      <View style={[styles.footer, { bottom: insets.bottom + 20 }]}>
+      <View style={[styles.footer, { bottom: insets.bottom + 44 }]}>
         <Button label="Xác nhận ngày hạn" onPress={() => router.back()} />
       </View>
     </View>

@@ -23,6 +23,8 @@ import { colors } from '@/design-system/tokens';
 type Props = {
   /** Total sheet height in the 393×852 frame, including the home-indicator zone. */
   height: number;
+  /** Sheet fill (default canvas). SB-078 uses white. */
+  fill?: string;
   children: (api: { dismiss: () => void; bottomInset: number }) => ReactNode;
 };
 
@@ -31,7 +33,7 @@ type Props = {
  * with a timing curve, can be dragged down to dismiss (pan on the sheet) or dismissed by tapping the scrim.
  * Figma: handle 36×4 at y=13, top radius 28, canvas fill. Scrim strength (0.3) is estimated from SB-036/037.
  */
-export function SheetModal({ height, children }: Props) {
+export function SheetModal({ height, fill, children }: Props) {
   const insets = useSafeAreaInsets();
   const reduced = useReducedMotion();
   const total = height;
@@ -79,7 +81,9 @@ export function SheetModal({ height, children }: Props) {
       <Animated.View style={[StyleSheet.absoluteFill, styles.scrim, scrim]} />
       <Pressable accessibilityLabel="Đóng" style={StyleSheet.absoluteFill} onPress={dismiss} />
       <GestureDetector gesture={pan}>
-        <Animated.View style={[styles.sheet, { height }, sheet]}>
+        <Animated.View
+          style={[styles.sheet, { height }, fill ? { backgroundColor: fill } : null, sheet]}
+        >
           <View style={styles.handle} />
           {children({ dismiss, bottomInset: insets.bottom })}
         </Animated.View>

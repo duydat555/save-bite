@@ -30,7 +30,7 @@ export default function PantryReminderScreen() {
       <View style={{ height: insets.top }} />
       <AppBar title="Nhắc hạn" />
       <ScrollView
-        contentContainerStyle={[flowStyles.content, { paddingBottom: insets.bottom + 120 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
         showsVerticalScrollIndicator={false}
       >
         <ItemSummary
@@ -38,9 +38,7 @@ export default function PantryReminderScreen() {
           name={item.name}
           sub={`${item.quantity} · ${storageLabel[item.storage]}`}
         />
-        <Text variant="largeTitle" style={[flowStyles.title, { marginTop: 8 }]}>
-          Một lời nhắc vừa lúc.
-        </Text>
+        <Text variant="heroTitle">Một lời nhắc vừa lúc.</Text>
         <Text variant="bodyLg" style={{ lineHeight: 22 }}>
           Chọn trước ngày hạn bao lâu và giờ bạn tiện xem.
         </Text>
@@ -54,36 +52,40 @@ export default function PantryReminderScreen() {
           />
         </View>
 
-        <Text variant="rowSubMedium" style={styles.label}>
-          Nhắc trước ngày hạn
-        </Text>
-        <View style={styles.row}>
-          <Choice
-            label="Trước 1 ngày"
-            selected={r.daysBefore === 1}
-            onPress={() => setR({ ...r, daysBefore: 1 })}
-          />
-          <Choice
-            label="Trước 2 ngày"
-            selected={r.daysBefore === 2}
-            onPress={() => setR({ ...r, daysBefore: 2 })}
-          />
+        <View style={{ gap: 8 }}>
+          <Text variant="rowSubMedium" style={styles.label}>
+            Nhắc trước ngày hạn
+          </Text>
+          <View style={styles.row}>
+            <Choice
+              label="Trước 1 ngày"
+              selected={r.daysBefore === 1}
+              onPress={() => setR({ ...r, daysBefore: 1 })}
+            />
+            <Choice
+              label="Trước 2 ngày"
+              selected={r.daysBefore === 2}
+              onPress={() => setR({ ...r, daysBefore: 2 })}
+            />
+          </View>
         </View>
 
-        <Text variant="rowSubMedium" style={styles.label}>
-          Giờ nhận lời nhắc
-        </Text>
-        <View style={styles.row}>
-          <Choice
-            label="07:30"
-            selected={r.time === '07:30'}
-            onPress={() => setR({ ...r, time: '07:30' })}
-          />
-          <Choice
-            label="17:30"
-            selected={r.time === '17:30'}
-            onPress={() => setR({ ...r, time: '17:30' })}
-          />
+        <View style={{ gap: 8 }}>
+          <Text variant="rowSubMedium" style={styles.label}>
+            Giờ nhận lời nhắc
+          </Text>
+          <View style={styles.row}>
+            <Choice
+              label="07:30"
+              selected={r.time === '07:30'}
+              onPress={() => setR({ ...r, time: '07:30' })}
+            />
+            <Choice
+              label="17:30"
+              selected={r.time === '17:30'}
+              onPress={() => setR({ ...r, time: '17:30' })}
+            />
+          </View>
         </View>
 
         <Text variant="rowSub" color="textSecondary" style={flowStyles.note}>
@@ -93,7 +95,7 @@ export default function PantryReminderScreen() {
           Thông báo trên máy cần quyền cho phép. Bạn vẫn xem lời nhắc trong ứng dụng.
         </Text>
       </ScrollView>
-      <StickyDock>
+      <StickyDock offset={36}>
         <Button
           label="Lưu nhắc hạn"
           onPress={() => {
@@ -109,15 +111,16 @@ export default function PantryReminderScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
   toggleCard: {
-    height: 76,
-    marginTop: 6,
+    height: 72,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     borderRadius: radius.md,
     backgroundColor: colors.surfaceSubtle,
   },
-  label: { marginTop: 6 },
-  row: { flexDirection: 'row', gap: 12 },
+  // figma 404:4905: first block at y20, uniform 16 gaps, label 18 high + 8 + choices 52 (172.5 wide, gap 8)
+  content: { gap: 16, paddingHorizontal: 20, paddingTop: 20 },
+  label: { lineHeight: 18 },
+  row: { flexDirection: 'row', gap: 8 },
 });

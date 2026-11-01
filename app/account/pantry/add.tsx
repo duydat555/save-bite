@@ -35,13 +35,11 @@ export default function PantryAdd() {
       >
         <View style={styles.head}>
           <View style={styles.headIcon}>
-            <SvgIcon name="fridge" size={24} />
+            <SvgIcon name="pantry" size={28} />
           </View>
           <View style={{ flex: 1, gap: 2 }}>
-            <Text variant="bold15" style={{ fontSize: 18, lineHeight: 24 }}>
-              Thêm món vào tủ
-            </Text>
-            <Text variant="rowSub" color="textSecondary" style={{ lineHeight: 18 }}>
+            <Text variant="titleSemi20Tall">Thêm món vào tủ</Text>
+            <Text variant="linkMedium14" color="textSecondary" style={styles.identitySub}>
               Chọn nhóm có sẵn, không cần chụp ảnh. Ngày hạn lấy trên nhãn.
             </Text>
           </View>
@@ -56,11 +54,10 @@ export default function PantryAdd() {
         <Button
           label={`Loại: ${categoryMeta[draft.category].label}`}
           variant="neutral"
-          style={{ height: 56 }}
           onPress={() => router.push('/account/pantry/add/category')}
         />
 
-        <Text variant="formLabel">Nơi bảo quản</Text>
+        <Text variant="bodyMedium">Nơi bảo quản</Text>
         <View style={styles.row}>
           {STORAGES.map((s) => (
             <Choice
@@ -69,6 +66,8 @@ export default function PantryAdd() {
               selected={draft.storage === s}
               onPress={() => set({ storage: s })}
               height={52}
+              corner={radius.input}
+              labelVariant="semi13"
             />
           ))}
         </View>
@@ -86,14 +85,14 @@ export default function PantryAdd() {
               selected={amount === q}
               onPress={() => set({ quantity: `${q} ${unit || 'phần'}`.trim() })}
               height={52}
+              corner={radius.input}
+              labelVariant="semi13"
             />
           ))}
         </View>
 
         <View style={{ gap: 8 }}>
-          <Text variant="formLabel">
-            {dateKindLabel[draft.dateKind].replace('Hạn sử dụng (Use by)', 'Hạn sử dụng (Use by)')}
-          </Text>
+          <Text variant="fieldLabel">{dateKindLabel[draft.dateKind]}</Text>
           <PressableScale
             accessibilityRole="button"
             onPress={() => router.push('/account/pantry/add/date')}
@@ -106,7 +105,7 @@ export default function PantryAdd() {
         </View>
       </ScrollView>
 
-      <View style={[styles.footer, { bottom: insets.bottom + 20 }]}>
+      <View style={[styles.footer, { bottom: insets.bottom + 36 }]}>
         <Button
           label="Tiếp tục kiểm tra"
           onPress={() => router.push('/account/pantry/add/review')}
@@ -118,17 +117,18 @@ export default function PantryAdd() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 6 },
-  head: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 2 },
+  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 20 },
+  head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  identitySub: { lineHeight: 20, fontFamily: 'BeVietnamPro_400Regular' },
   headIcon: {
     width: 52,
     height: 52,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radius.input,
+    borderRadius: radius.tile,
     backgroundColor: colors.brand100,
   },
-  row: { flexDirection: 'row', gap: 12 },
+  row: { flexDirection: 'row', gap: 8 },
   dateField: {
     height: 48,
     justifyContent: 'center',

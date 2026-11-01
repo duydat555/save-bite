@@ -13,11 +13,11 @@ import { usePantryDraft } from '@/store/pantryDraft';
 export default function PantryCategorySheet() {
   const { draft, set } = usePantryDraft();
   return (
-    <SheetModal height={660}>
+    <SheetModal height={660} fill={colors.white}>
       {({ dismiss }) => (
         <View style={styles.body}>
           <View style={styles.head}>
-            <Text variant="bold15" style={{ fontSize: 20, lineHeight: 26 }}>
+            <Text variant="title20" style={{ color: colors.black }}>
               Chọn loại thực phẩm
             </Text>
             <GlassButton symbol="xmark" accessibilityLabel="Đóng" size={44} onPress={dismiss} />
@@ -39,9 +39,13 @@ export default function PantryCategorySheet() {
                   <SvgIcon
                     name={categoryMeta[c].icon}
                     size={32}
-                    tint={selected ? colors.white : undefined}
+                    tint={selected ? colors.canvas : undefined}
                   />
-                  <Text variant="semi14" color={selected ? 'white' : 'textPrimary'}>
+                  <Text
+                    variant="semi13"
+                    color={selected ? 'canvas' : 'textPrimary'}
+                    style={{ width: 144, textAlign: 'center' }}
+                  >
                     {categoryMeta[c].label}
                   </Text>
                 </PressableScale>
@@ -55,16 +59,16 @@ export default function PantryCategorySheet() {
 }
 
 const styles = StyleSheet.create({
-  body: { flex: 1, paddingHorizontal: 20, paddingTop: 34 },
-  head: { height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 13, marginTop: 20 },
+  body: { flex: 1, paddingHorizontal: 20, paddingTop: 30 }, // handle row 12 + gap 14 from sheet top 14
+  head: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, rowGap: 12, marginTop: 14 },
   tile: {
     width: 168,
     height: 112,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
-    borderRadius: radius.tile,
+    gap: 10,
+    borderRadius: radius.input,
   },
   on: { backgroundColor: colors.brand900 },
   off: { borderWidth: 1, borderColor: colors.borderDefault, backgroundColor: colors.canvas },

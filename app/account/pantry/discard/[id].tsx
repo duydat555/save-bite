@@ -11,7 +11,7 @@ import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { storageLabel } from '@/constants/pantry';
 import { colors, radius } from '@/design-system/tokens';
-import { ItemSummary, StickyDock, flowStyles } from '@/features/pantry/PantryFlowParts';
+import { ItemSummary, StickyDock } from '@/features/pantry/PantryFlowParts';
 import { usePantryStore } from '@/store/pantryStore';
 
 // SB-087 · Đánh dấu đã bỏ. Reason is optional ("Chưa chọn lý do"). Icons are SF Symbols (estimated from the screenshot:
@@ -37,15 +37,15 @@ export default function PantryDiscard() {
       <View style={{ height: insets.top }} />
       <AppBar title="Đánh dấu đã bỏ" />
       <ScrollView
-        contentContainerStyle={[flowStyles.content, { paddingBottom: insets.bottom + 120 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
         showsVerticalScrollIndicator={false}
       >
         <ItemSummary
-          glyph={<SymbolView name="trash" size={22} tintColor={colors.brand900} />}
+          glyph={<SymbolView name="trash" size={24} tintColor={colors.brand900} />}
           name={item.name}
           sub={`${item.quantity} · ${storageLabel[item.storage]}`}
         />
-        <Text variant="largeTitle" style={[flowStyles.title, { marginTop: 8 }]}>
+        <Text variant="largeTitle" style={{ fontSize: 22, lineHeight: 30 }}>
           Ghi lại món đã bỏ
         </Text>
         <Text variant="bodyLg" style={{ lineHeight: 22 }}>
@@ -61,8 +61,26 @@ export default function PantryDiscard() {
               onPress={() => setReason(on ? null : i)}
               style={[styles.reason, on && styles.reasonOn]}
             >
-              <SymbolView name={r.symbol} size={20} tintColor={colors.brand900} />
-              <Text variant="semi14">{r.label}</Text>
+              <SymbolView
+                name={r.symbol}
+                size={22}
+                tintColor={on ? colors.canvas : colors.brand900}
+              />
+              <Text
+                variant="semi14"
+                color={on ? 'canvas' : 'textPrimary'}
+                style={{ flex: 1, fontSize: 15 }}
+              >
+                {r.label}
+              </Text>
+              {on ? (
+                <SymbolView
+                  name="checkmark"
+                  size={16}
+                  weight="semibold"
+                  tintColor={colors.canvas}
+                />
+              ) : null}
             </PressableScale>
           );
         })}
@@ -70,7 +88,7 @@ export default function PantryDiscard() {
           {reason === null ? 'Chưa chọn lý do' : REASONS[reason].label}
         </Text>
       </ScrollView>
-      <StickyDock>
+      <StickyDock offset={36}>
         <Button
           label="Xác nhận đã bỏ"
           onPress={() => {
@@ -98,5 +116,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderDefault,
     backgroundColor: colors.canvas,
   },
-  reasonOn: { borderColor: colors.brand900, backgroundColor: colors.brand100 },
+  reasonOn: { borderColor: colors.brand900, backgroundColor: colors.brand900 }, // figma "Selected reason · forest"
+  // figma 133:3401: item context y12, heading y68 (30), body y110, reasons 56 high every 68 from y166, hint y438
+  content: { gap: 12, paddingHorizontal: 20, paddingTop: 12 },
 });

@@ -20,9 +20,7 @@ export default function PantryHistory() {
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text variant="title20" style={{ marginBottom: 4 }}>
-          Hoạt động trong tủ của bạn
-        </Text>
+        <Text variant="titleSemi20Tall">Hoạt động trong tủ của bạn</Text>
         {history.length === 0 ? (
           <Text variant="captionMeta" color="textSecondary">
             Chưa có hoạt động nào.
@@ -31,7 +29,7 @@ export default function PantryHistory() {
         {history.map((h) => (
           <View key={h.id} style={styles.card}>
             <View style={styles.tile}>
-              <SvgIcon name={h.icon as SvgName} size={24} />
+              <SvgIcon name={h.icon as SvgName} size={22} />
             </View>
             <View style={{ flex: 1, gap: 2 }}>
               <Text variant="bold14" style={{ lineHeight: 20 }}>
@@ -56,23 +54,25 @@ export default function PantryHistory() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.canvas },
-  content: { gap: 12, paddingHorizontal: layout.screenGutter, paddingTop: 8 },
+  // figma 133:3460: title at y12 (28 high), cards 88 high every 96 starting at y48
+  content: { gap: 8, paddingHorizontal: layout.screenGutter, paddingTop: 12 },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 88,
     gap: 12,
-    padding: 12,
+    paddingHorizontal: 13,
     borderRadius: radius.tile,
     borderWidth: 1,
     borderColor: colors.borderDefault,
     backgroundColor: colors.white,
   },
   tile: {
-    width: 44,
-    height: 44,
+    width: 32,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radius.input,
+    borderRadius: radius.thumb,
     backgroundColor: colors.brand100,
   },
 });

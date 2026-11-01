@@ -10,19 +10,37 @@ type Props = {
   selected: boolean;
   onPress: () => void;
   height?: number;
+  /** Corner radius (default pill). Pantry forms use r14 (`radius-sm`). */
+  corner?: number;
+  /** Label style: 'semi14' (default) or 'semi13' (Pantry forms: Be Vietnam Pro SemiBold 13/19). */
+  labelVariant?: 'semi14' | 'semi13';
   style?: StyleProp<ViewStyle>;
 };
 
 /** Pill choice (SB-077 storage / quantity, SB-085 / SB-094 chips): selected = brand900 fill, else outline on canvas. */
-export function Choice({ label, selected, onPress, height = 52, style }: Props) {
+export function Choice({
+  label,
+  selected,
+  onPress,
+  height = 52,
+  corner,
+  labelVariant = 'semi14',
+  style,
+}: Props) {
   return (
     <PressableScale
       accessibilityRole="button"
       accessibilityState={{ selected }}
       onPress={onPress}
-      style={[styles.base, { height }, selected ? styles.on : styles.off, style]}
+      style={[
+        styles.base,
+        { height },
+        corner != null && { borderRadius: corner },
+        selected ? styles.on : styles.off,
+        style,
+      ]}
     >
-      <Text variant="semi14" color={selected ? 'white' : 'textPrimary'}>
+      <Text variant={labelVariant} color={selected ? 'canvas' : 'textPrimary'}>
         {label}
       </Text>
     </PressableScale>

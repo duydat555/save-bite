@@ -92,3 +92,12 @@
 - Ghim giá (màu/kích thước theo Figma: brand900, chọn = Rescue Price) thêm đuôi nhỏ, 2 lớp bóng, số `tabular-nums`, scale-in so le, spring khi chọn; gom cụm theo mức zoom (tự viết, chạm cụm → zoom); chấm người dùng kiểu Apple có quầng sóng (tọa độ demo, không xin quyền vị trí).
 - `DetentSheet`: bottom sheet 3 nấc kéo theo ngón tay, snap bằng spring theo vận tốc, rubber-band, grabber 36×5; chọn ghim → sheet về nấc đầu và bản đồ dịch tâm. Nhóm nút kính dọc (Vị trí của tôi, Kiểu bản đồ). Chip "Lọc" nối SB-023.
 - Tọa độ cửa hàng là **dữ liệu demo** (`src/data/mock/mapPins.ts`). Đã cập nhật CLAUDE.md và docs/07, docs/11.
+
+## 2026-11-02 — Làm lại tab Tủ thực phẩm theo Figma (SB-074 → SB-090)
+
+Đối chiếu từng frame bằng `get_design_context` / `get_metadata` (số đo thật) và sửa các chỗ lệch:
+- **SB-075:** tiêu đề SemiBold 26/38 (trước đây Bold 30); nút "Thêm món" radius 14; hero p12 r20, Fraunces 20/26, đếm 13/20 màu cam, Mầm 64 (trước 80); nút lọc là Apple27 pop-up (SF Pro 13 Semibold) **và có menu kính 238 rộng** (Hạn dùng: Tất cả/Sắp hạn/Còn hạn/Quá hạn/Chưa rõ tại (20,268); Nơi cất tại (135,268)); nút "…" mở **menu kính "Lịch sử tủ thực phẩm / Dữ liệu trên máy" tại (135,115)** đúng Figma (trước là ActionSheet). Component mới `GlassMenu`.
+- **SB-076:** dựng lại: thẻ 196 r28 có 2 đường kệ + Mầm **Hello** 128 (asset mới), 2 ô nhóm (Sữa & trứng, Rau & củ) 170×112, dòng chú thích cuối; tiêu đề Bold 26 không có nút "Thêm món".
+- **SB-077/082:** icon Pantry 28, tiêu đề 20/28, lựa chọn nơi cất/số lượng 112×52 radius 14 gap 8, nhãn "Nơi bảo quản" 15 Medium. **SB-078:** sheet nền trắng, lưới 168×112 r14 (gap 16/12), tiêu đề 20 Bold. **SB-080/081:** số đo dòng 44/52, tile 104, ngày hạn 28/32, pill 107×32.
+- **SB-083/084/086/087/088/089:** khoảng cách khối theo metadata (gap 20, hàng 72/80), banner pad 16, lựa chọn lý do dùng nền forest + dấu tích khi chọn, thẻ lịch sử 88 cao.
+- **Vị trí nút CTA (dock):** Figma đặt cạnh dưới nút cách vạch home 36–44pt tuỳ màn; trước đây cố định 20 → nút thấp hơn Figma ~16pt. Đã sửa theo từng màn.
