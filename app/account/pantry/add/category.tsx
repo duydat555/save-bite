@@ -22,35 +22,40 @@ export default function PantryCategorySheet() {
             </Text>
             <GlassButton symbol="xmark" accessibilityLabel="Đóng" size={44} onPress={dismiss} />
           </View>
+          {/* figma: "Category row0…3" — explicit rows of two tiles (168 each, gap 16), rows 12 apart */}
           <View style={styles.grid}>
-            {categoryOrder.map((c) => {
-              const selected = draft.category === c;
-              return (
-                <PressableScale
-                  key={c}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected }}
-                  onPress={() => {
-                    set({ category: c });
-                    dismiss();
-                  }}
-                  style={[styles.tile, selected ? styles.on : styles.off]}
-                >
-                  <SvgIcon
-                    name={categoryMeta[c].icon}
-                    size={32}
-                    tint={selected ? colors.canvas : undefined}
-                  />
-                  <Text
-                    variant="semi13"
-                    color={selected ? 'canvas' : 'textPrimary'}
-                    style={{ width: 144, textAlign: 'center' }}
-                  >
-                    {categoryMeta[c].label}
-                  </Text>
-                </PressableScale>
-              );
-            })}
+            {[0, 2, 4, 6].map((start) => (
+              <View key={start} style={styles.gridRow}>
+                {categoryOrder.slice(start, start + 2).map((c) => {
+                  const selected = draft.category === c;
+                  return (
+                    <PressableScale
+                      key={c}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected }}
+                      onPress={() => {
+                        set({ category: c });
+                        dismiss();
+                      }}
+                      style={[styles.tile, selected ? styles.on : styles.off]}
+                    >
+                      <SvgIcon
+                        name={categoryMeta[c].icon}
+                        size={32}
+                        tint={selected ? colors.canvas : undefined}
+                      />
+                      <Text
+                        variant="semi13"
+                        color={selected ? 'canvas' : 'textPrimary'}
+                        style={{ textAlign: 'center' }}
+                      >
+                        {categoryMeta[c].label}
+                      </Text>
+                    </PressableScale>
+                  );
+                })}
+              </View>
+            ))}
           </View>
         </View>
       )}
@@ -61,9 +66,10 @@ export default function PantryCategorySheet() {
 const styles = StyleSheet.create({
   body: { flex: 1, paddingHorizontal: 20, paddingTop: 40 }, // figma: grabber row 12 + gaps 14 → header at sheet top + 40
   head: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, rowGap: 12, marginTop: 14 },
+  grid: { gap: 12, marginTop: 14 },
+  gridRow: { flexDirection: 'row', gap: 16 },
   tile: {
-    width: 168,
+    flex: 1,
     height: 112,
     alignItems: 'center',
     justifyContent: 'center',
