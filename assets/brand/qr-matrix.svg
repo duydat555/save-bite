@@ -1,0 +1,26 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="QR Matrix">
+<path id="Vector" d="M10 6H34C36.2091 6 38 7.79086 38 10V34C38 36.2091 36.2091 38 34 38H10C7.79086 38 6 36.2091 6 34V10C6 7.79086 7.79086 6 10 6Z" stroke-width="5" stroke="#092F29"/>
+<path id="Vector_2" d="M27 15H17C15.8954 15 15 15.8954 15 17V27C15 28.1046 15.8954 29 17 29H27C28.1046 29 29 28.1046 29 27V17C29 15.8954 28.1046 15 27 15Z" fill="#004337"/>
+<path id="Vector_3" d="M86 6H110C112.209 6 114 7.79086 114 10V34C114 36.2091 112.209 38 110 38H86C83.7909 38 82 36.2091 82 34V10C82 7.79086 83.7909 6 86 6Z" stroke-width="5" stroke="#092F29"/>
+<path id="Vector_4" d="M103 15H93C91.8954 15 91 15.8954 91 17V27C91 28.1046 91.8954 29 93 29H103C104.105 29 105 28.1046 105 27V17C105 15.8954 104.105 15 103 15Z" fill="#004337"/>
+<path id="Vector_5" d="M10 82H34C36.2091 82 38 83.7909 38 86V110C38 112.209 36.2091 114 34 114H10C7.79086 114 6 112.209 6 110V86C6 83.7909 7.79086 82 10 82Z" stroke-width="5" stroke="#092F29"/>
+<path id="Vector_6" d="M27 91H17C15.8954 91 15 91.8954 15 93V103C15 104.105 15.8954 105 17 105H27C28.1046 105 29 104.105 29 103V93C29 91.8954 28.1046 91 27 91Z" fill="#004337"/>
+<path id="Vector_7" d="M56 8H48V16H56V8Z" fill="#092F29"/>
+<path id="Vector_8" d="M70 8H62V24H70V8Z" fill="#092F29"/>
+<path id="Vector_9" d="M64 24H48V32H64V24Z" fill="#092F29"/>
+<path id="Vector_10" d="M60 42H48V54H60V42Z" fill="#004337"/>
+<path id="Vector_11" d="M74 42H66V62H74V42Z" fill="#092F29"/>
+<path id="Vector_12" d="M24 48H8V56H24V48Z" fill="#092F29"/>
+<path id="Vector_13" d="M40 48H30V66H40V48Z" fill="#092F29"/>
+<path id="Vector_14" d="M96 48H82V56H96V48Z" fill="#092F29"/>
+<path id="Vector_15" d="M114 48H102V64H114V48Z" fill="#092F29"/>
+<path id="Vector_16" d="M68 64H46V72H68V64Z" fill="#092F29"/>
+<path id="Vector_17" d="M88 66H76V78H88V66Z" fill="#004337"/>
+<path id="Vector_18" d="M58 82H48V100H58V82Z" fill="#092F29"/>
+<path id="Vector_19" d="M84 86H66V94H84V86Z" fill="#092F29"/>
+<path id="Vector_20" d="M114 82H92V92H114V82Z" fill="#092F29"/>
+<path id="Vector_21" d="M98 100H84V114H98V100Z" fill="#092F29"/>
+<path id="Vector_22" d="M114 102H104V114H114V102Z" fill="#004337"/>
+</g>
+</svg>

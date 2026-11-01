@@ -1,0 +1,63 @@
+import type { Offer } from '@/types';
+
+// Text/numbers copied from Figma SB-015. The "Túi bánh bất ngờ" banner is added with SB-044.
+export const offers: Offer[] = [
+  {
+    id: 'offer-banh-mi-men-tu-nhien',
+    merchantId: 'merchant-tiem-banh-a',
+    title: 'Bánh mì men tự nhiên',
+    category: 'bakery',
+    priceVnd: 25000,
+    remaining: 3,
+    pickupStart: '17:00',
+    pickupEnd: '18:00',
+    image: require('@assets/images/offers/bread-sourdough.jpg'),
+  },
+  {
+    id: 'offer-banh-sung-bo-bo-phap',
+    merchantId: 'merchant-tiem-banh-a',
+    title: 'Bánh sừng bò bơ Pháp',
+    category: 'bakery',
+    priceVnd: 30000,
+    remaining: 2,
+    pickupStart: '17:00',
+    pickupEnd: '18:00',
+    image: require('@assets/images/offers/croissant.jpg'),
+  },
+  {
+    id: 'offer-com-ga-ap-chao',
+    merchantId: 'merchant-bep-xanh-campus',
+    title: 'Cơm gà áp chảo & rau củ',
+    category: 'meal',
+    priceVnd: 35000,
+    remaining: 4,
+    pickupStart: '17:30',
+    pickupEnd: '19:00',
+    image: require('@assets/images/offers/chicken-rice-thumb.jpg'),
+  },
+  {
+    id: 'offer-combo-rau-cu',
+    merchantId: 'merchant-quay-rau-c',
+    title: 'Combo rau củ tươi trong ngày',
+    category: 'produce',
+    priceVnd: 30000,
+    remaining: 5,
+    pickupStart: '16:00',
+    pickupEnd: '17:30',
+    image: require('@assets/images/offers/veggie-combo-thumb.jpg'),
+  },
+  {
+    // Merchant confirmed by SB-038 (Tiệm Bánh A). SB-038 row: "Túi bánh bất ngờ cuối ngày" · 18:00–19:00 · Còn 2 túi.
+    id: 'offer-tui-banh-bat-ngo',
+    merchantId: 'merchant-tiem-banh-a',
+    title: 'Túi bánh bất ngờ',
+    category: 'surprise',
+    priceVnd: 29000,
+    remaining: 2,
+    unit: 'túi',
+    listTitle: 'Túi bánh bất ngờ cuối ngày',
+    pickupStart: '18:00',
+    pickupEnd: '19:00',
+    image: require('@assets/images/surprise-bag.png'),
+  },
+];
