@@ -1,0 +1,5 @@
+node_modules
+.expo
+dist
+assets/figma-reference
+package-lock.json

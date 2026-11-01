@@ -1,0 +1,902 @@
+[
+  {
+    "code": "SB-001",
+    "title": "Splash · Warm Start",
+    "node": "76-652",
+    "nodeId": "76:652",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-002",
+    "title": "Onboarding 1 · Rescue Value",
+    "node": "17-2",
+    "nodeId": "17:2",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-003",
+    "title": "Onboarding 2 · Tìm món quanh trường",
+    "node": "100-1692",
+    "nodeId": "100:1692",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-004",
+    "title": "Onboarding 3 · Tủ thực phẩm thông minh",
+    "node": "100-1728",
+    "nodeId": "100:1728",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-005",
+    "title": "Welcome Gate · Guest or Login",
+    "node": "78-695",
+    "nodeId": "78:695",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-006",
+    "title": "Đăng ký · Email & Password",
+    "node": "100-1766",
+    "nodeId": "100:1766",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-007",
+    "title": "Chờ xác minh email",
+    "node": "100-1810",
+    "nodeId": "100:1810",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-008",
+    "title": "Đăng nhập · Email & Password",
+    "node": "76-678",
+    "nodeId": "76:678",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-009",
+    "title": "Quên mật khẩu · Email & Keyboard",
+    "node": "100-1855",
+    "nodeId": "100:1855",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-010",
+    "title": "Đã gửi liên kết khôi phục",
+    "node": "100-1955",
+    "nodeId": "100:1955",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-011",
+    "title": "Quyền vị trí · Bán kính quanh trường",
+    "node": "100-1986",
+    "nodeId": "100:1986",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-012",
+    "title": "Quyền thông báo · Nhắc khung giờ",
+    "node": "100-2013",
+    "nodeId": "100:2013",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-013",
+    "title": "Home Guest · Rescue Market",
+    "node": "78-729",
+    "nodeId": "78:729",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-014",
+    "title": "Home đã đăng nhập · Feed & Active Order",
+    "node": "101-1924",
+    "nodeId": "101:1924",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-015",
+    "title": "Discovery · Rescue Market",
+    "node": "17-49",
+    "nodeId": "17:49",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-016",
+    "title": "Map · Campus Explorer",
+    "node": "17-187",
+    "nodeId": "17:187",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-017",
+    "title": "Xem nhanh pin trên map · Peek Sheet",
+    "node": "101-2028",
+    "nodeId": "101:2028",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-018",
+    "title": "Chọn khu vực & campus",
+    "node": "101-2075",
+    "nodeId": "101:2075",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-019",
+    "title": "Search · Active Input & iOS Keyboard",
+    "node": "17-282",
+    "nodeId": "17:282",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-020",
+    "title": "Gợi ý tìm kiếm · Suggestions",
+    "node": "101-2117",
+    "nodeId": "101:2117",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-021",
+    "title": "Kết quả tìm kiếm · Active Filter Strip",
+    "node": "101-2161",
+    "nodeId": "101:2161",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-022",
+    "title": "Search No Results · Empty State",
+    "node": "80-809",
+    "nodeId": "80:809",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-023",
+    "title": "Bộ lọc tổng hợp · Multi-criteria Sheet",
+    "node": "103-2173",
+    "nodeId": "103:2173",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-024",
+    "title": "Lọc ngân sách · Price Histogram",
+    "node": "103-2215",
+    "nodeId": "103:2215",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-025",
+    "title": "Lọc thời gian nhận · Pickup Slots",
+    "node": "103-2256",
+    "nodeId": "103:2256",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-026",
+    "title": "Nhu cầu ăn uống & An toàn · Dietary",
+    "node": "103-2297",
+    "nodeId": "103:2297",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-027",
+    "title": "Sắp xếp kết quả · Sort Options",
+    "node": "103-2334",
+    "nodeId": "103:2334",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-028",
+    "title": "Danh mục Bữa ăn · Cooked Meals",
+    "node": "104-2253",
+    "nodeId": "104:2253",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-029",
+    "title": "Danh mục Bánh mì & Pastry · Bakery",
+    "node": "104-2329",
+    "nodeId": "104:2329",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-030",
+    "title": "Danh mục Thực phẩm & Rau củ · Fresh Produce",
+    "node": "104-2404",
+    "nodeId": "104:2404",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-031",
+    "title": "Đang nhận sớm · Urgent Rescues",
+    "node": "104-2475",
+    "nodeId": "104:2475",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-032",
+    "title": "Quanh trường · Walking Distance",
+    "node": "104-2551",
+    "nodeId": "104:2551",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-033",
+    "title": "Yêu thích & Đã lưu · Saved Items",
+    "node": "104-2627",
+    "nodeId": "104:2627",
+    "group": "01",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-034",
+    "title": "Offer Detail · Exact Item",
+    "node": "18-2",
+    "nodeId": "18:2",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-035",
+    "title": "Thư viện ảnh món ăn · Photo Gallery",
+    "node": "106-2630",
+    "nodeId": "106:2630",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-036",
+    "title": "Thành phần & Cảnh báo Dị ứng · Allergen Sheet",
+    "node": "106-2655",
+    "nodeId": "106:2655",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-037",
+    "title": "Chất lượng, hạn & Hướng dẫn · Shelf Life",
+    "node": "106-2690",
+    "nodeId": "106:2690",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-038",
+    "title": "Chi tiết cửa hàng · Merchant Profile",
+    "node": "106-2725",
+    "nodeId": "106:2725",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-039",
+    "title": "Đường tới cửa hàng · Walking Map",
+    "node": "106-2775",
+    "nodeId": "106:2775",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-040",
+    "title": "Quy định nhận món tại quầy · Handover Rules",
+    "node": "106-2817",
+    "nodeId": "106:2817",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-041",
+    "title": "Offer khác của tiệm · More Offers",
+    "node": "109-2765",
+    "nodeId": "109:2765",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-042",
+    "title": "Đánh giá cửa hàng · Merchant Reviews",
+    "node": "109-2816",
+    "nodeId": "109:2816",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-043",
+    "title": "Chi tiết đánh giá & Báo cáo",
+    "node": "109-2853",
+    "nodeId": "109:2853",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-044",
+    "title": "Túi bất ngờ · Surprise Bag",
+    "node": "109-2890",
+    "nodeId": "109:2890",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-045",
+    "title": "Giải thích túi bất ngờ · Explainer Sheet",
+    "node": "109-2926",
+    "nodeId": "109:2926",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-046",
+    "title": "Offer Detail · Sold Out",
+    "node": "81-844",
+    "nodeId": "81:844",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-047",
+    "title": "Offer Detail · Pickup Window Closed",
+    "node": "81-930",
+    "nodeId": "81:930",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-048",
+    "title": "Gần đóng cửa · Closing Soon Urgency",
+    "node": "109-2959",
+    "nodeId": "109:2959",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-049",
+    "title": "Offer Detail · Allergen Conflict",
+    "node": "81-1012",
+    "nodeId": "81:1012",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-050",
+    "title": "Quantity Sheet · Stock Limit",
+    "node": "83-970",
+    "nodeId": "83:970",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-051",
+    "title": "Reservation · Pickup Slot",
+    "node": "19-2",
+    "nodeId": "19:2",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-052",
+    "title": "Pickup Checklist · Readback",
+    "node": "90-1408",
+    "nodeId": "90:1408",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-053",
+    "title": "Order Summary · Unified Receipt",
+    "node": "19-69",
+    "nodeId": "19:69",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-054",
+    "title": "Confirm Reservation Sheet",
+    "node": "83-1072",
+    "nodeId": "83:1072",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-055",
+    "title": "Processing · Idempotency Guard",
+    "node": "83-1162",
+    "nodeId": "83:1162",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-056",
+    "title": "Success · Perforated Pickup Pass",
+    "node": "19-140",
+    "nodeId": "19:140",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-057",
+    "title": "Reservation Failed · Network",
+    "node": "84-1122",
+    "nodeId": "84:1122",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-058",
+    "title": "Stock Changed · Recovery",
+    "node": "84-1167",
+    "nodeId": "84:1167",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-059",
+    "title": "Login Required Sheet · Return To Offer",
+    "node": "82-926",
+    "nodeId": "82:926",
+    "group": "02",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-060",
+    "title": "My Orders · Overview",
+    "node": "84-1217",
+    "nodeId": "84:1217",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-061",
+    "title": "Pending Orders · Timeline",
+    "node": "90-1491",
+    "nodeId": "90:1491",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-062",
+    "title": "Order Detail · Awaiting Pickup",
+    "node": "84-1290",
+    "nodeId": "84:1290",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-063",
+    "title": "Pickup Code · Wallet Pass",
+    "node": "85-1266",
+    "nodeId": "85:1266",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-064",
+    "title": "Handover Steps · Backup Code",
+    "node": "91-1487",
+    "nodeId": "91:1487",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-065",
+    "title": "Directions · Active Order",
+    "node": "91-1531",
+    "nodeId": "91:1531",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-066",
+    "title": "Order Ready · READY state",
+    "node": "91-1652",
+    "nodeId": "91:1652",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-067",
+    "title": "Pickup Closing Soon · Urgent",
+    "node": "85-1342",
+    "nodeId": "85:1342",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-068",
+    "title": "Pickup Expired · No-Show Policy",
+    "node": "92-1593",
+    "nodeId": "92:1593",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-069",
+    "title": "Incident Report · Pickup Issue",
+    "node": "92-1642",
+    "nodeId": "92:1642",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-070",
+    "title": "Xác nhận hủy đơn · Policy & Reason",
+    "node": "112-3206",
+    "nodeId": "112:3206",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-071",
+    "title": "Hủy đơn thành công · Empty State",
+    "node": "112-3243",
+    "nodeId": "112:3243",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-072",
+    "title": "Order Completed · Verified Receipt",
+    "node": "85-1385",
+    "nodeId": "85:1385",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-073",
+    "title": "Lịch sử đơn trống · Tab Root",
+    "node": "112-3280",
+    "nodeId": "112:3280",
+    "group": "03",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-074",
+    "title": "Giới thiệu Pantry · Onboarding",
+    "node": "117-3032",
+    "nodeId": "117:3032",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-075",
+    "title": "Smart Pantry · Kitchen Inventory",
+    "node": "20-2",
+    "nodeId": "20:2",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-076",
+    "title": "Tủ trống · Quick Add",
+    "node": "117-3058",
+    "nodeId": "117:3058",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-077",
+    "title": "Thêm thủ công · Form",
+    "node": "117-3124",
+    "nodeId": "117:3124",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-078",
+    "title": "Chọn loại thực phẩm · Sheet",
+    "node": "117-3166",
+    "nodeId": "117:3166",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-079",
+    "title": "Chọn ngày hạn · Use-By vs Best-Before",
+    "node": "117-3213",
+    "nodeId": "117:3213",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-080",
+    "title": "Xác nhận thêm · Review",
+    "node": "117-3254",
+    "nodeId": "117:3254",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-081",
+    "title": "Chi tiết thực phẩm · Ngày hạn & bảo quản",
+    "node": "117-3286",
+    "nodeId": "117:3286",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-082",
+    "title": "Sửa thực phẩm · Edit Item",
+    "node": "117-3320",
+    "nodeId": "117:3320",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-083",
+    "title": "Cần dùng sớm",
+    "node": "133-3283",
+    "nodeId": "133:3283",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-084",
+    "title": "Đã quá hạn dùng",
+    "node": "133-3314",
+    "nodeId": "133:3314",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-085",
+    "title": "Thiết lập nhắc hạn · Reminder Settings",
+    "node": "117-3350",
+    "nodeId": "117:3350",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-086",
+    "title": "Cập nhật lượng dùng",
+    "node": "133-3345",
+    "nodeId": "133:3345",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-087",
+    "title": "Đánh dấu đã bỏ",
+    "node": "133-3376",
+    "nodeId": "133:3376",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-088",
+    "title": "Gợi ý từ tủ của bạn",
+    "node": "133-3407",
+    "nodeId": "133:3407",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-089",
+    "title": "Lịch sử tủ thực phẩm",
+    "node": "133-3435",
+    "nodeId": "133:3435",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-090",
+    "title": "Dữ liệu trên máy",
+    "node": "133-3463",
+    "nodeId": "133:3463",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-091",
+    "title": "Profile · Account & Impact Hub",
+    "node": "20-109",
+    "nodeId": "20:109",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-092",
+    "title": "Edit Profile · Monogram",
+    "node": "94-1641",
+    "nodeId": "94:1641",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-093",
+    "title": "Saved Locations · Privacy Note",
+    "node": "94-1684",
+    "nodeId": "94:1684",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-094",
+    "title": "Lưu khu vực",
+    "node": "133-3491",
+    "nodeId": "133:3491",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-095",
+    "title": "Thông báo",
+    "node": "133-3522",
+    "nodeId": "133:3522",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-096",
+    "title": "Thông báo",
+    "node": "133-3550",
+    "nodeId": "133:3550",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-097",
+    "title": "Tùy chọn thông báo",
+    "node": "133-3581",
+    "nodeId": "133:3581",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-098",
+    "title": "Quyền riêng tư",
+    "node": "133-3609",
+    "nodeId": "133:3609",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-099",
+    "title": "Trợ giúp",
+    "node": "133-3637",
+    "nodeId": "133:3637",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  },
+  {
+    "code": "SB-100",
+    "title": "Personal Impact · Verified Rescue",
+    "node": "85-1445",
+    "nodeId": "85:1445",
+    "group": "04",
+    "w": 393,
+    "h": 852
+  }
+]

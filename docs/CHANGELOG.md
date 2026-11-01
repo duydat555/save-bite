@@ -1,0 +1,64 @@
+# Changelog
+
+## 2026-11-01 — Phase 0 (setup)
+
+- Khởi tạo Expo SDK 58 (blank-typescript) tại root, chuyển sang Expo Router (`main: expo-router/entry`, routes ở `app/`).
+- Cài (qua `npx expo install`): expo-router, safe-area-context, screens, linking, constants, font, splash-screen, image, svg, reanimated 4 + worklets, gesture-handler, async-storage, react-dom/react-native-web. Thêm zustand.
+- ESLint (eslint-config-expo) + Prettier, `.editorconfig`, tsconfig alias `@/*`, `@assets/*`. Khung thư mục theo spec.
+- Kiểm tra: `tsc --noEmit` OK, `expo lint` OK, `expo-doctor` 20/20, `expo export --platform ios` bundle OK.
+- **Chặn:** Figma MCP (tài khoản datld.23ite@vku.udn.vn) không có quyền edit file SaveBite V2 → chưa làm Phase 1. Đang chờ chủ file cấp quyền Editor.
+
+## 2026-11-01 — Phase 1 (phân tích Figma)
+
+- Kết nối Figma MCP thành công. Lỗi "no edit access" trước đó do **fileKey sai** (`l` thay vì `I` hoa); key đúng `7suZz9C8oL5zV2NMxlsIVI`.
+- Kiểm kê **100 màn** (SB-001…SB-100: 33/17/23/27 theo nhóm 01–04), đều 393×852. `scripts/figma-frames.json` + `scripts/gen-inventory.js` → `docs/01-FIGMA-INVENTORY.md`.
+- Viết `docs/00`–`10` (02, 03, 04 có nội dung thật, 05 nháp, 06/08/09 khung). Lưu screenshot mẫu `assets/figma-reference/SB-015.png`.
+- Chưa làm: tải screenshot 100 màn (làm theo từng màn ở Phase 3), đọc prototype reactions, bảng typography/spacing/shadow đầy đủ.
+
+## 2026-11-01 — Phase 2 (nền móng)
+
+- Cài expo-blur, expo-symbols, expo-haptics, @expo-google-fonts/be-vietnam-pro (import theo từng weight), jest-expo.
+- Tokens (colors, typography, spacing, radius, shadows) + theme khớp `docs/02`. Font nạp ở `app/_layout.tsx`, giữ splash tới khi font xong.
+- Component: Text, SvgIcon, GlassButton, Tag, SearchField, CategoryTile, SectionHeader (ui); OfferCard, OfferListRow, BrandHeader, FeaturedHeroBanner, GlassTabBar (features). Chưa làm Button/Input (chờ màn Welcome/Đăng nhập để lấy đúng spec từ Figma).
+- Dữ liệu: types, utils/format, mock (3 merchant, 4 offer, 1 user), repositories (delay 200–500ms), services, storage, sessionStore (zustand + AsyncStorage).
+- Route: `app/index` (hub checkpoint), `app/dev/foundations` (thư viện màu/font/component), `app/(tabs)` (4 tab placeholder + tab bar kính).
+- Asset từ Figma: ảnh offer (đã thu nhỏ), minh hoạ túi bánh, BagMark, icon Phosphor bread/bowl-food/carrot.
+- Kiểm tra: tsc, expo lint, jest (7 test), expo-doctor 20/20, expo export ios đều OK. Chưa chạy trên iPhone thật.
+- Xấp xỉ cần đối chiếu: GlassTabBar (cao 64, margin 20, pill chọn) ước lượng từ screenshot; shadow glass không lấy từ Figma.
+
+## 2026-11-01 — Vòng 1 (luồng demo chính)
+
+- Đã dựng 17 màn: SB-001…008 (Splash, 3 Onboarding, Welcome, Đăng ký, Xác minh email, Đăng nhập), SB-015 (Khám phá), SB-034 (Chi tiết món), SB-051/053/056 (Giữ chỗ → Biên lai → Vé nhận món), SB-060/062/063 (Đơn của tôi, Chi tiết đơn, Mã nhận món), SB-091 (Tài khoản). Screenshot tham chiếu đã lưu ở `assets/figma-reference/`.
+- **Đính chính font:** Figma dùng Fraunces Bold (serif) cho tiêu đề editorial (SB-002/003/004/007) — đã thêm Fraunces + JetBrains Mono.
+- Component mới: Button, AppBar, LargeTitleBar, InputField, Checkbox, PageDots, SegmentedControl, SeedActivity, Wordmark, Tag (positive/neutral), InfoRow, AllergenNotice, PickupPass, ReceiptCard, … Luồng đặt chỗ tạo đơn lưu AsyncStorage và hiện ở tab Đơn của tôi.
+- Không làm (theo yêu cầu): sheet, màn trạng thái, Pantry, các màn con của Tài khoản. Các nút dẫn tới đó đang để không hoạt động.
+- Kiểm tra: tsc, expo lint, jest (7 test), expo export ios đều OK. **Chưa chạy trên thiết bị** — cần bạn duyệt.
+
+## 2026-11-01 — Liquid Glass + Motion
+
+- **A · Kính:** thêm `expo-glass-effect` (docs SDK 58: có trong Expo Go, chỉ iOS 26+). `GlassSurface` chọn GlassView hoặc BlurView và vẽ thêm lớp phủ/sheen/viền gradient/highlight/bóng. `GlassButton` và Tab Bar nổi dùng nó; Tab Bar có viên thuốc trượt bằng spring và icon scale.
+- **B · Chuyển động:** `motion.ts`, `PressableScale`, chuyển tab (fade + nhô 10 px), cấu hình animation cho Stack, splash vào/ra, parallax + chấm trang động ở onboarding, stagger + skeleton + pull-to-refresh ở Khám phá và Đơn của tôi, thumb segmented trượt, checkbox đổi màu, luồng xác nhận giữ chỗ có lớp phủ đang xử lý (SB-055, ≥1,2 s) và màn thành công có haptic + Mầm/tick bật lên.
+- Đã đọc SB-055 và tải Mầm "Carry". Docs mới: `docs/11-MOTION-SPEC.md`.
+- Kiểm tra: tsc, expo lint, jest (7), expo-doctor 20/20, expo export ios đều OK. **Chưa kiểm tra trên thiết bị.**
+
+## 2026-11-01 — Vòng 2 · đợt 1: Tìm kiếm + Bản đồ
+
+- SB-019/020 (`/discover/search`: gần đây + gợi ý nhanh khi trống, gợi ý món/cửa hàng khi gõ), SB-021/022 (`/discover/results`: kết quả hoặc "Chưa có món…" với Mầm Search), SB-016/017 (`/(tabs)/map`: ảnh bản đồ tĩnh + ghim bấm được + peek sheet; tab ẩn nên Tab Bar vẫn hiện, viên thuốc ở "Khám phá").
+- Tìm kiếm thật trên dữ liệu mock (không phân biệt dấu); lịch sử tìm lưu AsyncStorage. Thêm offer "Túi bánh bất ngờ" (29.000đ, 18:00–19:00) vì SB-020 hiển thị; **nhà cung cấp là giả định** (chưa đọc SB-044) và offer này không hiện trong feed SB-015.
+- Giả định cần xác nhận: chip nhanh "Tối đa 30.000đ" / "Nhận 17:00–18:00" mở danh sách kết quả đã lọc; nút "Lọc" ở bản đồ chưa nối (sheet SB-023).
+
+## 2026-11-01 — Vòng 2 · đợt 2: Chi tiết món/cửa hàng + Tủ thực phẩm
+
+- **Offer & cửa hàng (SB-035…045):** thư viện ảnh (`/offer/[id]/gallery`, Vừa khung/Cận cảnh), sheet Thành phần & dị ứng và Chất lượng & bảo quản, trang cửa hàng, đường tới cửa hàng (ảnh bản đồ tĩnh + pin), quy định nhận món, ưu đãi của tiệm, đánh giá (2 màn trạng thái trống), Túi bánh bất ngờ + sheet giải thích. Khung `SheetModal` dùng chung (scrim, vuốt xuống để đóng). `openOffer()` chuyển offer túi bất ngờ sang SB-044.
+- **Dữ liệu:** merchant có ảnh cửa hàng; offer có `unit`/`listTitle` ("Còn 2 túi", "Túi bánh bất ngờ cuối ngày"); xác nhận cửa hàng của túi bất ngờ = Tiệm Bánh A (theo SB-038).
+- **Tủ thực phẩm (SB-075…081):** tab Pantry thật với 7 món seed từ Figma, trạng thái Còn hạn/Sắp hạn/Quá hạn tính theo "hôm nay" 19/10/2026, lọc Hạn dùng/Nơi cất, trạng thái trống (SB-076), thêm món (form → sheet loại → lịch chọn ngày → xem lại → lưu), chi tiết thực phẩm. Lưu bằng AsyncStorage. "Dùng"/"Bỏ"/"Đánh dấu…" hiện chỉ xoá món (sheet SB-086/087 chưa dựng).
+- `SvgIcon` có `tint` (icon trên nền đậm). `AppBar` có slot `right`.
+- Tổng: 42/100 màn ở trạng thái done.
+- Lưu ý kiểm tra: `npx eslint app src __tests__` sạch; `npx expo lint` đôi khi báo lỗi parse cũ do cache — chạy lại `eslint` trực tiếp để xác nhận.
+
+## 2026-11-01 — Vòng 2 · đợt 3: Đơn hàng
+
+- **Đặt chỗ:** sheet Chọn số lượng (SB-050, tối đa min(còn lại, 2)) nay nằm giữa Chi tiết món và Chọn giờ; số lượng đi xuyên suốt biên lai/đơn. Hướng dẫn nhận món (SB-052), Chưa giữ được chỗ (SB-057), Số lượng vừa thay đổi (SB-058). Lỗi mạng/hết hàng bật từ dev hub (đúng hai DemoHotspot của SB-055).
+- **Đơn:** chi tiết đơn có đủ trạng thái — Chờ nhận (SB-062), Sẵn sàng (066), Sắp hết giờ (067), Hết hạn (068), Hoàn tất (072); Đưa mã cho cửa hàng (064), Điểm nhận (065), Báo sự cố (069), sheet Hủy đơn (070) → Hủy thành công (071); Đơn trống (073, bật bằng "Ẩn lịch sử đơn" ở dev hub). Hotspot "staff scans" ở SB-063 (vùng 120×60) hoàn tất đơn → SB-072. Trạng thái đơn đổi được từ dev hub.
+- Thay đổi so với quyết định #3 trước đó: "Chọn số lượng" giờ mở sheet SB-050 (đã có màn). Muốn quay lại đi thẳng SB-051: đổi nút ở `app/offer/[id].tsx`.
+- Tổng: 56/100 màn done.
